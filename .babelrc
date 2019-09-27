@@ -1,0 +1,37 @@
+{
+  "presets": [
+    "@babel/react",
+    ["@babel/env", {
+      "modules": false
+    }]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-export-default-from",
+    "@babel/plugin-transform-flow-strip-types",
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-proposal-class-properties"
+  ],
+  "env": {
+    "es": {
+      "plugins": [
+        ["transform-rename-import", { "original": "^\\.\\/(.+)", "replacement": "./$1.es6" }]
+      ]
+    },
+    "test": {
+      "presets": [
+        "@babel/react",
+        "@babel/env"
+      ]
+    },
+    "commonjs": {
+      "presets": [
+        "@babel/react",
+        ["@babel/env", {
+          "targets": {
+            "browsers": ["last 2 versions", "safari >= 7"]
+          }
+        }]
+      ]
+    }
+  }
+}
