@@ -61,6 +61,17 @@ const App = () => {
 export default App
 ```
 
+## Limitations
+
+The project has been tested only with the following plugins enabled on `postgraphile`:
+There is limited support for the `postgis` plugin and not all input/query types are properly mapped.
+
+```js
+const PgSimplifyInflectorPlugin = require('@graphile-contrib/pg-simplify-inflector')
+const PgConnectionFilterPlugin = require('postgraphile-plugin-connection-filter')
+const PgConnectionFilterPostgisPlugin = require('postgraphile-plugin-connection-filter-postgis')
+```
+
 ## Configuration
 
 You can pass an _optional_ configuration object:

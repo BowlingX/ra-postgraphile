@@ -43,27 +43,28 @@
     "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
     "@babel/preset-react": "^7.0.0",
+    "babel-jest": "^24.9.0",
     "babel-plugin-transform-rename-import": "^2.3.0",
     "cross-env": "^6.0.0",
-    "semantic-release": "^15.13.24",
-    "react-admin": "~3.0.0-alpha.4",
-    "prettier": "1.17.1",
-    "pretty-quick": "^1.10.0",
-    "husky": "^2.2.0",
     "enzyme": "^3.10.0",
-    "renamer": "^1.1.2",
-    "jest": "^24.9.0",
-    "jest-junit": "^8.0.0",
-    "babel-jest": "^24.9.0",
     "enzyme-adapter-react-16": "^1.14.0",
-    "jest-environment-enzyme": "^7.1.1",
-    "jest-enzyme": "^7.1.1",
-    "identity-obj-proxy": "^3.0.0",
     "flow-bin": "^0.108.0",
     "flow-copy-source": "^2.0.8",
     "flow-remove-types": "^2.107.0",
+    "husky": "^2.2.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^24.9.0",
+    "jest-environment-enzyme": "^7.1.1",
+    "jest-enzyme": "^7.1.1",
+    "jest-junit": "^8.0.0",
+    "prettier": "1.17.1",
+    "pretty-quick": "^1.10.0",
     "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "react-admin": "~3.0.0-alpha.4",
+    "react-dom": "^16.9.0",
+    "renamer": "^1.1.2",
+    "semantic-release": "^15.13.24",
+    "mem": "^5.1.1"
   },
   "dependencies": {
     "graphql": "^14.5.8",
@@ -104,7 +105,7 @@
     }
   },
   "peerDependencies": {
-    "react-admin": "^2|^3",
-    "@babel/runtime": "^7"
+    "@babel/runtime": "^7",
+    "react-admin": "^2|^3"
   }
 }
