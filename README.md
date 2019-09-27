@@ -1,16 +1,19 @@
 # ra-postgraphile
-Postgraphile client for react-admin
 
+[![CircleCI](https://circleci.com/gh/BowlingX/ra-postgraphile.svg?style=svg)](https://circleci.com/gh/BowlingX/ra-postgraphile)
+[![npm version](https://badge.fury.io/js/ra-postgraphile.svg)](https://badge.fury.io/js/ra-postgraphile)
+
+Postgraphile client for react-admin
 
 ## Install
 
     $ yarn add ra-postgraphile / npm install ra-postgraphile --save
 
 ## Usage
-    
+
 The `ra-postgraphile` data provider accepts 2 arguments:
 
-- `client` - The `ApolloClient` instance to use. 
+- `client` - The `ApolloClient` instance to use.
 
 - `config` - _optional_ configuration
 
@@ -24,8 +27,8 @@ import React, { useEffect, useState } from 'react'
 import { Admin, Resource } from 'react-admin'
 import { useApolloClient } from '@apollo/react-hooks'
 import pgDataProvider from 'ra-postgraphile'
-import { PostList, PostEdit, PostCreate } from './posts';
-import { CommentList, CommentEdit, CommentCreate } from './posts';
+import { PostList, PostEdit, PostCreate } from './posts'
+import { CommentList, CommentEdit, CommentCreate } from './posts'
 
 const App = () => {
   const [dataProvider, setDataProvider] = useState(null)
@@ -79,11 +82,11 @@ You can pass an _optional_ configuration object:
 ```js
 const pgDataProviderConfig = {
   queryValueToInputValueMap: {
-    GeographyPoint: (value) => value.geojson
-  } 
+    GeographyPoint: value => value.geojson
+  }
 }
 ```
 
 - `queryValueToInputValueMap` - allows you to specify a mapping of how a type should map if it's taken as an Input.
-Please see ([src/defaultValueInputTypeMapping](src/defaultValueInputTypeMapping.js)) for a default mapping. 
-Your config will be merged with the defaults.
+  Please see ([src/defaultValueInputTypeMapping](src/defaultValueInputTypeMapping.js)) for a default mapping.
+  Your config will be merged with the defaults.
