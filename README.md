@@ -92,4 +92,4 @@ const pgDataProviderConfig = {
   Your config will be merged with the defaults.
 
   The Map is also used to specify what complex types should be completely queried.
-  By default only scalar and scalar[] fields are fetched.
+  By default only `scalar` and `scalar[]` fields are fetched.
