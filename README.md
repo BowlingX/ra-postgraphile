@@ -90,3 +90,6 @@ const pgDataProviderConfig = {
 - `queryValueToInputValueMap` - allows you to specify a mapping of how a type should map if it's taken as an Input.
   Please see ([src/defaultValueInputTypeMapping](src/defaultValueInputTypeMapping.js)) for a default mapping.
   Your config will be merged with the defaults.
+
+  The Map is also used to specify what complex types should be completely queried.
+  By default only scalar and scalar[] fields are fetched.
