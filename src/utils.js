@@ -146,18 +146,20 @@ export const createQueryFromType = (
       const type =
         field.type.ofType &&
         // We also handle cases where we have e.g. [TYPE!] (List of type)
-        (field.type.ofType.name ||
-          (field.type.ofType.ofType && field.type.ofType.ofType.name))
-      if (type && allowedTypes.indexOf(type) !== -1) {
+        (field.type.ofType.name ? field.type.ofType : field.type.ofType.ofType)
+      const typeName = type && type.name
+      if (typeName && allowedTypes.indexOf(typeName) !== -1) {
         return `
         ${current} ${field.name} {${createQueryFromType(
-          type,
+          typeName,
           typeMap,
           allowedTypes
         )} }
         `
       }
-      return current
+      if (!type || type.kind !== 'ENUM') {
+        return current
+      }
     }
     return `${current} ${field.name}`
   }, '')
