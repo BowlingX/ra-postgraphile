@@ -142,6 +142,10 @@ export const createQueryFromType = (
   allowedTypes: Array<string>
 ) => {
   return typeMap[type].fields.reduce((current, field) => {
+    // we have to skip fields that require arguments
+    if (field.args && field.args.length > 0) {
+      return current
+    }
     if (fieldIsObjectOrListOfObject(field)) {
       const type =
         field.type.ofType &&
