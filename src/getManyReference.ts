@@ -1,8 +1,6 @@
-// @flow
-
 import { createSortingKey, createGetListQuery } from './utils'
 import { NATURAL_SORTING } from './types'
-import type { ManyReferenceParams, Response } from './types'
+import { ManyReferenceParams, Response } from './types'
 import { createFilter } from './filters'
 
 export const getManyReference = (

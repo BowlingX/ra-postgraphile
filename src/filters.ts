@@ -1,6 +1,4 @@
-// @flow
-
-export const mapFilterType = (type: Object, value: any) => {
+export const mapFilterType = (type: any, value: any) => {
   switch (type.name) {
     case 'String':
       return {
@@ -19,7 +17,7 @@ export const mapFilterType = (type: Object, value: any) => {
   }
 }
 
-export const createFilter = (fields: Object, type: Object) => {
+export const createFilter = (fields: any, type: any) => {
   const empty = {}
   const filters = Object.keys(fields).reduce((next, key) => {
     const maybeType = type.fields.find(f => f.name === key)

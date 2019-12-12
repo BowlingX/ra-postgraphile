@@ -1,6 +1,4 @@
-// @flow
-
-export type QueryInputTypeMapper = { [string]: (value: Object) => Object }
+export type QueryInputTypeMapper = { [id: string]: (value: any) => any }
 
 export type ProviderOptions = {
   /** It's possible that a type has a different shape when a Query is used then when the Input/Patch is used*/
@@ -14,20 +12,20 @@ export type Factory = {
 export type SortDirection = 'ASC' | 'DESC'
 
 export type UpdateManyParams = {
-  ids: Array<number | string>,
-  data: Object
+  ids: Array<number | string>
+  data: any
 }
 
 export type ManyReferenceParams = {
-  filter: Object,
-  sort: { field: string, order: SortDirection },
-  target: string,
-  id: number,
-  pagination: { page: number, perPage: number }
+  filter: any
+  sort: { field: string; order: SortDirection }
+  target: string
+  id: number
+  pagination: { page: number; perPage: number }
 }
 
 export type Response = {
-  data: Object
+  data: any
 }
 
 // Constants
