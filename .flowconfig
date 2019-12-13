@@ -1,7 +1,0 @@
-[include]
-./src/**/*.js
-
-[libs]
-.flow/lib
-
-[ignore]

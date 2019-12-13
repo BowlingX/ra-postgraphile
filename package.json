@@ -1,18 +1,16 @@
 {
   "name": "ra-postgraphile",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Postgraphile client for react-admin",
   "main": "dist/index.js",
   "module": "dist/index.es6.js",
   "scripts": {
     "test": "cross-env jest --watch",
     "test-ci": "cross-env BABEL_ENV=node JEST_JUNIT_OUTPUT_NAME=\"reports/junit/js-test-results.xml\" jest --ci --reporters=default --reporters=jest-junit --coverage --coverageDirectory=coverage",
-    "prettify": "prettier src/**/*.js --write",
-    "build:es": "cross-env BABEL_ENV=es babel src --ignore \"**/__examples__/**/*.js,**/__tests__/**/*.js\" --out-dir dist && renamer --find \".js\" --replace \".es6.js\" \"./dist/**\"",
-    "build:commonjs": "cross-env BABEL_ENV=commonjs babel --ignore \"**/__examples__/**/*.js,**/__tests__/**/*.js\" src --out-dir dist",
-    "build:flow": "flow-copy-source -v src dist --ignore \"**/__examples__/**/*.js\" --ignore \"**/__tests__/**/*.js\"",
-    "cleanProject": "rimraf dist",
-    "prepare": "npm run cleanProject && npm run build:es && npm run build:flow && npm run build:commonjs"
+    "prettify": "prettier src/**/*.ts --write",
+    "build": "cross-env tsc",
+    "clean": "rimraf dist",
+    "prepare": "npm run clean && npm run build"
   },
   "sideEffects": false,
   "repository": {
@@ -34,23 +32,10 @@
   ],
   "homepage": "https://github.com/BowlingX/ra-postgraphile#readme",
   "devDependencies": {
-    "@babel/cli": "^7.6.2",
-    "@babel/core": "^7.6.2",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/plugin-proposal-export-default-from": "^7.5.2",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/plugin-transform-flow-strip-types": "^7.4.4",
-    "@babel/plugin-transform-runtime": "^7.6.2",
-    "@babel/preset-env": "^7.6.2",
-    "@babel/preset-react": "^7.0.0",
-    "babel-jest": "^24.9.0",
-    "babel-plugin-transform-rename-import": "^2.3.0",
+    "@types/pluralize": "^0.0.29",
     "cross-env": "^6.0.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
-    "flow-bin": "^0.108.0",
-    "flow-copy-source": "^2.0.8",
-    "flow-remove-types": "^2.107.0",
     "husky": "^2.2.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.9.0",
@@ -59,17 +44,17 @@
     "jest-junit": "^8.0.0",
     "prettier": "1.17.1",
     "pretty-quick": "^1.10.0",
+    "ra-data-graphql": "^3.0.0-beta.3",
     "react": "^16.9.0",
     "react-admin": "^3.0.0-beta.3",
     "react-dom": "^16.9.0",
     "renamer": "^1.1.2",
-    "semantic-release": "^15.13.24",
-    "mem": "^5.1.1",
-    "ra-data-graphql": "^3.0.0-beta.3"
+    "semantic-release": "^15.13.24"
   },
   "dependencies": {
     "graphql": "^14.5.8",
-    "graphql-tag": "^2.10.1"
+    "graphql-tag": "^2.10.1",
+    "pluralize": "^8.0.0"
   },
   "jest": {
     "coverageReporters": [
@@ -105,8 +90,7 @@
     }
   },
   "peerDependencies": {
-    "@babel/runtime": "^7",
-    "react-admin": "^2|^3",
-    "ra-data-graphql": "^2|^3"
+    "ra-data-graphql": "^2|^3",
+    "react-admin": "^2|^3"
   }
 }
