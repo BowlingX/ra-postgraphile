@@ -33,20 +33,17 @@ export const mapFilterType = (type: any, value: any, key: string) => {
 }
 
 export const createFilter = (fields: any, type: any) => {
-  const empty = {}
+  const empty = [] as object[]
   const filters = Object.keys(fields).reduce((next, key) => {
     const maybeType = type.fields.find((f: any) => f.name === key)
     if (maybeType) {
       const thisType = maybeType.type.ofType || maybeType.type
-      return {
-        ...next,
-        ...mapFilterType(thisType, fields[key], key)
-      }
+      return [...next, mapFilterType(thisType, fields[key], key)]
     }
     return next
   }, empty)
   if (filters === empty) {
     return undefined
   }
-  return { and: [filters] }
+  return { and: filters }
 }
