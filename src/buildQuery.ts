@@ -198,7 +198,8 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         })
       }
     case VERB_DELETE_MANY: {
-      const deletions = (params as UpdateManyParams).ids.map(id => ({
+      const thisIds = (params as UpdateManyParams).ids
+      const deletions = thisIds.map(id => ({
         id: mapType(idType, id),
         clientMutationId: id.toString()
       }))
@@ -211,7 +212,11 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
           {}
         ),
         query: gql`
-            mutation deleteMany${resourceTypename} {
+            mutation deleteMany${resourceTypename}(
+            ${thisIds
+              .map(id => `$arg${id}: Delete${resourceTypename}Input!`)
+              .join(',')}
+            ) {
             ${params.ids.map(
               (id: string) => `
                 k${id}:delete${resourceTypename}(input: $arg${id}) {
