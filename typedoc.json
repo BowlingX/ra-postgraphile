@@ -5,7 +5,7 @@
 	"flags": {},
 	"children": [
 		{
-			"id": 35,
+			"id": 34,
 			"name": "Factory",
 			"kind": 256,
 			"kindString": "Interface",
@@ -14,7 +14,7 @@
 			},
 			"children": [
 				{
-					"id": 36,
+					"id": 35,
 					"name": "options",
 					"kind": 1024,
 					"kindString": "Property",
@@ -31,7 +31,7 @@
 					"type": {
 						"type": "reference",
 						"name": "ProviderOptions",
-						"id": 33
+						"id": 32
 					}
 				}
 			],
@@ -40,7 +40,7 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						36
+						35
 					]
 				}
 			],
@@ -53,7 +53,7 @@
 			]
 		},
 		{
-			"id": 40,
+			"id": 39,
 			"name": "ManyReferenceParams",
 			"kind": 256,
 			"kindString": "Interface",
@@ -62,7 +62,7 @@
 			},
 			"children": [
 				{
-					"id": 41,
+					"id": 40,
 					"name": "filter",
 					"kind": 1024,
 					"kindString": "Property",
@@ -82,7 +82,7 @@
 					}
 				},
 				{
-					"id": 47,
+					"id": 46,
 					"name": "id",
 					"kind": 1024,
 					"kindString": "Property",
@@ -102,7 +102,7 @@
 					}
 				},
 				{
-					"id": 48,
+					"id": 47,
 					"name": "pagination",
 					"kind": 1024,
 					"kindString": "Property",
@@ -119,14 +119,14 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 49,
+							"id": 48,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"children": [
 								{
-									"id": 50,
+									"id": 49,
 									"name": "page",
 									"kind": 32,
 									"kindString": "Variable",
@@ -144,7 +144,7 @@
 									}
 								},
 								{
-									"id": 51,
+									"id": 50,
 									"name": "perPage",
 									"kind": 32,
 									"kindString": "Variable",
@@ -167,8 +167,8 @@
 									"title": "Variables",
 									"kind": 32,
 									"children": [
-										50,
-										51
+										49,
+										50
 									]
 								}
 							],
@@ -183,7 +183,7 @@
 					}
 				},
 				{
-					"id": 42,
+					"id": 41,
 					"name": "sort",
 					"kind": 1024,
 					"kindString": "Property",
@@ -200,14 +200,14 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 43,
+							"id": 42,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"children": [
 								{
-									"id": 44,
+									"id": 43,
 									"name": "field",
 									"kind": 32,
 									"kindString": "Variable",
@@ -225,7 +225,7 @@
 									}
 								},
 								{
-									"id": 45,
+									"id": 44,
 									"name": "order",
 									"kind": 32,
 									"kindString": "Variable",
@@ -240,7 +240,7 @@
 									"type": {
 										"type": "reference",
 										"name": "SortDirection",
-										"id": 54
+										"id": 53
 									}
 								}
 							],
@@ -249,8 +249,8 @@
 									"title": "Variables",
 									"kind": 32,
 									"children": [
-										44,
-										45
+										43,
+										44
 									]
 								}
 							],
@@ -265,7 +265,7 @@
 					}
 				},
 				{
-					"id": 46,
+					"id": 45,
 					"name": "target",
 					"kind": 1024,
 					"kindString": "Property",
@@ -290,11 +290,11 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						41,
+						40,
+						46,
 						47,
-						48,
-						42,
-						46
+						41,
+						45
 					]
 				}
 			],
@@ -307,7 +307,7 @@
 			]
 		},
 		{
-			"id": 33,
+			"id": 32,
 			"name": "ProviderOptions",
 			"kind": 256,
 			"kindString": "Interface",
@@ -316,7 +316,7 @@
 			},
 			"children": [
 				{
-					"id": 34,
+					"id": 33,
 					"name": "queryValueToInputValueMap",
 					"kind": 1024,
 					"kindString": "Property",
@@ -336,7 +336,7 @@
 					"type": {
 						"type": "reference",
 						"name": "QueryInputTypeMapper",
-						"id": 27
+						"id": 26
 					}
 				}
 			],
@@ -345,7 +345,7 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						34
+						33
 					]
 				}
 			],
@@ -358,7 +358,7 @@
 			]
 		},
 		{
-			"id": 27,
+			"id": 26,
 			"name": "QueryInputTypeMapper",
 			"kind": 256,
 			"kindString": "Interface",
@@ -367,14 +367,14 @@
 			},
 			"indexSignature": [
 				{
-					"id": 28,
+					"id": 27,
 					"name": "__index",
 					"kind": 8192,
 					"kindString": "Index signature",
 					"flags": {},
 					"parameters": [
 						{
-							"id": 29,
+							"id": 28,
 							"name": "id",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -388,21 +388,21 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 30,
+							"id": 29,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"signatures": [
 								{
-									"id": 31,
+									"id": 30,
 									"name": "__call",
 									"kind": 4096,
 									"kindString": "Call signature",
 									"flags": {},
 									"parameters": [
 										{
-											"id": 32,
+											"id": 31,
 											"name": "value",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -439,7 +439,7 @@
 			]
 		},
 		{
-			"id": 52,
+			"id": 51,
 			"name": "Response",
 			"kind": 256,
 			"kindString": "Interface",
@@ -448,7 +448,7 @@
 			},
 			"children": [
 				{
-					"id": 53,
+					"id": 52,
 					"name": "data",
 					"kind": 1024,
 					"kindString": "Property",
@@ -473,7 +473,7 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						53
+						52
 					]
 				}
 			],
@@ -486,7 +486,7 @@
 			]
 		},
 		{
-			"id": 37,
+			"id": 36,
 			"name": "UpdateManyParams",
 			"kind": 256,
 			"kindString": "Interface",
@@ -495,7 +495,7 @@
 			},
 			"children": [
 				{
-					"id": 39,
+					"id": 38,
 					"name": "data",
 					"kind": 1024,
 					"kindString": "Property",
@@ -515,7 +515,7 @@
 					}
 				},
 				{
-					"id": 38,
+					"id": 37,
 					"name": "ids",
 					"kind": 1024,
 					"kindString": "Property",
@@ -555,8 +555,8 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						39,
-						38
+						38,
+						37
 					]
 				}
 			],
@@ -569,7 +569,7 @@
 			]
 		},
 		{
-			"id": 54,
+			"id": 53,
 			"name": "SortDirection",
 			"kind": 4194304,
 			"kindString": "Type alias",
@@ -598,7 +598,7 @@
 			}
 		},
 		{
-			"id": 56,
+			"id": 55,
 			"name": "CAMEL_REGEX",
 			"kind": 32,
 			"kindString": "Variable",
@@ -620,7 +620,7 @@
 			"defaultValue": " /(.+?)([A-Z])/gm"
 		},
 		{
-			"id": 57,
+			"id": 56,
 			"name": "NATURAL_SORTING",
 			"kind": 32,
 			"kindString": "Variable",
@@ -642,7 +642,7 @@
 			"defaultValue": "\"NATURAL\""
 		},
 		{
-			"id": 55,
+			"id": 54,
 			"name": "NODE_INTERFACE",
 			"kind": 32,
 			"kindString": "Variable",
@@ -664,7 +664,7 @@
 			"defaultValue": "\"Node\""
 		},
 		{
-			"id": 62,
+			"id": 61,
 			"name": "VERB_CREATE",
 			"kind": 32,
 			"kindString": "Variable",
@@ -686,7 +686,7 @@
 			"defaultValue": "\"CREATE\""
 		},
 		{
-			"id": 63,
+			"id": 62,
 			"name": "VERB_DELETE",
 			"kind": 32,
 			"kindString": "Variable",
@@ -708,7 +708,7 @@
 			"defaultValue": "\"DELETE\""
 		},
 		{
-			"id": 64,
+			"id": 63,
 			"name": "VERB_DELETE_MANY",
 			"kind": 32,
 			"kindString": "Variable",
@@ -730,7 +730,7 @@
 			"defaultValue": "\"DELETE_MANY\""
 		},
 		{
-			"id": 61,
+			"id": 60,
 			"name": "VERB_GET_LIST",
 			"kind": 32,
 			"kindString": "Variable",
@@ -752,7 +752,7 @@
 			"defaultValue": "\"GET_LIST\""
 		},
 		{
-			"id": 59,
+			"id": 58,
 			"name": "VERB_GET_MANY",
 			"kind": 32,
 			"kindString": "Variable",
@@ -774,7 +774,7 @@
 			"defaultValue": "\"GET_MANY\""
 		},
 		{
-			"id": 60,
+			"id": 59,
 			"name": "VERB_GET_MANY_REFERENCE",
 			"kind": 32,
 			"kindString": "Variable",
@@ -796,7 +796,7 @@
 			"defaultValue": "\"GET_MANY_REFERENCE\""
 		},
 		{
-			"id": 58,
+			"id": 57,
 			"name": "VERB_GET_ONE",
 			"kind": 32,
 			"kindString": "Variable",
@@ -818,7 +818,7 @@
 			"defaultValue": "\"GET_ONE\""
 		},
 		{
-			"id": 65,
+			"id": 64,
 			"name": "VERB_UPDATE",
 			"kind": 32,
 			"kindString": "Variable",
@@ -840,7 +840,7 @@
 			"defaultValue": "\"UPDATE\""
 		},
 		{
-			"id": 66,
+			"id": 65,
 			"name": "VERB_UPDATE_MANY",
 			"kind": 32,
 			"kindString": "Variable",
@@ -862,7 +862,7 @@
 			"defaultValue": "\"UPDATE_MANY\""
 		},
 		{
-			"id": 135,
+			"id": 133,
 			"name": "typeMap",
 			"kind": 32,
 			"kindString": "Variable",
@@ -882,7 +882,7 @@
 			}
 		},
 		{
-			"id": 140,
+			"id": 138,
 			"name": "buildQuery",
 			"kind": 64,
 			"kindString": "Function",
@@ -892,14 +892,14 @@
 			},
 			"signatures": [
 				{
-					"id": 141,
+					"id": 139,
 					"name": "buildQuery",
 					"kind": 4096,
 					"kindString": "Call signature",
 					"flags": {},
 					"parameters": [
 						{
-							"id": 142,
+							"id": 140,
 							"name": "introspectionResults",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -910,7 +910,7 @@
 							}
 						},
 						{
-							"id": 143,
+							"id": 141,
 							"name": "factory",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -918,7 +918,7 @@
 							"type": {
 								"type": "reference",
 								"name": "Factory",
-								"id": 35
+								"id": 34
 							}
 						}
 					],
@@ -937,7 +937,7 @@
 			]
 		},
 		{
-			"id": 67,
+			"id": 66,
 			"name": "capitalize",
 			"kind": 64,
 			"kindString": "Function",
@@ -947,14 +947,14 @@
 			},
 			"signatures": [
 				{
-					"id": 68,
+					"id": 67,
 					"name": "capitalize",
 					"kind": 4096,
 					"kindString": "Call signature",
 					"flags": {},
 					"parameters": [
 						{
-							"id": 69,
+							"id": 68,
 							"name": "str",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1044,24 +1044,18 @@
 											"sources": [
 												{
 													"fileName": "filters.ts",
-													"line": 51,
+													"line": 48,
 													"character": 14
 												}
 											],
 											"type": {
 												"type": "array",
 												"elementType": {
-													"type": "reflection",
-													"declaration": {
-														"id": 26,
-														"name": "__type",
-														"kind": 65536,
-														"kindString": "Type literal",
-														"flags": {}
-													}
+													"type": "intrinsic",
+													"name": "object"
 												}
 											},
-											"defaultValue": " [filters]"
+											"defaultValue": " filters"
 										}
 									],
 									"groups": [
@@ -1088,7 +1082,7 @@
 			]
 		},
 		{
-			"id": 96,
+			"id": 95,
 			"name": "createGetListQuery",
 			"kind": 64,
 			"kindString": "Function",
@@ -1098,14 +1092,14 @@
 			},
 			"signatures": [
 				{
-					"id": 97,
+					"id": 96,
 					"name": "createGetListQuery",
 					"kind": 4096,
 					"kindString": "Call signature",
 					"flags": {},
 					"parameters": [
 						{
-							"id": 98,
+							"id": 97,
 							"name": "type",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1116,7 +1110,7 @@
 							}
 						},
 						{
-							"id": 99,
+							"id": 98,
 							"name": "manyLowerResourceName",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1127,7 +1121,7 @@
 							}
 						},
 						{
-							"id": 100,
+							"id": 99,
 							"name": "resourceTypename",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1138,7 +1132,7 @@
 							}
 						},
 						{
-							"id": 101,
+							"id": 100,
 							"name": "typeMap",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1149,7 +1143,7 @@
 							}
 						},
 						{
-							"id": 102,
+							"id": 101,
 							"name": "allowedTypes",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1178,7 +1172,7 @@
 			]
 		},
 		{
-			"id": 89,
+			"id": 88,
 			"name": "createGetManyQuery",
 			"kind": 64,
 			"kindString": "Function",
@@ -1188,14 +1182,14 @@
 			},
 			"signatures": [
 				{
-					"id": 90,
+					"id": 89,
 					"name": "createGetManyQuery",
 					"kind": 4096,
 					"kindString": "Call signature",
 					"flags": {},
 					"parameters": [
 						{
-							"id": 91,
+							"id": 90,
 							"name": "type",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1206,7 +1200,7 @@
 							}
 						},
 						{
-							"id": 92,
+							"id": 91,
 							"name": "manyLowerResourceName",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1217,7 +1211,7 @@
 							}
 						},
 						{
-							"id": 93,
+							"id": 92,
 							"name": "resourceTypename",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1228,7 +1222,7 @@
 							}
 						},
 						{
-							"id": 94,
+							"id": 93,
 							"name": "typeMap",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1239,7 +1233,7 @@
 							}
 						},
 						{
-							"id": 95,
+							"id": 94,
 							"name": "allowedTypes",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1268,7 +1262,7 @@
 			]
 		},
 		{
-			"id": 106,
+			"id": 105,
 			"name": "createQueryFromType",
 			"kind": 64,
 			"kindString": "Function",
@@ -1278,14 +1272,14 @@
 			},
 			"signatures": [
 				{
-					"id": 107,
+					"id": 106,
 					"name": "createQueryFromType",
 					"kind": 4096,
 					"kindString": "Call signature",
 					"flags": {},
 					"parameters": [
 						{
-							"id": 108,
+							"id": 107,
 							"name": "type",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1296,7 +1290,7 @@
 							}
 						},
 						{
-							"id": 109,
+							"id": 108,
 							"name": "typeMap",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1307,7 +1301,7 @@
 							}
 						},
 						{
-							"id": 110,
+							"id": 109,
 							"name": "allowedTypes",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1336,7 +1330,7 @@
 			]
 		},
 		{
-			"id": 79,
+			"id": 78,
 			"name": "createSortingKey",
 			"kind": 64,
 			"kindString": "Function",
@@ -1346,14 +1340,14 @@
 			},
 			"signatures": [
 				{
-					"id": 80,
+					"id": 79,
 					"name": "createSortingKey",
 					"kind": 4096,
 					"kindString": "Call signature",
 					"flags": {},
 					"parameters": [
 						{
-							"id": 81,
+							"id": 80,
 							"name": "field",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1364,7 +1358,7 @@
 							}
 						},
 						{
-							"id": 82,
+							"id": 81,
 							"name": "sort",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1372,7 +1366,7 @@
 							"type": {
 								"type": "reference",
 								"name": "SortDirection",
-								"id": 54
+								"id": 53
 							}
 						}
 					],
@@ -1391,7 +1385,7 @@
 			]
 		},
 		{
-			"id": 103,
+			"id": 102,
 			"name": "createTypeMap",
 			"kind": 64,
 			"kindString": "Function",
@@ -1401,14 +1395,14 @@
 			},
 			"signatures": [
 				{
-					"id": 104,
+					"id": 103,
 					"name": "createTypeMap",
 					"kind": 4096,
 					"kindString": "Call signature",
 					"flags": {},
 					"parameters": [
 						{
-							"id": 105,
+							"id": 104,
 							"name": "types",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1437,7 +1431,7 @@
 			]
 		},
 		{
-			"id": 175,
+			"id": 173,
 			"name": "factory",
 			"kind": 64,
 			"kindString": "Function",
@@ -1447,14 +1441,14 @@
 			},
 			"signatures": [
 				{
-					"id": 176,
+					"id": 174,
 					"name": "factory",
 					"kind": 4096,
 					"kindString": "Call signature",
 					"flags": {},
 					"parameters": [
 						{
-							"id": 177,
+							"id": 175,
 							"name": "client",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1465,7 +1459,7 @@
 							}
 						},
 						{
-							"id": 178,
+							"id": 176,
 							"name": "options",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1473,7 +1467,7 @@
 							"type": {
 								"type": "reference",
 								"name": "ProviderOptions",
-								"id": 33
+								"id": 32
 							},
 							"defaultValue": " { queryValueToInputValueMap: {} }"
 						}
@@ -1493,7 +1487,7 @@
 			]
 		},
 		{
-			"id": 76,
+			"id": 75,
 			"name": "fieldIsObjectOrListOfObject",
 			"kind": 64,
 			"kindString": "Function",
@@ -1502,14 +1496,14 @@
 			},
 			"signatures": [
 				{
-					"id": 77,
+					"id": 76,
 					"name": "fieldIsObjectOrListOfObject",
 					"kind": 4096,
 					"kindString": "Call signature",
 					"flags": {},
 					"parameters": [
 						{
-							"id": 78,
+							"id": 77,
 							"name": "field",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1535,7 +1529,7 @@
 			]
 		},
 		{
-			"id": 111,
+			"id": 110,
 			"name": "getManyReference",
 			"kind": 64,
 			"kindString": "Function",
@@ -1545,14 +1539,14 @@
 			},
 			"signatures": [
 				{
-					"id": 112,
+					"id": 111,
 					"name": "getManyReference",
 					"kind": 4096,
 					"kindString": "Call signature",
 					"flags": {},
 					"parameters": [
 						{
-							"id": 113,
+							"id": 112,
 							"name": "params",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1560,11 +1554,11 @@
 							"type": {
 								"type": "reference",
 								"name": "ManyReferenceParams",
-								"id": 40
+								"id": 39
 							}
 						},
 						{
-							"id": 114,
+							"id": 113,
 							"name": "type",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1575,7 +1569,7 @@
 							}
 						},
 						{
-							"id": 115,
+							"id": 114,
 							"name": "manyLowerResourceName",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1586,7 +1580,7 @@
 							}
 						},
 						{
-							"id": 116,
+							"id": 115,
 							"name": "resourceTypename",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1597,7 +1591,7 @@
 							}
 						},
 						{
-							"id": 117,
+							"id": 116,
 							"name": "typeMap",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1608,7 +1602,7 @@
 							}
 						},
 						{
-							"id": 118,
+							"id": 117,
 							"name": "allowedTypes",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -1625,14 +1619,14 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 119,
+							"id": 118,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"children": [
 								{
-									"id": 120,
+									"id": 119,
 									"name": "query",
 									"kind": 32,
 									"kindString": "Variable",
@@ -1651,21 +1645,21 @@
 									"defaultValue": " createGetListQuery(\n      type,\n      manyLowerResourceName,\n      resourceTypename,\n      typeMap,\n      allowedTypes\n    )"
 								},
 								{
-									"id": 129,
+									"id": 127,
 									"name": "parseResponse",
 									"kind": 64,
 									"kindString": "Function",
 									"flags": {},
 									"signatures": [
 										{
-											"id": 130,
+											"id": 128,
 											"name": "parseResponse",
 											"kind": 4096,
 											"kindString": "Call signature",
 											"flags": {},
 											"parameters": [
 												{
-													"id": 131,
+													"id": 129,
 													"name": "response",
 													"kind": 32768,
 													"kindString": "Parameter",
@@ -1673,21 +1667,21 @@
 													"type": {
 														"type": "reference",
 														"name": "Response",
-														"id": 52
+														"id": 51
 													}
 												}
 											],
 											"type": {
 												"type": "reflection",
 												"declaration": {
-													"id": 132,
+													"id": 130,
 													"name": "__type",
 													"kind": 65536,
 													"kindString": "Type literal",
 													"flags": {},
 													"children": [
 														{
-															"id": 133,
+															"id": 131,
 															"name": "data",
 															"kind": 32,
 															"kindString": "Variable",
@@ -1706,7 +1700,7 @@
 															"defaultValue": " nodes"
 														},
 														{
-															"id": 134,
+															"id": 132,
 															"name": "total",
 															"kind": 32,
 															"kindString": "Variable",
@@ -1730,8 +1724,8 @@
 															"title": "Variables",
 															"kind": 32,
 															"children": [
-																133,
-																134
+																131,
+																132
 															]
 														}
 													]
@@ -1748,14 +1742,14 @@
 									]
 								},
 								{
-									"id": 121,
+									"id": 120,
 									"name": "variables",
 									"kind": 2097152,
 									"kindString": "Object literal",
 									"flags": {},
 									"children": [
 										{
-											"id": 124,
+											"id": 123,
 											"name": "filter",
 											"kind": 32,
 											"kindString": "Variable",
@@ -1777,14 +1771,14 @@
 													{
 														"type": "reflection",
 														"declaration": {
-															"id": 125,
+															"id": 124,
 															"name": "__type",
 															"kind": 65536,
 															"kindString": "Type literal",
 															"flags": {},
 															"children": [
 																{
-																	"id": 126,
+																	"id": 125,
 																	"name": "and",
 																	"kind": 32,
 																	"kindString": "Variable",
@@ -1792,24 +1786,18 @@
 																	"sources": [
 																		{
 																			"fileName": "filters.ts",
-																			"line": 51,
+																			"line": 48,
 																			"character": 14
 																		}
 																	],
 																	"type": {
 																		"type": "array",
 																		"elementType": {
-																			"type": "reflection",
-																			"declaration": {
-																				"id": 127,
-																				"name": "__type",
-																				"kind": 65536,
-																				"kindString": "Type literal",
-																				"flags": {}
-																			}
+																			"type": "intrinsic",
+																			"name": "object"
 																		}
 																	},
-																	"defaultValue": " [filters]"
+																	"defaultValue": " filters"
 																}
 															],
 															"groups": [
@@ -1817,7 +1805,7 @@
 																	"title": "Variables",
 																	"kind": 32,
 																	"children": [
-																		126
+																		125
 																	]
 																}
 															]
@@ -1828,7 +1816,7 @@
 											"defaultValue": " filters"
 										},
 										{
-											"id": 123,
+											"id": 122,
 											"name": "first",
 											"kind": 32,
 											"kindString": "Variable",
@@ -1847,7 +1835,7 @@
 											"defaultValue": " pagination.perPage"
 										},
 										{
-											"id": 122,
+											"id": 121,
 											"name": "offset",
 											"kind": 32,
 											"kindString": "Variable",
@@ -1866,7 +1854,7 @@
 											"defaultValue": " (pagination.page - 1) * pagination.perPage"
 										},
 										{
-											"id": 128,
+											"id": 126,
 											"name": "orderBy",
 											"kind": 32,
 											"kindString": "Variable",
@@ -1892,10 +1880,10 @@
 											"title": "Variables",
 											"kind": 32,
 											"children": [
-												124,
 												123,
 												122,
-												128
+												121,
+												126
 											]
 										}
 									],
@@ -1917,21 +1905,21 @@
 									"title": "Variables",
 									"kind": 32,
 									"children": [
-										120
+										119
 									]
 								},
 								{
 									"title": "Functions",
 									"kind": 64,
 									"children": [
-										129
+										127
 									]
 								},
 								{
 									"title": "Object literals",
 									"kind": 2097152,
 									"children": [
-										121
+										120
 									]
 								}
 							]
@@ -1948,7 +1936,7 @@
 			]
 		},
 		{
-			"id": 70,
+			"id": 69,
 			"name": "lowercase",
 			"kind": 64,
 			"kindString": "Function",
@@ -1958,14 +1946,14 @@
 			},
 			"signatures": [
 				{
-					"id": 71,
+					"id": 70,
 					"name": "lowercase",
 					"kind": 4096,
 					"kindString": "Call signature",
 					"flags": {},
 					"parameters": [
 						{
-							"id": 72,
+							"id": 71,
 							"name": "str",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -2380,7 +2368,7 @@
 			]
 		},
 		{
-			"id": 83,
+			"id": 82,
 			"name": "mapInputToVariables",
 			"kind": 64,
 			"kindString": "Function",
@@ -2390,14 +2378,14 @@
 			},
 			"signatures": [
 				{
-					"id": 84,
+					"id": 83,
 					"name": "mapInputToVariables",
 					"kind": 4096,
 					"kindString": "Call signature",
 					"flags": {},
 					"parameters": [
 						{
-							"id": 85,
+							"id": 84,
 							"name": "input",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -2408,7 +2396,7 @@
 							}
 						},
 						{
-							"id": 86,
+							"id": 85,
 							"name": "inputType",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -2419,7 +2407,7 @@
 							}
 						},
 						{
-							"id": 87,
+							"id": 86,
 							"name": "type",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -2430,7 +2418,7 @@
 							}
 						},
 						{
-							"id": 88,
+							"id": 87,
 							"name": "typeMapper",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -2438,7 +2426,7 @@
 							"type": {
 								"type": "reference",
 								"name": "QueryInputTypeMapper",
-								"id": 27
+								"id": 26
 							}
 						}
 					],
@@ -2457,7 +2445,7 @@
 			]
 		},
 		{
-			"id": 136,
+			"id": 134,
 			"name": "mapType",
 			"kind": 64,
 			"kindString": "Function",
@@ -2466,14 +2454,14 @@
 			},
 			"signatures": [
 				{
-					"id": 137,
+					"id": 135,
 					"name": "mapType",
 					"kind": 4096,
 					"kindString": "Call signature",
 					"flags": {},
 					"parameters": [
 						{
-							"id": 138,
+							"id": 136,
 							"name": "idType",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -2484,7 +2472,7 @@
 							}
 						},
 						{
-							"id": 139,
+							"id": 137,
 							"name": "value",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -2528,7 +2516,7 @@
 			]
 		},
 		{
-			"id": 73,
+			"id": 72,
 			"name": "snake",
 			"kind": 64,
 			"kindString": "Function",
@@ -2538,14 +2526,14 @@
 			},
 			"signatures": [
 				{
-					"id": 74,
+					"id": 73,
 					"name": "snake",
 					"kind": 4096,
 					"kindString": "Call signature",
 					"flags": {},
 					"parameters": [
 						{
-							"id": 75,
+							"id": 74,
 							"name": "camelCaseInput",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -2571,7 +2559,7 @@
 			]
 		},
 		{
-			"id": 144,
+			"id": 142,
 			"name": "defaultQueryValueToInputValueMap",
 			"kind": 2097152,
 			"kindString": "Object literal",
@@ -2581,7 +2569,7 @@
 			},
 			"children": [
 				{
-					"id": 165,
+					"id": 163,
 					"name": "GeographyPoint",
 					"kind": 64,
 					"kindString": "Function",
@@ -2590,14 +2578,14 @@
 					},
 					"signatures": [
 						{
-							"id": 166,
+							"id": 164,
 							"name": "GeographyPoint",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 167,
+									"id": 165,
 									"name": "value",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2605,14 +2593,14 @@
 									"type": {
 										"type": "reflection",
 										"declaration": {
-											"id": 168,
+											"id": 166,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
 											"flags": {},
 											"children": [
 												{
-													"id": 169,
+													"id": 167,
 													"name": "geojson",
 													"kind": 32,
 													"kindString": "Variable",
@@ -2627,14 +2615,14 @@
 													"type": {
 														"type": "reflection",
 														"declaration": {
-															"id": 170,
+															"id": 168,
 															"name": "__type",
 															"kind": 65536,
 															"kindString": "Type literal",
 															"flags": {},
 															"children": [
 																{
-																	"id": 171,
+																	"id": 169,
 																	"name": "coordinates",
 																	"kind": 32,
 																	"kindString": "Variable",
@@ -2660,7 +2648,7 @@
 																	"title": "Variables",
 																	"kind": 32,
 																	"children": [
-																		171
+																		169
 																	]
 																}
 															],
@@ -2675,7 +2663,7 @@
 													}
 												},
 												{
-													"id": 172,
+													"id": 170,
 													"name": "type",
 													"kind": 32,
 													"kindString": "Variable",
@@ -2698,8 +2686,8 @@
 													"title": "Variables",
 													"kind": 32,
 													"children": [
-														169,
-														172
+														167,
+														170
 													]
 												}
 											],
@@ -2717,14 +2705,14 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 173,
+									"id": 171,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"children": [
 										{
-											"id": 174,
+											"id": 172,
 											"name": "coordinates",
 											"kind": 32,
 											"kindString": "Variable",
@@ -2750,7 +2738,7 @@
 											"title": "Variables",
 											"kind": 32,
 											"children": [
-												174
+												172
 											]
 										}
 									]
@@ -2767,7 +2755,7 @@
 					]
 				},
 				{
-					"id": 155,
+					"id": 153,
 					"name": "GeometryGeometry",
 					"kind": 64,
 					"kindString": "Function",
@@ -2776,14 +2764,14 @@
 					},
 					"signatures": [
 						{
-							"id": 156,
+							"id": 154,
 							"name": "GeometryGeometry",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 157,
+									"id": 155,
 									"name": "value",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2791,14 +2779,14 @@
 									"type": {
 										"type": "reflection",
 										"declaration": {
-											"id": 158,
+											"id": 156,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
 											"flags": {},
 											"children": [
 												{
-													"id": 159,
+													"id": 157,
 													"name": "geojson",
 													"kind": 32,
 													"kindString": "Variable",
@@ -2813,14 +2801,14 @@
 													"type": {
 														"type": "reflection",
 														"declaration": {
-															"id": 160,
+															"id": 158,
 															"name": "__type",
 															"kind": 65536,
 															"kindString": "Type literal",
 															"flags": {},
 															"children": [
 																{
-																	"id": 161,
+																	"id": 159,
 																	"name": "coordinates",
 																	"kind": 32,
 																	"kindString": "Variable",
@@ -2846,7 +2834,7 @@
 																	"title": "Variables",
 																	"kind": 32,
 																	"children": [
-																		161
+																		159
 																	]
 																}
 															],
@@ -2861,7 +2849,7 @@
 													}
 												},
 												{
-													"id": 162,
+													"id": 160,
 													"name": "type",
 													"kind": 32,
 													"kindString": "Variable",
@@ -2884,8 +2872,8 @@
 													"title": "Variables",
 													"kind": 32,
 													"children": [
-														159,
-														162
+														157,
+														160
 													]
 												}
 											],
@@ -2903,14 +2891,14 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 163,
+									"id": 161,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"children": [
 										{
-											"id": 164,
+											"id": 162,
 											"name": "coordinates",
 											"kind": 32,
 											"kindString": "Variable",
@@ -2936,7 +2924,7 @@
 											"title": "Variables",
 											"kind": 32,
 											"children": [
-												164
+												162
 											]
 										}
 									]
@@ -2953,7 +2941,7 @@
 					]
 				},
 				{
-					"id": 145,
+					"id": 143,
 					"name": "GeometryPoint",
 					"kind": 64,
 					"kindString": "Function",
@@ -2962,14 +2950,14 @@
 					},
 					"signatures": [
 						{
-							"id": 146,
+							"id": 144,
 							"name": "GeometryPoint",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 147,
+									"id": 145,
 									"name": "value",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2977,14 +2965,14 @@
 									"type": {
 										"type": "reflection",
 										"declaration": {
-											"id": 148,
+											"id": 146,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
 											"flags": {},
 											"children": [
 												{
-													"id": 149,
+													"id": 147,
 													"name": "geojson",
 													"kind": 32,
 													"kindString": "Variable",
@@ -2999,14 +2987,14 @@
 													"type": {
 														"type": "reflection",
 														"declaration": {
-															"id": 150,
+															"id": 148,
 															"name": "__type",
 															"kind": 65536,
 															"kindString": "Type literal",
 															"flags": {},
 															"children": [
 																{
-																	"id": 151,
+																	"id": 149,
 																	"name": "coordinates",
 																	"kind": 32,
 																	"kindString": "Variable",
@@ -3032,7 +3020,7 @@
 																	"title": "Variables",
 																	"kind": 32,
 																	"children": [
-																		151
+																		149
 																	]
 																}
 															],
@@ -3047,7 +3035,7 @@
 													}
 												},
 												{
-													"id": 152,
+													"id": 150,
 													"name": "type",
 													"kind": 32,
 													"kindString": "Variable",
@@ -3070,8 +3058,8 @@
 													"title": "Variables",
 													"kind": 32,
 													"children": [
-														149,
-														152
+														147,
+														150
 													]
 												}
 											],
@@ -3089,14 +3077,14 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 153,
+									"id": 151,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"children": [
 										{
-											"id": 154,
+											"id": 152,
 											"name": "coordinates",
 											"kind": 32,
 											"kindString": "Variable",
@@ -3122,7 +3110,7 @@
 											"title": "Variables",
 											"kind": 32,
 											"children": [
-												154
+												152
 											]
 										}
 									]
@@ -3144,9 +3132,9 @@
 					"title": "Functions",
 					"kind": 64,
 					"children": [
-						165,
-						155,
-						145
+						163,
+						153,
+						143
 					]
 				}
 			],
@@ -3168,67 +3156,67 @@
 			"title": "Interfaces",
 			"kind": 256,
 			"children": [
-				35,
-				40,
-				33,
-				27,
-				52,
-				37
+				34,
+				39,
+				32,
+				26,
+				51,
+				36
 			]
 		},
 		{
 			"title": "Type aliases",
 			"kind": 4194304,
 			"children": [
-				54
+				53
 			]
 		},
 		{
 			"title": "Variables",
 			"kind": 32,
 			"children": [
-				56,
-				57,
 				55,
+				56,
+				54,
+				61,
 				62,
 				63,
-				64,
-				61,
-				59,
 				60,
 				58,
+				59,
+				57,
+				64,
 				65,
-				66,
-				135
+				133
 			]
 		},
 		{
 			"title": "Functions",
 			"kind": 64,
 			"children": [
-				140,
-				67,
+				138,
+				66,
 				20,
-				96,
-				89,
-				106,
-				79,
-				103,
-				175,
-				76,
-				111,
-				70,
+				95,
+				88,
+				105,
+				78,
+				102,
+				173,
+				75,
+				110,
+				69,
 				1,
-				83,
-				136,
-				73
+				82,
+				134,
+				72
 			]
 		},
 		{
 			"title": "Object literals",
 			"kind": 2097152,
 			"children": [
-				144
+				142
 			]
 		}
 	]
