@@ -1,4 +1,3 @@
-/* eslint-disable graphql/named-operations */
 import gql from 'graphql-tag'
 import pluralize, { singular } from 'pluralize'
 import { createFilter } from './filters'
@@ -34,6 +33,9 @@ import {
 // cache for all types
 // tslint:disable-next-line:no-let
 let typeMap: any
+
+const mapType = (idType: any, value: string | number) =>
+  idType.name === 'String' ? value : parseInt(value as string, 10)
 
 export const buildQuery = (introspectionResults: any, factory: Factory) => (
   raFetchType: string,
@@ -80,7 +82,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         }
         }`,
         variables: {
-          id: idType.name === 'String' ? params.id : parseInt(params.id, 10)
+          id: mapType(idType, params.id)
         },
         parseResponse: (response: Response) => {
           return { data: response.data[singleLowerResourceName] }
@@ -96,7 +98,9 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
           allowedComplexTypes
         ),
         variables: {
-          ids: params.ids.filter((v?: string) => typeof v !== 'undefined')
+          ids: params.ids
+            .filter((v?: string) => typeof v !== 'undefined')
+            .map((id: string | number) => mapType(idType, id))
         },
         parseResponse: (response: Response) => {
           const { nodes } = response.data[manyLowerResourceName]
@@ -172,7 +176,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
       return {
         variables: {
           input: {
-            id: params.id
+            id: mapType(idType, params.id)
           }
         },
         query: gql`
@@ -194,12 +198,23 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         })
       }
     case VERB_DELETE_MANY: {
+      const deletions = (params as UpdateManyParams).ids.map(id => ({
+        id: mapType(idType, id),
+        clientMutationId: id.toString()
+      }))
       return {
+        variables: deletions.reduce(
+          (next, input) => ({
+            [`arg${input.id}`]: input,
+            ...next
+          }),
+          {}
+        ),
         query: gql`
             mutation deleteMany${resourceTypename} {
             ${params.ids.map(
               (id: string) => `
-                k${id}:delete${resourceTypename}(input: { id: ${id}, clientMutationId: "${id}"}) {
+                k${id}:delete${resourceTypename}(input: $arg${id}) {
                   clientMutationId
                 }\n
                 `
@@ -208,7 +223,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         `,
         parseResponse: (response: Response) => ({
           data: params.ids.map((id: string) =>
-            parseInt(response.data[`k${id}`].clientMutationId, 10)
+            mapType(idType, response.data[`k${id}`].clientMutationId)
           )
         })
       }
@@ -216,7 +231,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
     case VERB_UPDATE:
       const updateVariables = {
         input: {
-          id: params.id,
+          id: mapType(idType, params.id),
           patch: mapInputToVariables(
             params.data,
             typeMap[`${resourceTypename}Patch`],
@@ -248,7 +263,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
     case VERB_UPDATE_MANY:
       const { ids, data } = params as UpdateManyParams
       const inputs = ids.map(id => ({
-        id,
+        id: mapType(idType, id),
         clientMutationId: id.toString(),
         patch: mapInputToVariables(
           data,
@@ -279,7 +294,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         }`,
         parseResponse: (response: Response) => ({
           data: ids.map(id =>
-            parseInt(response.data[`update${id}`].clientMutationId, 10)
+            mapType(idType, response.data[`update${id}`].clientMutationId)
           )
         })
       }
