@@ -1,23 +1,31 @@
-export const mapFilterType = (type: any, value: any) => {
+export const mapFilterType = (type: any, value: any, key: string) => {
   switch (type.name) {
     case 'String':
       return {
         or: [
           {
-            equalTo: value
+            [key]: {
+              equalTo: value
+            }
           },
           {
-            like: `%${value}%`
+            [key]: {
+              like: `%${value}%`
+            }
           }
         ]
       }
     case 'Int':
       return Array.isArray(value)
         ? {
-            in: value
+            [key]: {
+              in: value
+            }
           }
         : {
-            equalTo: value
+            [key]: {
+              equalTo: value
+            }
           }
     default:
       throw new Error(`Filter for type ${type.name} not implemented.`)
@@ -32,7 +40,7 @@ export const createFilter = (fields: any, type: any) => {
       const thisType = maybeType.type.ofType || maybeType.type
       return {
         ...next,
-        [key]: mapFilterType(thisType, fields[key])
+        ...mapFilterType(thisType, fields[key], key)
       }
     }
     return next
