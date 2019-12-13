@@ -1,5 +1,6 @@
+/* eslint-disable graphql/named-operations */
 import gql from 'graphql-tag'
-import pluralize from 'pluralize'
+import pluralize, { singular } from 'pluralize'
 import { getManyReference } from './getManyReference'
 import {
   capitalize,
@@ -32,14 +33,18 @@ import {
 } from './types'
 
 // cache for all types
-let typeMap
+let typeMap: any
 
 export const buildQuery = (introspectionResults: any, factory: Factory) => (
   raFetchType: string,
-  resourceName: string,
+  resName: string,
   params: any
 ) => {
-  if (!raFetchType || !resourceName) return { data: null }
+  if (!raFetchType || !resName) return { data: null }
+
+  // We do this here because react-admin is sometimes not consistent with the case (EditGuesser, etc)
+  // eslint-disable-next-line no-param-reassign
+  const resourceName = singular(resName)
 
   const options = factory.options
   // By default we don't query for any complex types on the object, just scalars and scalars[]
@@ -53,6 +58,9 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
   const type = typeMap[resourceTypename]
   const manyLowerResourceName = pluralize(lowercase(resourceTypename))
   const singleLowerResourceName = lowercase(resourceTypename)
+  const idField = type.fields.find((type: any) => type.name === 'id')
+  let idType = idField.type
+  if (idType.ofType) idType = idType.ofType
   switch (raFetchType) {
     case VERB_GET_ONE:
       return {
@@ -66,7 +74,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         }
         }`,
         variables: {
-          id: Number(params.id)
+          id: idType.name == 'String' ? params.id : parseInt(params.id, 10)
         },
         parseResponse: (response: Response) => {
           return { data: response.data[singleLowerResourceName] }
@@ -82,7 +90,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
           allowedComplexTypes
         ),
         variables: {
-          ids: params.ids.filter(v => Boolean(v))
+          ids: params.ids.filter((v?: string) => typeof v !== 'undefined')
         },
         parseResponse: (response: Response) => {
           const { nodes } = response.data[manyLowerResourceName]
@@ -184,7 +192,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         query: gql`
             mutation deleteMany${resourceTypename} {
             ${params.ids.map(
-              id => `
+              (id: string) => `
                 k${id}:delete${resourceTypename}(input: { id: ${id}, clientMutationId: "${id}"}) {
                   clientMutationId
                 }\n
@@ -193,8 +201,8 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
             }
         `,
         parseResponse: (response: Response) => ({
-          data: params.ids.map(id =>
-            Number(response.data[`k${id}`].clientMutationId)
+          data: params.ids.map((id: string) =>
+            parseInt(response.data[`k${id}`].clientMutationId, 10)
           )
         })
       }
@@ -202,7 +210,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
     case VERB_UPDATE:
       const updateVariables = {
         input: {
-          id: Number(params.id),
+          id: params.id,
           patch: mapInputToVariables(
             params.data,
             typeMap[`${resourceTypename}Patch`],
@@ -234,8 +242,8 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
     case VERB_UPDATE_MANY:
       const { ids, data } = params as UpdateManyParams
       const inputs = ids.map(id => ({
-        id: Number(id),
-        clientMutationId: String(id),
+        id,
+        clientMutationId: id.toString(),
         patch: mapInputToVariables(
           data,
           typeMap[`${resourceTypename}Patch`],
@@ -266,8 +274,8 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
             })}
         }`,
         parseResponse: (response: Response) => ({
-          data: ids.map<number>(id =>
-            Number(response.data[`update${id}`].clientMutationId)
+          data: ids.map(id =>
+            parseInt(response.data[`update${id}`].clientMutationId, 10)
           )
         })
       }

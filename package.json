@@ -1,6 +1,6 @@
 {
-  "name": "@voodooattack/ra-postgraphile",
-  "version": "0.1.2",
+  "name": "ra-postgraphile",
+  "version": "0.1.1",
   "description": "Postgraphile client for react-admin",
   "main": "dist/index.js",
   "module": "dist/index.es6.js",
@@ -32,6 +32,7 @@
   ],
   "homepage": "https://github.com/BowlingX/ra-postgraphile#readme",
   "devDependencies": {
+    "@types/pluralize": "^0.0.29",
     "cross-env": "^6.0.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",

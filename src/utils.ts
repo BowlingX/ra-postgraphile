@@ -1,6 +1,7 @@
+/* eslint-disable graphql/named-operations */
 import gql from 'graphql-tag'
-import pluralize from 'pluralize'
-import { CAMEL_REGEX, NODE_INTERFACE } from './types'
+import pluralize, { singular } from 'pluralize'
+import { CAMEL_REGEX } from './types'
 import { QueryInputTypeMapper, SortDirection } from './types'
 
 export const capitalize = (str: string) => str[0].toUpperCase() + str.slice(1)
@@ -26,13 +27,13 @@ export const mapInputToVariables = (
   typeMapper: QueryInputTypeMapper
 ) => {
   const inputFields = inputType.inputFields
-  return inputFields.reduce((current, next) => {
+  return inputFields.reduce((current: any, next: any) => {
     const key = next.name
     if (input[key] === undefined) {
       return current
     }
     const fieldType = type.fields.find(
-      field => fieldIsObjectOrListOfObject(field) && field.name === key
+      (field: any) => fieldIsObjectOrListOfObject(field) && field.name === key
     )
     if (fieldType) {
       const valueMapperForType = typeMapper[fieldType.type.ofType.name]
@@ -54,7 +55,7 @@ export const mapInputToVariables = (
 //   type.interfaces.filter(_interface => _interface.name === name).length > 0
 
 export const createGetManyQuery = (
-  type: any,
+  _type: any,
   manyLowerResourceName: string,
   resourceTypename: string,
   typeMap: any,
@@ -71,7 +72,7 @@ export const createGetManyQuery = (
 }
 
 export const createGetListQuery = (
-  type: any,
+  _type: any,
   manyLowerResourceName: string,
   resourceTypename: string,
   typeMap: any,
@@ -106,7 +107,7 @@ export const createQueryFromType = (
   typeMap: any,
   allowedTypes: Array<string>
 ) => {
-  return typeMap[type].fields.reduce((current, field) => {
+  return typeMap[singular(type)].fields.reduce((current: any, field: any) => {
     // we have to skip fields that require arguments
     if (field.args && field.args.length > 0) {
       return current
