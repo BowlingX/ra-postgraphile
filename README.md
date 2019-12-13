@@ -72,7 +72,6 @@ There is limited support for the `postgis` plugin and not all input/query types 
 ```js
 const PgSimplifyInflectorPlugin = require('@graphile-contrib/pg-simplify-inflector')
 const PgConnectionFilterPlugin = require('postgraphile-plugin-connection-filter')
-const PgConnectionFilterPostgisPlugin = require('postgraphile-plugin-connection-filter-postgis')
 ```
 
 ## Configuration
