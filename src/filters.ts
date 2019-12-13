@@ -29,10 +29,10 @@ export const createFilter = (fields: any, type: any) => {
   const filters = Object.keys(fields).reduce((next, key) => {
     const maybeType = type.fields.find((f: any) => f.name === key)
     if (maybeType) {
-      const type = maybeType.type.ofType || maybeType.type
+      const thisType = maybeType.type.ofType || maybeType.type
       return {
         ...next,
-        [key]: mapFilterType(type, fields[key])
+        [key]: mapFilterType(thisType, fields[key])
       }
     }
     return next

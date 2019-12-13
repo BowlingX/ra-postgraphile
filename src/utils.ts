@@ -1,8 +1,7 @@
 /* eslint-disable graphql/named-operations */
 import gql from 'graphql-tag'
 import pluralize, { singular } from 'pluralize'
-import { CAMEL_REGEX } from './types'
-import { QueryInputTypeMapper, SortDirection } from './types'
+import { CAMEL_REGEX, QueryInputTypeMapper, SortDirection } from './types'
 
 export const capitalize = (str: string) => str[0].toUpperCase() + str.slice(1)
 export const lowercase = (str: string) => str[0].toLowerCase() + str.slice(1)
@@ -55,11 +54,11 @@ export const mapInputToVariables = (
 //   type.interfaces.filter(_interface => _interface.name === name).length > 0
 
 export const createGetManyQuery = (
-  _type: any,
+  type: any,
   manyLowerResourceName: string,
   resourceTypename: string,
   typeMap: any,
-  allowedTypes: Array<string>
+  allowedTypes: string[]
 ) => {
   return gql`
     query ${manyLowerResourceName}($ids: [Int!]) {
@@ -72,11 +71,11 @@ export const createGetManyQuery = (
 }
 
 export const createGetListQuery = (
-  _type: any,
+  type: any,
   manyLowerResourceName: string,
   resourceTypename: string,
   typeMap: any,
-  allowedTypes: Array<string>
+  allowedTypes: string[]
 ) => {
   return gql`query ${manyLowerResourceName} (
     $offset: Int!,
@@ -93,7 +92,7 @@ export const createGetListQuery = (
     }`
 }
 
-export const createTypeMap = (types: Array<any>) => {
+export const createTypeMap = (types: any[]) => {
   return types.reduce((map, next) => {
     return {
       ...map,
@@ -105,7 +104,7 @@ export const createTypeMap = (types: Array<any>) => {
 export const createQueryFromType = (
   type: string,
   typeMap: any,
-  allowedTypes: Array<string>
+  allowedTypes: string[]
 ) => {
   return typeMap[singular(type)].fields.reduce((current: any, field: any) => {
     // we have to skip fields that require arguments
@@ -113,10 +112,10 @@ export const createQueryFromType = (
       return current
     }
     if (fieldIsObjectOrListOfObject(field)) {
-      const type =
+      const thisType =
         field.type.ofType && // We also handle cases where we have e.g. [TYPE!] (List of type)
         (field.type.ofType.name ? field.type.ofType : field.type.ofType.ofType)
-      const typeName = type && type.name
+      const typeName = thisType && thisType.name
       if (typeName && allowedTypes.indexOf(typeName) !== -1) {
         return `
         ${current} ${field.name} {${createQueryFromType(
@@ -126,7 +125,7 @@ export const createQueryFromType = (
         )} }
         `
       }
-      if (!type || type.kind !== 'ENUM') {
+      if (!thisType || thisType.kind !== 'ENUM') {
         return current
       }
     }

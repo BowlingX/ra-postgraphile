@@ -1,7 +1,7 @@
 import buildGraphQLProvider from 'ra-data-graphql'
+import { buildQuery } from './buildQuery'
 import { defaultQueryValueToInputValueMap } from './defaultValueInputTypeMapping'
 import { ProviderOptions } from './types'
-import { buildQuery } from './buildQuery'
 
 export const factory = (
   client: any,

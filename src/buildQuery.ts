@@ -1,6 +1,7 @@
 /* eslint-disable graphql/named-operations */
 import gql from 'graphql-tag'
 import pluralize, { singular } from 'pluralize'
+import { createFilter } from './filters'
 import { getManyReference } from './getManyReference'
 import {
   capitalize,
@@ -12,15 +13,13 @@ import {
   lowercase,
   mapInputToVariables
 } from './utils'
-import { createFilter } from './filters'
+
 import {
   Factory,
-  UpdateManyParams,
   ManyReferenceParams,
-  Response
-} from './types'
-import {
   NATURAL_SORTING,
+  Response,
+  UpdateManyParams,
   VERB_CREATE,
   VERB_DELETE,
   VERB_DELETE_MANY,
@@ -33,6 +32,7 @@ import {
 } from './types'
 
 // cache for all types
+// tslint:disable-next-line:no-let
 let typeMap: any
 
 export const buildQuery = (introspectionResults: any, factory: Factory) => (
@@ -40,10 +40,11 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
   resName: string,
   params: any
 ) => {
-  if (!raFetchType || !resName) return { data: null }
+  if (!raFetchType || !resName) {
+    return { data: null }
+  }
 
   // We do this here because react-admin is sometimes not consistent with the case (EditGuesser, etc)
-  // eslint-disable-next-line no-param-reassign
   const resourceName = singular(resName)
 
   const options = factory.options
@@ -53,14 +54,19 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
   const resourceTypename = capitalize(resourceName)
   const { types } = introspectionResults
   if (!typeMap) {
+    // tslint:disable-next-line:no-expression-statement
     typeMap = createTypeMap(types)
   }
   const type = typeMap[resourceTypename]
   const manyLowerResourceName = pluralize(lowercase(resourceTypename))
   const singleLowerResourceName = lowercase(resourceTypename)
-  const idField = type.fields.find((type: any) => type.name === 'id')
+  const idField = type.fields.find((thisType: any) => thisType.name === 'id')
+  // tslint:disable-next-line:no-let
   let idType = idField.type
-  if (idType.ofType) idType = idType.ofType
+  if (idType.ofType) {
+    // tslint:disable-next-line:no-expression-statement
+    idType = idType.ofType
+  }
   switch (raFetchType) {
     case VERB_GET_ONE:
       return {
@@ -74,7 +80,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         }
         }`,
         variables: {
-          id: idType.name == 'String' ? params.id : parseInt(params.id, 10)
+          id: idType.name === 'String' ? params.id : parseInt(params.id, 10)
         },
         parseResponse: (response: Response) => {
           return { data: response.data[singleLowerResourceName] }
@@ -265,9 +271,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
           .join(',')}) {
             ${inputs.map(input => {
               return `
-             update${input.id}:update${resourceTypename}(input: $arg${
-                input.id
-              }) {
+             update${input.id}:update${resourceTypename}(input: $arg${input.id}) {
                clientMutationId
              }
             `

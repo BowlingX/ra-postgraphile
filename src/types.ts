@@ -1,22 +1,26 @@
-export type QueryInputTypeMapper = { [id: string]: (value: any) => any }
+export interface QueryInputTypeMapper {
+  [id: string]: (value: any) => any
+}
 
-export type ProviderOptions = {
-  /** It's possible that a type has a different shape when a Query is used then when the Input/Patch is used*/
+export interface ProviderOptions {
+  /**
+   * It's possible that a type has a different shape when a Query is used then when the Input/Patch is used
+   */
   queryValueToInputValueMap: QueryInputTypeMapper
 }
 
-export type Factory = {
+export interface Factory {
   options: ProviderOptions
 }
 
 export type SortDirection = 'ASC' | 'DESC'
 
-export type UpdateManyParams = {
+export interface UpdateManyParams {
   ids: Array<number | string>
   data: any
 }
 
-export type ManyReferenceParams = {
+export interface ManyReferenceParams {
   filter: any
   sort: { field: string; order: SortDirection }
   target: string
@@ -24,7 +28,7 @@ export type ManyReferenceParams = {
   pagination: { page: number; perPage: number }
 }
 
-export type Response = {
+export interface Response {
   data: any
 }
 

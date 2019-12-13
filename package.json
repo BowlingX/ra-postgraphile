@@ -1,16 +1,29 @@
 {
   "name": "ra-postgraphile",
-  "version": "0.1.1",
+  "version": "0.0.0-semantic-released",
   "description": "Postgraphile client for react-admin",
-  "main": "dist/index.js",
-  "module": "dist/index.es6.js",
+  "main": "build/main/index.js",
+  "module": "build/module/index.js",
   "scripts": {
-    "test": "cross-env jest --watch",
-    "test-ci": "cross-env BABEL_ENV=node JEST_JUNIT_OUTPUT_NAME=\"reports/junit/js-test-results.xml\" jest --ci --reporters=default --reporters=jest-junit --coverage --coverageDirectory=coverage",
+    "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('ra-postgraphile must be installed with Yarn: https://yarnpkg.com/')\"",
     "prettify": "prettier src/**/*.ts --write",
-    "build": "cross-env tsc",
-    "clean": "rimraf dist",
-    "prepare": "npm run clean && npm run build"
+    "build": "run-s clean && run-p build:*",
+    "build:main": "tsc -p tsconfig.json",
+    "build:module": "tsc -p tsconfig.module.json",
+    "fix": "run-s fix:*",
+    "fix:prettier": "prettier \"src/**/*.{ts,tsx}\" --write",
+    "fix:tslint": "tslint --fix --project .",
+    "test": "run-s build test:*",
+    "test:lint": "tslint --project . && prettier \"src/**/*.{ts,tsx}\" --list-different",
+    "test:unit": "jest --coverage",
+    "cov:send": "codecov",
+    "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
+    "doc": "run-s doc:html && open-cli build/docs/api/index.html",
+    "doc:html": "typedoc src/ --exclude \"**/+(__tests__|examples)/*\" --target ES6 --mode file --out build/docs",
+    "doc:json": "typedoc src/ --exclude \"**/+(__tests__|examples)/*\" --target ES6 --mode file --json build/docs/typedoc.json",
+    "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
+    "clean": "trash build test",
+    "prepublishOnly": "run-s build"
   },
   "sideEffects": false,
   "repository": {
@@ -23,7 +36,8 @@
     "url": "https://github.com/BowlingX/ra-postgraphile/issues"
   },
   "files": [
-    "dist/"
+    "build/main",
+    "build/module"
   ],
   "keywords": [
     "react-admin",
@@ -33,23 +47,36 @@
   "homepage": "https://github.com/BowlingX/ra-postgraphile#readme",
   "devDependencies": {
     "@types/pluralize": "^0.0.29",
+    "@types/jest": "^24.0.23",
     "cross-env": "^6.0.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
-    "husky": "^2.2.0",
+    "husky": "^3.1.0",
     "identity-obj-proxy": "^3.0.0",
+    "npm-run-all": "^4.1.5",
     "jest": "^24.9.0",
+    "codecov": "^3.6.1",
     "jest-environment-enzyme": "^7.1.1",
     "jest-enzyme": "^7.1.1",
     "jest-junit": "^8.0.0",
-    "prettier": "1.17.1",
-    "pretty-quick": "^1.10.0",
+    "prettier": "^1.19.1",
+    "pretty-quick": "^2.0.1",
     "ra-data-graphql": "^3.0.0-beta.3",
     "react": "^16.9.0",
     "react-admin": "^3.0.0-beta.3",
     "react-dom": "^16.9.0",
     "renamer": "^1.1.2",
-    "semantic-release": "^15.13.24"
+    "trash-cli": "^3.0.0",
+    "semantic-release": "^15.13.24",
+    "typescript": "^3.7.3",
+    "ts-jest": "^24.2.0",
+    "ts-loader": "^6.2.1",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-immutable": "^6.0.1",
+    "typedoc": "^0.15.4",
+    "open-cli": "^5.0.0",
+    "gh-pages": "^2.1.1"
   },
   "dependencies": {
     "graphql": "^14.5.8",
@@ -57,32 +84,45 @@
     "pluralize": "^8.0.0"
   },
   "jest": {
-    "coverageReporters": [
-      "text",
-      "cobertura"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.js"
-    ],
-    "setupFilesAfterEnv": [
-      "jest-enzyme"
-    ],
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
     "testEnvironment": "enzyme",
     "testEnvironmentOptions": {
       "enzymeAdapter": "react16"
     },
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/assetsMock.js",
-      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
-    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "setupFilesAfterEnv": [
+      "jest-enzyme"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/examples/",
+      "/__tests__/"
+    ],
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ],
     "roots": [
       "src/"
     ],
-    "transform": {
-      "\\.js$": [
-        "babel-jest"
-      ]
-    }
+    "coverageThreshold": {
+      "global": {
+        "branches": 0,
+        "functions": 0,
+        "lines": 0,
+        "statements": 0
+      }
+    },
+    "collectCoverageFrom": [
+      "src/**/*.{js,ts,tsx}"
+    ]
   },
   "husky": {
     "hooks": {

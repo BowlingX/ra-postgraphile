@@ -1,15 +1,10 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
+# https://circleci.com/docs/2.0/language-javascript/
 version: 2
 jobs:
-  build:
+  'node-12':
     docker:
-      # specify the version you desire here
-      - image: circleci/node:11
-    working_directory: ~/repo
-
+      - image: circleci/node:12
+    working_directory: ~/ra-pg
     steps:
       - checkout
       # Download and cache dependencies
@@ -18,19 +13,65 @@ jobs:
             - v1-dependencies-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-
       - run: yarn install
-
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+      - run: yarn test
+      - run: yarn run cov:send
+  'node-latest':
+    docker:
+      - image: circleci/node:latest
+    working_directory: ~/ra-pg
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: yarn test
+      - run: yarn run cov:send
+  publish:
+    docker:
+      - image: circleci/node:12
+    working_directory: ~/ra-pg
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: yarn semantic-release
+      - run: yarn yarn doc:html && yarn doc:json
+      - run: git config user.email "david@vexquisit.com"
+      - run: git config user.name "ci-build"
+      - add_ssh_keys:
+          fingerprints:
+            - "db:9f:c4:a2:f1:5f:4c:11:fe:dc:63:b8:f2:f2:3f:d6"
+      - run: yarn doc:publish
 
-      - run: yarn run test-ci
-      - store_test_results:
-          path: reports/junit
-      - store_artifacts:
-          path: reports/junit
-      - run:
-          name: release if necessary
-          command: yarn run semantic-release
+workflows:
+  version: 2
+  build:
+    jobs:
+      - 'node-12'
+      - 'node-latest'
+      - publish:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - 'node-12'
+            - 'node-latest'

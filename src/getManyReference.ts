@@ -1,15 +1,14 @@
-import { createSortingKey, createGetListQuery } from './utils'
-import { NATURAL_SORTING } from './types'
-import { ManyReferenceParams, Response } from './types'
 import { createFilter } from './filters'
+import { ManyReferenceParams, NATURAL_SORTING, Response } from './types'
+import { createGetListQuery, createSortingKey } from './utils'
 
 export const getManyReference = (
   params: ManyReferenceParams,
-  type: Object,
+  type: object,
   manyLowerResourceName: string,
   resourceTypename: string,
-  typeMap: Object,
-  allowedTypes: Array<string>
+  typeMap: object,
+  allowedTypes: string[]
 ) => {
   const { filter, sort, target, id, pagination } = params
   const orderBy = sort
