@@ -20,6 +20,14 @@ export interface UpdateManyParams {
   data: any
 }
 
+export interface QueryMap {
+  [query: string]: {
+    args: Array<{
+      name: string
+    }>
+  }
+}
+
 export interface ManyReferenceParams {
   filter: any
   sort: { field: string; order: SortDirection }

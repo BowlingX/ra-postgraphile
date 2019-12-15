@@ -1,7 +1,12 @@
 /* eslint-disable graphql/named-operations */
 import gql from 'graphql-tag'
 import pluralize, { singular } from 'pluralize'
-import { CAMEL_REGEX, QueryInputTypeMapper, SortDirection } from './types'
+import {
+  CAMEL_REGEX,
+  QueryInputTypeMapper,
+  QueryMap,
+  SortDirection
+} from './types'
 
 export const capitalize = (str: string) => str[0].toUpperCase() + str.slice(1)
 export const lowercase = (str: string) => str[0].toLowerCase() + str.slice(1)
@@ -50,16 +55,23 @@ export const mapInputToVariables = (
   }, {})
 }
 
-// export const implementsInterface = (type: any, name: string) =>
-//   type.interfaces.filter(_interface => _interface.name === name).length > 0
-
 export const createGetManyQuery = (
   type: any,
   manyLowerResourceName: string,
   resourceTypename: string,
   typeMap: any,
+  queryMap: QueryMap,
   allowedTypes: string[]
 ) => {
+  if (!queryHasFilter(manyLowerResourceName, queryMap)) {
+    return gql`query ${manyLowerResourceName}{
+      ${manyLowerResourceName} {
+      nodes {
+        ${createQueryFromType(resourceTypename, typeMap, allowedTypes)}
+      }
+    }
+    }`
+  }
   return gql`
     query ${manyLowerResourceName}($ids: [Int!]) {
         ${manyLowerResourceName}(filter: { id: { in: $ids }}) {
@@ -70,13 +82,31 @@ export const createGetManyQuery = (
     }`
 }
 
+export const queryHasFilter = (type: string, queryMap: QueryMap) => {
+  if (!queryMap[type]) {
+    return false
+  }
+  return Boolean(queryMap[type].args.find(f => f.name === 'filter'))
+}
+
 export const createGetListQuery = (
   type: any,
   manyLowerResourceName: string,
   resourceTypename: string,
   typeMap: any,
+  queryMap: QueryMap,
   allowedTypes: string[]
 ) => {
+  if (!queryHasFilter(manyLowerResourceName, queryMap)) {
+    return gql`query ${manyLowerResourceName}($offset: Int!, $first: Int!) {
+      ${manyLowerResourceName}(first: $first, offset: $offset) {
+      nodes {
+        ${createQueryFromType(resourceTypename, typeMap, allowedTypes)}
+      }
+      totalCount
+    }
+    }`
+  }
   return gql`query ${manyLowerResourceName} (
     $offset: Int!,
     $first: Int!,

@@ -17,6 +17,7 @@ import {
   Factory,
   ManyReferenceParams,
   NATURAL_SORTING,
+  QueryMap,
   Response,
   UpdateManyParams,
   VERB_CREATE,
@@ -33,6 +34,8 @@ import {
 // cache for all types
 // tslint:disable-next-line:no-let
 let typeMap: any
+// tslint:disable-next-line:no-let
+let queryMap: QueryMap
 
 const mapType = (idType: any, value: string | number) =>
   idType.name === 'String' ? value : parseInt(value as string, 10)
@@ -54,7 +57,11 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
   const allowedComplexTypes = Object.keys(options.queryValueToInputValueMap)
 
   const resourceTypename = capitalize(resourceName)
-  const { types } = introspectionResults
+  const { types, queries } = introspectionResults
+  if (!queryMap) {
+    // tslint:disable-next-line:no-expression-statement
+    queryMap = createTypeMap(queries)
+  }
   if (!typeMap) {
     // tslint:disable-next-line:no-expression-statement
     typeMap = createTypeMap(types)
@@ -95,6 +102,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
           manyLowerResourceName,
           resourceTypename,
           typeMap,
+          queryMap,
           allowedComplexTypes
         ),
         variables: {
@@ -114,6 +122,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         manyLowerResourceName,
         resourceTypename,
         typeMap,
+        queryMap,
         allowedComplexTypes
       )
     case VERB_GET_LIST:
@@ -128,6 +137,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
           manyLowerResourceName,
           resourceTypename,
           typeMap,
+          queryMap,
           allowedComplexTypes
         ),
         variables: {
