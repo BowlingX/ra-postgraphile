@@ -79,7 +79,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
   switch (raFetchType) {
     case VERB_GET_ONE:
       return {
-        query: gql`query ${singleLowerResourceName}($id: Int!) {
+        query: gql`query ${singleLowerResourceName}($id: ${idType.name}!) {
             ${singleLowerResourceName}(id: $id) {
             ${createQueryFromType(
               resourceTypename,
@@ -103,7 +103,8 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
           resourceTypename,
           typeMap,
           queryMap,
-          allowedComplexTypes
+          allowedComplexTypes,
+          idType.name
         ),
         variables: {
           ids: params.ids

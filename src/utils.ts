@@ -61,7 +61,8 @@ export const createGetManyQuery = (
   resourceTypename: string,
   typeMap: any,
   queryMap: QueryMap,
-  allowedTypes: string[]
+  allowedTypes: string[],
+  idType: string
 ) => {
   if (!queryHasFilter(manyLowerResourceName, queryMap)) {
     return gql`query ${manyLowerResourceName}{
@@ -73,7 +74,7 @@ export const createGetManyQuery = (
     }`
   }
   return gql`
-    query ${manyLowerResourceName}($ids: [Int!]) {
+    query ${manyLowerResourceName}($ids: [${idType}!]) {
         ${manyLowerResourceName}(filter: { id: { in: $ids }}) {
         nodes {
             ${createQueryFromType(resourceTypename, typeMap, allowedTypes)}
