@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`filters should filter by BigInt 1`] = `
+Object {
+  "id": Object {
+    "equalTo": 5,
+  },
+}
+`;
+
+exports[`filters should filter by Int 1`] = `
+Object {
+  "id": Object {
+    "equalTo": 5,
+  },
+}
+`;
+
+exports[`filters should filter by String 1`] = `
+Object {
+  "or": Array [
+    Object {
+      "id": Object {
+        "equalTo": "value",
+      },
+    },
+    Object {
+      "id": Object {
+        "like": "%value%",
+      },
+    },
+  ],
+}
+`;
+
+exports[`filters should filter by UUID 1`] = `
+Object {
+  "id": Object {
+    "equalTo": "02d07429-c2a7-4494-aec9-e8bde9176e86",
+  },
+}
+`;
+
+exports[`filters should throw on unsupported types 1`] = `"Filter for type Unsupported not implemented."`;

@@ -15,6 +15,8 @@ export const mapFilterType = (type: any, value: any, key: string) => {
           }
         ]
       }
+    case 'UUID':
+    case 'BigInt':
     case 'Int':
       return Array.isArray(value)
         ? {
