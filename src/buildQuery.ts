@@ -38,7 +38,7 @@ let typeMap: any
 let queryMap: QueryMap
 
 const mapType = (idType: any, value: string | number) =>
-  idType.name === 'String' ? value : idType.name === 'UUID' ? value : parseInt(value as string, 10)
+  ['UUID', 'Uuid', 'String'].includes(idType.name) ? value : parseInt(value as string, 10)
 
 export const buildQuery = (introspectionResults: any, factory: Factory) => (
   raFetchType: string,
