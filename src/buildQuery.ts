@@ -32,13 +32,11 @@ import {
 } from './types'
 
 // cache for all types
-// tslint:disable-next-line:no-let
 let typeMap: any
-// tslint:disable-next-line:no-let
 let queryMap: QueryMap
 
-const mapType = (idType: any, value: string | number) =>
-  ['UUID', 'Uuid', 'String'].includes(idType.name)
+export const mapType = (idType: any, value: string | number) =>
+  ['uuid', 'string'].includes(idType.name.toLowerCase())
     ? value
     : parseInt(value as string, 10)
 
@@ -128,7 +126,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         queryMap,
         allowedComplexTypes
       )
-    case VERB_GET_LIST:
+    case VERB_GET_LIST: {
       const { filter, sort } = params as ManyReferenceParams
       const orderBy = sort
         ? [createSortingKey(sort.field, sort.order)]
@@ -154,7 +152,8 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
           return { data: nodes, total: totalCount }
         }
       }
-    case VERB_CREATE:
+    }
+    case VERB_CREATE: {
       const variables = {
         input: {
           [singleLowerResourceName]: mapInputToVariables(
@@ -168,15 +167,11 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
       return {
         variables,
         query: gql`mutation create${resourceTypename}($input: Create${resourceTypename}Input!) {
-            create${resourceTypename} (
-            input: $input
+          create${resourceTypename} (
+          input: $input
         ) {
-            ${singleLowerResourceName} {
-            ${createQueryFromType(
-              resourceTypename,
-              typeMap,
-              allowedComplexTypes
-            )}
+          ${singleLowerResourceName} {
+          ${createQueryFromType(resourceTypename, typeMap, allowedComplexTypes)}
         }
         }
         }`,
@@ -185,7 +180,8 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
             response.data[`create${resourceTypename}`][singleLowerResourceName]
         })
       }
-    case VERB_DELETE:
+    }
+    case VERB_DELETE: {
       return {
         variables: {
           input: {
@@ -193,23 +189,24 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
           }
         },
         query: gql`
-            mutation delete${resourceTypename}($input: Delete${resourceTypename}Input!) {
-                delete${resourceTypename}(input: $input) {
-                ${singleLowerResourceName} {
-                ${createQueryFromType(
-                  resourceTypename,
-                  typeMap,
-                  allowedComplexTypes
-                )}
-            }
-            }
-            }
+          mutation delete${resourceTypename}($input: Delete${resourceTypename}Input!) {
+            delete${resourceTypename}(input: $input) {
+            ${singleLowerResourceName} {
+            ${createQueryFromType(
+              resourceTypename,
+              typeMap,
+              allowedComplexTypes
+            )}
+          }
+          }
+          }
         `,
         parseResponse: (response: Response) => ({
           data:
             response.data[`delete${resourceTypename}`][singleLowerResourceName]
         })
       }
+    }
     case VERB_DELETE_MANY: {
       const thisIds = (params as UpdateManyParams).ids
       const deletions = thisIds.map(id => ({
@@ -246,7 +243,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         })
       }
     }
-    case VERB_UPDATE:
+    case VERB_UPDATE: {
       const updateVariables = {
         input: {
           id: mapType(idType, params.id),
@@ -261,24 +258,25 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
       return {
         variables: updateVariables,
         query: gql`
-            mutation update${resourceTypename}($input: Update${resourceTypename}Input!) {
-                update${resourceTypename}(input: $input) {
-                ${singleLowerResourceName} {
-                ${createQueryFromType(
-                  resourceTypename,
-                  typeMap,
-                  allowedComplexTypes
-                )}
-            }
-            }
-            }
+          mutation update${resourceTypename}($input: Update${resourceTypename}Input!) {
+            update${resourceTypename}(input: $input) {
+            ${singleLowerResourceName} {
+            ${createQueryFromType(
+              resourceTypename,
+              typeMap,
+              allowedComplexTypes
+            )}
+          }
+          }
+          }
         `,
         parseResponse: (response: Response) => ({
           data:
             response.data[`update${resourceTypename}`][singleLowerResourceName]
         })
       }
-    case VERB_UPDATE_MANY:
+    }
+    case VERB_UPDATE_MANY: {
       const { ids, data } = params as UpdateManyParams
       const inputs = ids.map(id => ({
         id: mapType(idType, id),
@@ -302,13 +300,13 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         ${ids
           .map(id => `$arg${id}: Update${resourceTypename}Input!`)
           .join(',')}) {
-            ${inputs.map(input => {
-              return `
+          ${inputs.map(input => {
+            return `
              update${input.id}:update${resourceTypename}(input: $arg${input.id}) {
                clientMutationId
              }
             `
-            })}
+          })}
         }`,
         parseResponse: (response: Response) => ({
           data: ids.map(id =>
@@ -316,6 +314,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
           )
         })
       }
+    }
     default:
       throw new Error(`${raFetchType} is not yet implemented.`)
   }

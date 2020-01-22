@@ -42,8 +42,6 @@ export interface Response {
 
 // Constants
 
-export const NODE_INTERFACE = 'Node'
-
 export const CAMEL_REGEX = /(.+?)([A-Z])/gm
 
 export const NATURAL_SORTING = 'NATURAL'

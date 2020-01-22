@@ -1,4 +1,3 @@
-/* eslint-disable graphql/named-operations */
 import gql from 'graphql-tag'
 import pluralize, { singular } from 'pluralize'
 import {
@@ -55,6 +54,45 @@ export const mapInputToVariables = (
   }, {})
 }
 
+export const queryHasFilter = (type: string, queryMap: QueryMap) => {
+  if (!queryMap[type]) {
+    return false
+  }
+  return Boolean(queryMap[type].args.find(f => f.name === 'filter'))
+}
+
+export const createQueryFromType = (
+  type: string,
+  typeMap: any,
+  allowedTypes: string[]
+) => {
+  return typeMap[singular(type)].fields.reduce((current: any, field: any) => {
+    // we have to skip fields that require arguments
+    if (field.args && field.args.length > 0) {
+      return current
+    }
+    if (fieldIsObjectOrListOfObject(field)) {
+      const thisType =
+        field.type.ofType && // We also handle cases where we have e.g. [TYPE!] (List of type)
+        (field.type.ofType.name ? field.type.ofType : field.type.ofType.ofType)
+      const typeName = thisType && thisType.name
+      if (typeName && allowedTypes.indexOf(typeName) !== -1) {
+        return `
+        ${current} ${field.name} {${createQueryFromType(
+          typeName,
+          typeMap,
+          allowedTypes
+        )} }
+        `
+      }
+      if (!thisType || thisType.kind !== 'ENUM') {
+        return current
+      }
+    }
+    return `${current} ${field.name}`
+  }, '')
+}
+
 export const createGetManyQuery = (
   type: any,
   manyLowerResourceName: string,
@@ -81,13 +119,6 @@ export const createGetManyQuery = (
         }
       }
     }`
-}
-
-export const queryHasFilter = (type: string, queryMap: QueryMap) => {
-  if (!queryMap[type]) {
-    return false
-  }
-  return Boolean(queryMap[type].args.find(f => f.name === 'filter'))
 }
 
 export const createGetListQuery = (
@@ -130,36 +161,4 @@ export const createTypeMap = (types: any[]) => {
       [next.name]: next
     }
   }, {})
-}
-
-export const createQueryFromType = (
-  type: string,
-  typeMap: any,
-  allowedTypes: string[]
-) => {
-  return typeMap[singular(type)].fields.reduce((current: any, field: any) => {
-    // we have to skip fields that require arguments
-    if (field.args && field.args.length > 0) {
-      return current
-    }
-    if (fieldIsObjectOrListOfObject(field)) {
-      const thisType =
-        field.type.ofType && // We also handle cases where we have e.g. [TYPE!] (List of type)
-        (field.type.ofType.name ? field.type.ofType : field.type.ofType.ofType)
-      const typeName = thisType && thisType.name
-      if (typeName && allowedTypes.indexOf(typeName) !== -1) {
-        return `
-        ${current} ${field.name} {${createQueryFromType(
-          typeName,
-          typeMap,
-          allowedTypes
-        )} }
-        `
-      }
-      if (!thisType || thisType.kind !== 'ENUM') {
-        return current
-      }
-    }
-    return `${current} ${field.name}`
-  }, '')
 }

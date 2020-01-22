@@ -1,6 +1,7 @@
 export const mapFilterType = (type: any, value: any, key: string) => {
-  switch (type.name) {
-    case 'String':
+  const normalizedName = type.name.toLowerCase()
+  switch (normalizedName) {
+    case 'string':
       return {
         or: [
           {
@@ -15,9 +16,9 @@ export const mapFilterType = (type: any, value: any, key: string) => {
           }
         ]
       }
-    case 'UUID':
-    case 'BigInt':
-    case 'Int':
+    case 'uuid':
+    case 'bigint':
+    case 'int':
       return Array.isArray(value)
         ? {
             [key]: {

@@ -12,9 +12,9 @@
     "build:module": "tsc -p tsconfig.module.json",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.{ts,tsx}\" --write",
-    "fix:tslint": "tslint --fix --project .",
+    "fix:eslint": "yarn eslint \"./src/**/*.ts\" --fix",
     "test": "run-s build test:*",
-    "test:lint": "tslint --project . && prettier \"src/**/*.{ts,tsx}\" --list-different",
+    "test:lint": "yarn eslint \"./src/**/*.ts\" && prettier \"src/**/*.{ts,tsx}\" --list-different",
     "test:unit": "jest --coverage",
     "cov:send": "codecov",
     "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
@@ -71,12 +71,17 @@
     "typescript": "^3.7.3",
     "ts-jest": "^24.2.0",
     "ts-loader": "^6.2.1",
-    "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-immutable": "^6.0.1",
     "typedoc": "^0.15.4",
     "open-cli": "^5.0.0",
-    "gh-pages": "^2.1.1"
+    "gh-pages": "^2.1.1",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-react": "^7.18.0",
+    "@typescript-eslint/eslint-plugin": "^2.16.0",
+    "@typescript-eslint/parser": "^2.16.0",
+    "eslint-plugin-import": "^2.20.0"
   },
   "dependencies": {
     "graphql": "^14.5.8",
@@ -126,7 +131,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "yarn pretty-quick --staged",
+      "pre-push": "yarn test"
     }
   },
   "peerDependencies": {
