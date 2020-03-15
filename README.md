@@ -100,3 +100,7 @@ const pgDataProviderConfig = {
 - Contribution is very welcome :).
 - Please create your commit messages based on [semantic-release syntax](https://github.com/semantic-release/semantic-release#how-does-it-work) and semantics (e.g. properly mark Breaking changes etc.).
 This let's us automatically create release notes and releases to NPM.
+
+## Development
+
+We are using `yarn` for package management.

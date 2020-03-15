@@ -5,7 +5,6 @@
   "main": "build/main/index.js",
   "module": "build/module/index.js",
   "scripts": {
-    "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('ra-postgraphile must be installed with Yarn: https://yarnpkg.com/')\"",
     "prettify": "prettier src/**/*.ts --write",
     "build": "run-s clean && run-p build:*",
     "build:main": "tsc -p tsconfig.json",
