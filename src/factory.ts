@@ -1,11 +1,12 @@
 import buildGraphQLProvider from 'ra-data-graphql'
 import { buildQuery } from './buildQuery'
 import { defaultQueryValueToInputValueMap } from './defaultValueInputTypeMapping'
-import { ProviderOptions } from './types'
+import { ProviderOptions, GraphqlProviderOptions } from './types'
 
 export const factory = (
   client: any,
-  options: ProviderOptions = { queryValueToInputValueMap: {} }
+  options: ProviderOptions = { queryValueToInputValueMap: {} },
+  graphqlProviderOptions: GraphqlProviderOptions = {}
 ) => {
   const defaultAppliedOptions = {
     queryValueToInputValueMap: {
@@ -15,6 +16,7 @@ export const factory = (
   }
 
   return buildGraphQLProvider({
+    ...graphqlProviderOptions,
     client,
     buildQuery,
     options: defaultAppliedOptions

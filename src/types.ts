@@ -1,3 +1,5 @@
+import { GraphQLObjectType } from 'graphql'
+
 export interface QueryInputTypeMapper {
   [id: string]: (value: any) => any
 }
@@ -9,8 +11,21 @@ export interface ProviderOptions {
   queryValueToInputValueMap: QueryInputTypeMapper
 }
 
+export interface GraphqlProviderOptions {
+  introspection?: {
+    queryType: {
+      name: string
+    }
+    mutationType: {
+      name: string
+    }
+    types: GraphQLObjectType[]
+  }
+}
+
 export interface Factory {
   options: ProviderOptions
+  graphqlOptions: GraphqlProviderOptions
 }
 
 export type SortDirection = 'ASC' | 'DESC'
