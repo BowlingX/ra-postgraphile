@@ -83,9 +83,10 @@
 					<li><p><code>client</code> - The <code>ApolloClient</code> instance to use.</p>
 					</li>
 					<li><p><code>config</code> - <em>optional</em> configuration</p>
+						<p>  pgDataProvider(client, [config])</p>
 					</li>
 				</ul>
-				<pre><code>pg<span class="hljs-constructor">DataProvider(<span class="hljs-params">client</span>, [<span class="hljs-params">config</span>])</span></code></pre><p>The following examples shows the basic usage:</p>
+				<p>The following examples shows the basic usage:</p>
 				<pre><code class="language-js"><span class="hljs-keyword">import</span> React, { useEffect, useState } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>
 <span class="hljs-keyword">import</span> { Admin, Resource } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-admin'</span>
 <span class="hljs-keyword">import</span> { useApolloClient } <span class="hljs-keyword">from</span> <span class="hljs-string">'@apollo/react-hooks'</span>
