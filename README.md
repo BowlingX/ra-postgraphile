@@ -18,7 +18,6 @@ The `ra-postgraphile` data provider accepts 2 arguments:
 
 - `config` - _optional_ configuration
 
-
     pgDataProvider(client, [config])
 
 The following examples shows the basic usage:
