@@ -1,6 +1,6 @@
 {
 	"id": 0,
-	"name": "ra-postgraphile",
+	"name": "ra-postgraphile - v0.0.0-semantic-released",
 	"kind": 0,
 	"flags": {},
 	"children": [
@@ -1519,8 +1519,8 @@
 						}
 					],
 					"type": {
-						"type": "intrinsic",
-						"name": "any"
+						"type": "reference",
+						"name": "DocumentNode"
 					}
 				}
 			],
@@ -1632,8 +1632,8 @@
 						}
 					],
 					"type": {
-						"type": "intrinsic",
-						"name": "any"
+						"type": "reference",
+						"name": "DocumentNode"
 					}
 				}
 			],
@@ -2048,8 +2048,8 @@
 										}
 									],
 									"type": {
-										"type": "intrinsic",
-										"name": "any"
+										"type": "reference",
+										"name": "DocumentNode"
 									},
 									"defaultValue": " createGetListQuery(\n      type,\n      manyLowerResourceName,\n      resourceTypename,\n      typeMap,\n      queryMap,\n      allowedTypes\n    )"
 								},
