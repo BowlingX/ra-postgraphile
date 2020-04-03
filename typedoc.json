@@ -198,7 +198,17 @@
 											],
 											"type": {
 												"type": "reference",
-												"name": "IntrospectionSchema"
+												"name": "Record",
+												"typeArguments": [
+													{
+														"type": "intrinsic",
+														"name": "string"
+													},
+													{
+														"type": "intrinsic",
+														"name": "any"
+													}
+												]
 											}
 										},
 										{
