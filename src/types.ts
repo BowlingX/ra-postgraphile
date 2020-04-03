@@ -1,4 +1,4 @@
-import { GraphQLObjectType, IntrospectionSchema } from 'graphql'
+import { GraphQLObjectType } from 'graphql'
 
 export interface QueryInputTypeMapper {
   [id: string]: (value: any) => any
@@ -16,7 +16,7 @@ export interface GraphqlProviderOptions {
     resources?: Record<string, any>[]
     queries?: Record<string, any>[]
     types?: GraphQLObjectType[]
-    schema?: IntrospectionSchema
+    schema?: Record<string, any>
   }
 }
 
