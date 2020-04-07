@@ -72,6 +72,9 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
   const idField = type.fields.find((thisType: any) => thisType.name === 'id')
   // tslint:disable-next-line:no-let
   let idType = idField.type
+  if (!idType) {
+    throw new Error('All types currently require an `id` field.')
+  }
   if (idType.ofType) {
     // tslint:disable-next-line:no-expression-statement
     idType = idType.ofType
