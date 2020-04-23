@@ -1,3 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`escape should escape UUIDs 1`] = `"02d07429_c2a7-4494-aec9-e8bde9176e86"`;
+exports[`escape should escape UUIDs 1`] = `"02d07429_c2a7_4494_aec9_e8bde9176e86"`;

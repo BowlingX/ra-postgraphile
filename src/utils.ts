@@ -22,7 +22,7 @@ export const createSortingKey = (field: string, sort: SortDirection) => {
   return `${snake(field).toUpperCase()}_${sort}`
 }
 
-export const escapeIdType = (id: any) => String(id).replace('-', '_')
+export const escapeIdType = (id: any) => String(id).replace(/-/gi, '_')
 
 // Maps any input object to variables of a mutation. Passes certain types through a mapping process.
 export const mapInputToVariables = (
