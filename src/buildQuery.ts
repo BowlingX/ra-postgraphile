@@ -9,6 +9,7 @@ import {
   createQueryFromType,
   createSortingKey,
   createTypeMap,
+  escapeIdType,
   lowercase,
   mapInputToVariables
 } from './utils'
@@ -227,12 +228,16 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         query: gql`
             mutation deleteMany${resourceTypename}(
             ${thisIds
-              .map(id => `$arg${id}: Delete${resourceTypename}Input!`)
+              .map(
+                id => `$arg${escapeIdType(id)}: Delete${resourceTypename}Input!`
+              )
               .join(',')}
             ) {
             ${params.ids.map(
               (id: string) => `
-                k${id}:delete${resourceTypename}(input: $arg${id}) {
+                k${escapeIdType(
+                  id
+                )}:delete${resourceTypename}(input: $arg${escapeIdType(id)}) {
                   clientMutationId
                 }\n
                 `
@@ -241,7 +246,10 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         `,
         parseResponse: (response: Response) => ({
           data: params.ids.map((id: string) =>
-            mapType(idType, response.data[`k${id}`].clientMutationId)
+            mapType(
+              idType,
+              response.data[`k${escapeIdType(id)}`].clientMutationId
+            )
           )
         })
       }
@@ -294,18 +302,22 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
       return {
         variables: inputs.reduce(
           (next, input) => ({
-            [`arg${input.id}`]: input,
+            [`arg${escapeIdType(input.id)}`]: input,
             ...next
           }),
           {}
         ),
         query: gql`mutation updateMany${resourceTypename}(
         ${ids
-          .map(id => `$arg${id}: Update${resourceTypename}Input!`)
+          .map(id => `$arg${escapeIdType(id)}: Update${resourceTypename}Input!`)
           .join(',')}) {
           ${inputs.map(input => {
             return `
-             update${input.id}:update${resourceTypename}(input: $arg${input.id}) {
+             update${escapeIdType(
+               input.id
+             )}:update${resourceTypename}(input: $arg${escapeIdType(
+              input.id
+            )}) {
                clientMutationId
              }
             `
@@ -313,7 +325,10 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         }`,
         parseResponse: (response: Response) => ({
           data: ids.map(id =>
-            mapType(idType, response.data[`update${id}`].clientMutationId)
+            mapType(
+              idType,
+              response.data[`update${escapeIdType(id)}`].clientMutationId
+            )
           )
         })
       }
