@@ -220,7 +220,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
       return {
         variables: deletions.reduce(
           (next, input) => ({
-            [`arg${input.id}`]: input,
+            [`arg${escapeIdType(input.id)}`]: input,
             ...next
           }),
           {}
