@@ -20,6 +20,11 @@ describe('filters', () => {
       )
     ).toMatchSnapshot()
   })
+  it('should filter by boolean', () => {
+    expect(
+      mapFilterType({ name: 'Boolean' }, true, 'booleanField')
+    ).toMatchSnapshot()
+  })
   it('should throw on unsupported types', () => {
     expect(() =>
       mapFilterType({ name: 'Unsupported' }, 'foo', 'br')

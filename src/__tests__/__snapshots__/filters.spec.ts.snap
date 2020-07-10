@@ -41,4 +41,12 @@ Object {
 }
 `;
 
+exports[`filters should filter by boolean 1`] = `
+Object {
+  "booleanField": Object {
+    "equalTo": true,
+  },
+}
+`;
+
 exports[`filters should throw on unsupported types 1`] = `"Filter for type Unsupported not implemented."`;

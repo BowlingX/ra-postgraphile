@@ -1,6 +1,12 @@
 export const mapFilterType = (type: any, value: any, key: string) => {
   const normalizedName = type.name.toLowerCase()
   switch (normalizedName) {
+    case 'boolean':
+      return {
+        [key]: {
+          equalTo: value
+        }
+      }
     case 'string':
       return {
         or: [
