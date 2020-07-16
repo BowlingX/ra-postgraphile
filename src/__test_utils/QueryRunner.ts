@@ -23,11 +23,7 @@ export async function makeQueryRunner(
   } // See https://www.graphile.org/postgraphile/usage-schema/ for options
 ) {
   // Create the PostGraphile schema
-  const schema = await createPostGraphileSchema(
-    connectionString,
-    schemaName,
-    options
-  )
+  const schema = await createPostGraphileSchema(connectionString, schemaName, options)
 
   const pgPool = new Pool({
     connectionString,

@@ -43,9 +43,7 @@ let typeMap: TypeMap
 let queryMap: QueryMap
 
 export const mapType = (idType: any, value: string | number) =>
-  ['uuid', 'string'].includes(idType.name.toLowerCase())
-    ? value
-    : parseInt(value as string, 10)
+  ['uuid', 'string'].includes(idType.name.toLowerCase()) ? value : parseInt(value as string, 10)
 
 type IntrospectionResult = {
   schema: IntrospectionSchema
@@ -54,10 +52,11 @@ type IntrospectionResult = {
   resources: Array<any>
 }
 
-export const buildQuery = (
-  introspectionResults: IntrospectionResult,
-  factory: Factory
-) => (raFetchType: string, resName: string, params: any) => {
+export const buildQuery = (introspectionResults: IntrospectionResult, factory: Factory) => (
+  raFetchType: string,
+  resName: string,
+  params: any
+) => {
   if (!raFetchType || !resName) {
     return { data: null }
   }
@@ -81,9 +80,7 @@ export const buildQuery = (
   const type = typeMap[resourceTypename]
 
   if (!type) {
-    throw new Error(
-      `Type ${resourceTypename} did not exist in introspection result.`
-    )
+    throw new Error(`Type ${resourceTypename} did not exist in introspection result.`)
   }
 
   const manyLowerResourceName = pluralize(lowercase(resourceTypename))
@@ -104,11 +101,7 @@ export const buildQuery = (
       return {
         query: gql`query ${singleLowerResourceName}($id: ${idType.name}!) {
             ${singleLowerResourceName}(id: $id) {
-            ${createQueryFromType(
-              resourceTypename,
-              typeMap,
-              allowedComplexTypes
-            )}
+            ${createQueryFromType(resourceTypename, typeMap, allowedComplexTypes)}
         }
         }`,
         variables: {
@@ -151,9 +144,7 @@ export const buildQuery = (
       )
     case GET_LIST: {
       const { filter, sort } = params as ManyReferenceParams
-      const orderBy = sort
-        ? [createSortingKey(sort.field, sort.order)]
-        : [NATURAL_SORTING]
+      const orderBy = sort ? [createSortingKey(sort.field, sort.order)] : [NATURAL_SORTING]
       const filters = createFilter(filter, type)
       return {
         query: createGetListQuery(
@@ -199,8 +190,7 @@ export const buildQuery = (
         }
         }`,
         parseResponse: (response: Response) => ({
-          data:
-            response.data[`create${resourceTypename}`][singleLowerResourceName],
+          data: response.data[`create${resourceTypename}`][singleLowerResourceName],
         }),
       }
     }
@@ -215,18 +205,13 @@ export const buildQuery = (
           mutation delete${resourceTypename}($input: Delete${resourceTypename}Input!) {
             delete${resourceTypename}(input: $input) {
             ${singleLowerResourceName} {
-            ${createQueryFromType(
-              resourceTypename,
-              typeMap,
-              allowedComplexTypes
-            )}
+            ${createQueryFromType(resourceTypename, typeMap, allowedComplexTypes)}
           }
           }
           }
         `,
         parseResponse: (response: Response) => ({
-          data:
-            response.data[`delete${resourceTypename}`][singleLowerResourceName],
+          data: response.data[`delete${resourceTypename}`][singleLowerResourceName],
         }),
       }
     }
@@ -247,17 +232,12 @@ export const buildQuery = (
         query: gql`
             mutation deleteMany${resourceTypename}(
             ${thisIds
-              .map(
-                (id) =>
-                  `$arg${escapeIdType(id)}: Delete${resourceTypename}Input!`
-              )
+              .map((id) => `$arg${escapeIdType(id)}: Delete${resourceTypename}Input!`)
               .join(',')}
             ) {
             ${params.ids.map(
               (id: string) => `
-                k${escapeIdType(
-                  id
-                )}:delete${resourceTypename}(input: $arg${escapeIdType(id)}) {
+                k${escapeIdType(id)}:delete${resourceTypename}(input: $arg${escapeIdType(id)}) {
                   clientMutationId
                 }\n
                 `
@@ -266,10 +246,7 @@ export const buildQuery = (
         `,
         parseResponse: (response: Response) => ({
           data: params.ids.map((id: string) =>
-            mapType(
-              idType,
-              response.data[`k${escapeIdType(id)}`].clientMutationId
-            )
+            mapType(idType, response.data[`k${escapeIdType(id)}`].clientMutationId)
           ),
         }),
       }
@@ -292,18 +269,13 @@ export const buildQuery = (
           mutation update${resourceTypename}($input: Update${resourceTypename}Input!) {
             update${resourceTypename}(input: $input) {
             ${singleLowerResourceName} {
-            ${createQueryFromType(
-              resourceTypename,
-              typeMap,
-              allowedComplexTypes
-            )}
+            ${createQueryFromType(resourceTypename, typeMap, allowedComplexTypes)}
           }
           }
           }
         `,
         parseResponse: (response: Response) => ({
-          data:
-            response.data[`update${resourceTypename}`][singleLowerResourceName],
+          data: response.data[`update${resourceTypename}`][singleLowerResourceName],
         }),
       }
     }
@@ -328,16 +300,10 @@ export const buildQuery = (
           {}
         ),
         query: gql`mutation updateMany${resourceTypename}(
-        ${ids
-          .map(
-            (id) => `$arg${escapeIdType(id)}: Update${resourceTypename}Input!`
-          )
-          .join(',')}) {
+        ${ids.map((id) => `$arg${escapeIdType(id)}: Update${resourceTypename}Input!`).join(',')}) {
           ${inputs.map((input) => {
             return `
-             update${escapeIdType(
-               input.id
-             )}:update${resourceTypename}(input: $arg${escapeIdType(
+             update${escapeIdType(input.id)}:update${resourceTypename}(input: $arg${escapeIdType(
               input.id
             )}) {
                clientMutationId
@@ -347,10 +313,7 @@ export const buildQuery = (
         }`,
         parseResponse: (response: Response) => ({
           data: ids.map((id) =>
-            mapType(
-              idType,
-              response.data[`update${escapeIdType(id)}`].clientMutationId
-            )
+            mapType(idType, response.data[`update${escapeIdType(id)}`].clientMutationId)
           ),
         }),
       }

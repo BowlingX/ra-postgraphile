@@ -1,23 +1,16 @@
 import gql from 'graphql-tag'
 import pluralize, { singular } from 'pluralize'
 import type { IntrospectionType } from 'graphql'
-import {
-  CAMEL_REGEX,
-  QueryInputTypeMapper,
-  QueryMap,
-  SortDirection,
-} from './types'
+import { CAMEL_REGEX, QueryInputTypeMapper, QueryMap, SortDirection } from './types'
 
 export const capitalize = (str: string) => str[0].toUpperCase() + str.slice(1)
 export const lowercase = (str: string) => str[0].toLowerCase() + str.slice(1)
 
-export const snake = (camelCaseInput: string) =>
-  camelCaseInput.replace(CAMEL_REGEX, '$1_$2')
+export const snake = (camelCaseInput: string) => camelCaseInput.replace(CAMEL_REGEX, '$1_$2')
 
 const fieldIsObjectOrListOfObject = (field: any) =>
   field.type.kind === 'OBJECT' ||
-  (field.type.ofType &&
-    (field.type.ofType.kind === 'OBJECT' || field.type.ofType.kind === 'LIST'))
+  (field.type.ofType && (field.type.ofType.kind === 'OBJECT' || field.type.ofType.kind === 'LIST'))
 
 export const createSortingKey = (field: string, sort: SortDirection) => {
   return `${snake(field).toUpperCase()}_${sort}`
@@ -71,11 +64,7 @@ export const queryHasOrdering = (type: string, queryMap: QueryMap) => {
   return Boolean(queryMap[type].args.find((f) => f.name === 'orderBy'))
 }
 
-export const createQueryFromType = (
-  type: string,
-  typeMap: any,
-  allowedTypes: string[]
-) => {
+export const createQueryFromType = (type: string, typeMap: any, allowedTypes: string[]) => {
   return typeMap[singular(type)].fields.reduce((current: any, field: any) => {
     // we have to skip fields that require arguments
     if (field.args && field.args.length > 0) {
@@ -83,16 +72,11 @@ export const createQueryFromType = (
     }
     if (fieldIsObjectOrListOfObject(field)) {
       const thisType =
-        field.type.ofType && // We also handle cases where we have e.g. [TYPE!] (List of type)
-        (field.type.ofType.name ? field.type.ofType : field.type.ofType.ofType)
+        field.type.ofType && (field.type.ofType.name ? field.type.ofType : field.type.ofType.ofType) // We also handle cases where we have e.g. [TYPE!] (List of type)
       const typeName = thisType && thisType.name
       if (typeName && allowedTypes.indexOf(typeName) !== -1) {
         return `
-        ${current} ${field.name} {${createQueryFromType(
-          typeName,
-          typeMap,
-          allowedTypes
-        )} }
+        ${current} ${field.name} {${createQueryFromType(typeName, typeMap, allowedTypes)} }
         `
       }
       if (!thisType || thisType.kind !== 'ENUM') {

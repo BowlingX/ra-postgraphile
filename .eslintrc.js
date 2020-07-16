@@ -15,10 +15,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
   ],
   rules: {
-    'import/order': [
-      'error',
-      { groups: ['builtin', 'external', 'parent', 'sibling', 'index'] },
-    ],
+    'import/order': ['error', { groups: ['builtin', 'external', 'parent', 'sibling', 'index'] }],
     '@typescript-eslint/member-delimiter-style': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
     '@typescript-eslint/no-explicit-any': 'off',

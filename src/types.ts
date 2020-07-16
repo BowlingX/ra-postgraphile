@@ -1,8 +1,4 @@
-import type {
-  IntrospectionInputValue,
-  IntrospectionSchema,
-  IntrospectionType,
-} from 'graphql'
+import type { IntrospectionInputValue, IntrospectionSchema, IntrospectionType } from 'graphql'
 
 export interface QueryInputTypeMapper {
   [id: string]: (value: any) => any
