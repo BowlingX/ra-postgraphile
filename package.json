@@ -14,7 +14,7 @@
     "fix:eslint": "yarn eslint \"**/*.{ts,tsx,js}\" --fix",
     "test": "run-s build test:*",
     "test:lint": "yarn eslint \"**/*.{ts,tsx,js}\" && prettier \"**/*.{ts,tsx,js}\" --list-different",
-    "test:unit": "yarn migrate reset --shadow --erase && jest --coverage",
+    "test:unit": "jest --coverage",
     "cov:send": "codecov",
     "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
     "doc": "run-s doc:html && open-cli build/docs/api/index.html",

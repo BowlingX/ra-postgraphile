@@ -10,7 +10,7 @@ import PgSimplifyInflectorPlugin from '@graphile-contrib/pg-simplify-inflector'
 import PgConnectionFilterPlugin from 'postgraphile-plugin-connection-filter'
 
 export async function makeQueryRunner(
-  connectionString = process.env.DATABASE_URL || 'postgres://test:test@localhost:5432/test',
+  connectionString = process.env.DATABASE_URL || 'postgres:///',
   schemaName = process.env.DATABASE_SCHEMA || 'app_public',
   options = {
     appendPlugins: [PgSimplifyInflectorPlugin, PgConnectionFilterPlugin],
@@ -21,6 +21,9 @@ export async function makeQueryRunner(
     },
   } // See https://www.graphile.org/postgraphile/usage-schema/ for options
 ) {
+
+  console.log(`using "${connectionString}" and "${schemaName}" to connect.`)
+
   // Create the PostGraphile schema
   const schema = await createPostGraphileSchema(connectionString, schemaName, options)
 
