@@ -10,5 +10,5 @@ export const defaultQueryValueToInputValueMap = {
   GeographyPoint: (value: {
     geojson: { coordinates: number[] }
     type: string
-  }) => value.geojson
+  }) => value.geojson,
 }

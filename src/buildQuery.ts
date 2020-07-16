@@ -1,5 +1,18 @@
 import gql from 'graphql-tag'
 import pluralize, { singular } from 'pluralize'
+import type { IntrospectionSchema, IntrospectionType } from 'graphql'
+import { IntrospectionObjectType } from 'graphql/utilities/introspectionQuery'
+import {
+  GET_MANY,
+  GET_LIST,
+  CREATE,
+  UPDATE,
+  UPDATE_MANY,
+  GET_ONE,
+  GET_MANY_REFERENCE,
+  DELETE_MANY,
+  DELETE,
+} from 'ra-core'
 import { createFilter } from './filters'
 import { getManyReference } from './getManyReference'
 import {
@@ -11,7 +24,8 @@ import {
   createTypeMap,
   escapeIdType,
   lowercase,
-  mapInputToVariables
+  mapInputToVariables,
+  stripUndefined,
 } from './utils'
 
 import {
@@ -21,19 +35,11 @@ import {
   QueryMap,
   Response,
   UpdateManyParams,
-  VERB_CREATE,
-  VERB_DELETE,
-  VERB_DELETE_MANY,
-  VERB_GET_LIST,
-  VERB_GET_MANY,
-  VERB_GET_MANY_REFERENCE,
-  VERB_GET_ONE,
-  VERB_UPDATE,
-  VERB_UPDATE_MANY
+  TypeMap,
 } from './types'
 
 // cache for all types
-let typeMap: any
+let typeMap: TypeMap
 let queryMap: QueryMap
 
 export const mapType = (idType: any, value: string | number) =>
@@ -41,11 +47,17 @@ export const mapType = (idType: any, value: string | number) =>
     ? value
     : parseInt(value as string, 10)
 
-export const buildQuery = (introspectionResults: any, factory: Factory) => (
-  raFetchType: string,
-  resName: string,
-  params: any
-) => {
+type IntrospectionResult = {
+  schema: IntrospectionSchema
+  types: ReadonlyArray<IntrospectionType>
+  queries: Array<any>
+  resources: Array<any>
+}
+
+export const buildQuery = (
+  introspectionResults: IntrospectionResult,
+  factory: Factory
+) => (raFetchType: string, resName: string, params: any) => {
   if (!raFetchType || !resName) {
     return { data: null }
   }
@@ -60,28 +72,35 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
   const resourceTypename = capitalize(resourceName)
   const { types, queries } = introspectionResults
   if (!queryMap) {
-    // tslint:disable-next-line:no-expression-statement
     queryMap = createTypeMap(queries)
   }
   if (!typeMap) {
-    // tslint:disable-next-line:no-expression-statement
     typeMap = createTypeMap(types)
   }
+
   const type = typeMap[resourceTypename]
+
+  if (!type) {
+    throw new Error(
+      `Type ${resourceTypename} did not exist in introspection result.`
+    )
+  }
+
   const manyLowerResourceName = pluralize(lowercase(resourceTypename))
   const singleLowerResourceName = lowercase(resourceTypename)
-  const idField = type.fields.find((thisType: any) => thisType.name === 'id')
-  // tslint:disable-next-line:no-let
-  let idType = idField?.type
+  const idField = (type as IntrospectionObjectType)?.fields?.find(
+    (thisType: any) => thisType.name === 'id'
+  )
+
+  let idType: any = idField?.type
   if (!idType) {
     throw new Error('All types currently require an `id` field.')
   }
   if (idType.ofType) {
-    // tslint:disable-next-line:no-expression-statement
     idType = idType.ofType
   }
   switch (raFetchType) {
-    case VERB_GET_ONE:
+    case GET_ONE:
       return {
         query: gql`query ${singleLowerResourceName}($id: ${idType.name}!) {
             ${singleLowerResourceName}(id: $id) {
@@ -93,13 +112,13 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         }
         }`,
         variables: {
-          id: mapType(idType, params.id)
+          id: mapType(idType, params.id),
         },
         parseResponse: (response: Response) => {
           return { data: response.data[singleLowerResourceName] }
-        }
+        },
       }
-    case VERB_GET_MANY:
+    case GET_MANY:
       return {
         query: createGetManyQuery(
           type,
@@ -113,14 +132,14 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         variables: {
           ids: params.ids
             .filter((v?: string) => typeof v !== 'undefined')
-            .map((id: string | number) => mapType(idType, id))
+            .map((id: string | number) => mapType(idType, id)),
         },
         parseResponse: (response: Response) => {
           const { nodes } = response.data[manyLowerResourceName]
           return { data: nodes }
-        }
+        },
       }
-    case VERB_GET_MANY_REFERENCE:
+    case GET_MANY_REFERENCE:
       return getManyReference(
         params,
         type,
@@ -130,7 +149,7 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         queryMap,
         allowedComplexTypes
       )
-    case VERB_GET_LIST: {
+    case GET_LIST: {
       const { filter, sort } = params as ManyReferenceParams
       const orderBy = sort
         ? [createSortingKey(sort.field, sort.order)]
@@ -145,19 +164,19 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
           queryMap,
           allowedComplexTypes
         ),
-        variables: {
+        variables: stripUndefined({
           offset: (params.pagination.page - 1) * params.pagination.perPage,
           first: params.pagination.perPage,
           filter: filters,
-          orderBy
-        },
+          orderBy,
+        }),
         parseResponse: (response: Response) => {
           const { nodes, totalCount } = response.data[manyLowerResourceName]
           return { data: nodes, total: totalCount }
-        }
+        },
       }
     }
-    case VERB_CREATE: {
+    case CREATE: {
       const variables = {
         input: {
           [singleLowerResourceName]: mapInputToVariables(
@@ -165,8 +184,8 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
             typeMap[`${resourceTypename}Input`],
             type,
             options.queryValueToInputValueMap
-          )
-        }
+          ),
+        },
       }
       return {
         variables,
@@ -181,16 +200,16 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         }`,
         parseResponse: (response: Response) => ({
           data:
-            response.data[`create${resourceTypename}`][singleLowerResourceName]
-        })
+            response.data[`create${resourceTypename}`][singleLowerResourceName],
+        }),
       }
     }
-    case VERB_DELETE: {
+    case DELETE: {
       return {
         variables: {
           input: {
-            id: mapType(idType, params.id)
-          }
+            id: mapType(idType, params.id),
+          },
         },
         query: gql`
           mutation delete${resourceTypename}($input: Delete${resourceTypename}Input!) {
@@ -207,21 +226,21 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         `,
         parseResponse: (response: Response) => ({
           data:
-            response.data[`delete${resourceTypename}`][singleLowerResourceName]
-        })
+            response.data[`delete${resourceTypename}`][singleLowerResourceName],
+        }),
       }
     }
-    case VERB_DELETE_MANY: {
+    case DELETE_MANY: {
       const thisIds = (params as UpdateManyParams).ids
-      const deletions = thisIds.map(id => ({
+      const deletions = thisIds.map((id) => ({
         id: mapType(idType, id),
-        clientMutationId: id.toString()
+        clientMutationId: id.toString(),
       }))
       return {
         variables: deletions.reduce(
           (next, input) => ({
             [`arg${escapeIdType(input.id)}`]: input,
-            ...next
+            ...next,
           }),
           {}
         ),
@@ -229,7 +248,8 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
             mutation deleteMany${resourceTypename}(
             ${thisIds
               .map(
-                id => `$arg${escapeIdType(id)}: Delete${resourceTypename}Input!`
+                (id) =>
+                  `$arg${escapeIdType(id)}: Delete${resourceTypename}Input!`
               )
               .join(',')}
             ) {
@@ -250,11 +270,11 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
               idType,
               response.data[`k${escapeIdType(id)}`].clientMutationId
             )
-          )
-        })
+          ),
+        }),
       }
     }
-    case VERB_UPDATE: {
+    case UPDATE: {
       const updateVariables = {
         input: {
           id: mapType(idType, params.id),
@@ -263,8 +283,8 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
             typeMap[`${resourceTypename}Patch`],
             type,
             options.queryValueToInputValueMap
-          )
-        }
+          ),
+        },
       }
       return {
         variables: updateVariables,
@@ -283,13 +303,13 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
         `,
         parseResponse: (response: Response) => ({
           data:
-            response.data[`update${resourceTypename}`][singleLowerResourceName]
-        })
+            response.data[`update${resourceTypename}`][singleLowerResourceName],
+        }),
       }
     }
-    case VERB_UPDATE_MANY: {
+    case UPDATE_MANY: {
       const { ids, data } = params as UpdateManyParams
-      const inputs = ids.map(id => ({
+      const inputs = ids.map((id) => ({
         id: mapType(idType, id),
         clientMutationId: id.toString(),
         patch: mapInputToVariables(
@@ -297,21 +317,23 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
           typeMap[`${resourceTypename}Patch`],
           type,
           options.queryValueToInputValueMap
-        )
+        ),
       }))
       return {
         variables: inputs.reduce(
           (next, input) => ({
             [`arg${escapeIdType(input.id)}`]: input,
-            ...next
+            ...next,
           }),
           {}
         ),
         query: gql`mutation updateMany${resourceTypename}(
         ${ids
-          .map(id => `$arg${escapeIdType(id)}: Update${resourceTypename}Input!`)
+          .map(
+            (id) => `$arg${escapeIdType(id)}: Update${resourceTypename}Input!`
+          )
           .join(',')}) {
-          ${inputs.map(input => {
+          ${inputs.map((input) => {
             return `
              update${escapeIdType(
                input.id
@@ -324,13 +346,13 @@ export const buildQuery = (introspectionResults: any, factory: Factory) => (
           })}
         }`,
         parseResponse: (response: Response) => ({
-          data: ids.map(id =>
+          data: ids.map((id) =>
             mapType(
               idType,
               response.data[`update${escapeIdType(id)}`].clientMutationId
             )
-          )
-        })
+          ),
+        }),
       }
     }
     default:

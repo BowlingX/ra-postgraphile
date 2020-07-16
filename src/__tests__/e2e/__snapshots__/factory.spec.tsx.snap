@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`factory should construct from a schema 1`] = `
+Array [
+  Object {
+    "__typename": "Book",
+    "id": 1,
+    "isbn": "12345",
+    "name": "Moby Dick or The Whale",
+    "nodeId": "WyJib29rcyIsMV0=",
+  },
+]
+`;

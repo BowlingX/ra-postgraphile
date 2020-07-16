@@ -3,7 +3,7 @@ import {
   ManyReferenceParams,
   NATURAL_SORTING,
   QueryMap,
-  Response
+  Response,
 } from './types'
 import { createGetListQuery, createSortingKey } from './utils'
 
@@ -34,14 +34,14 @@ export const getManyReference = (
       offset: (pagination.page - 1) * pagination.perPage,
       first: pagination.perPage,
       filter: filters,
-      orderBy
+      orderBy,
     },
     parseResponse: (response: Response) => {
       const { nodes, totalCount } = response.data[manyLowerResourceName]
       return {
         data: nodes,
-        total: totalCount
+        total: totalCount,
       }
-    }
+    },
   }
 }

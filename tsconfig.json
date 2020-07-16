@@ -29,6 +29,6 @@
     "typeRoots": ["node_modules/@types", "src/types"]
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules/**", "src/examples/**", "**/__tests__/**"],
+  "exclude": ["src/__test_utils/**", "src/examples/**", "**/__tests__/**"],
   "compileOnSave": false
 }

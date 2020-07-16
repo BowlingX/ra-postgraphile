@@ -1,10 +1,11 @@
 import gql from 'graphql-tag'
 import pluralize, { singular } from 'pluralize'
+import type { IntrospectionType } from 'graphql'
 import {
   CAMEL_REGEX,
   QueryInputTypeMapper,
   QueryMap,
-  SortDirection
+  SortDirection,
 } from './types'
 
 export const capitalize = (str: string) => str[0].toUpperCase() + str.slice(1)
@@ -45,13 +46,13 @@ export const mapInputToVariables = (
       if (valueMapperForType) {
         return {
           ...current,
-          [key]: valueMapperForType(input[key])
+          [key]: valueMapperForType(input[key]),
         }
       }
     }
     return {
       ...current,
-      [key]: input[key]
+      [key]: input[key],
     }
   }, {})
 }
@@ -60,7 +61,14 @@ export const queryHasFilter = (type: string, queryMap: QueryMap) => {
   if (!queryMap[type]) {
     return false
   }
-  return Boolean(queryMap[type].args.find(f => f.name === 'filter'))
+  return Boolean(queryMap[type].args.find((f) => f.name === 'filter'))
+}
+
+export const queryHasOrdering = (type: string, queryMap: QueryMap) => {
+  if (!queryMap[type]) {
+    return false
+  }
+  return Boolean(queryMap[type].args.find((f) => f.name === 'orderBy'))
 }
 
 export const createQueryFromType = (
@@ -131,7 +139,10 @@ export const createGetListQuery = (
   queryMap: QueryMap,
   allowedTypes: string[]
 ) => {
-  if (!queryHasFilter(manyLowerResourceName, queryMap)) {
+  const hasFilters = queryHasFilter(manyLowerResourceName, queryMap)
+  const hasOrdering = queryHasOrdering(manyLowerResourceName, queryMap)
+
+  if (!hasFilters && !hasOrdering) {
     return gql`query ${manyLowerResourceName}($offset: Int!, $first: Int!) {
       ${manyLowerResourceName}(first: $first, offset: $offset) {
       nodes {
@@ -141,6 +152,22 @@ export const createGetListQuery = (
     }
     }`
   }
+
+  if (!hasFilters) {
+    return gql`query ${manyLowerResourceName} (
+    $offset: Int!,
+    $first: Int!,
+    $orderBy: [${pluralize(resourceTypename)}OrderBy!]
+    ) {
+      ${manyLowerResourceName}(first: $first, offset: $offset, orderBy: $orderBy) {
+      nodes {
+        ${createQueryFromType(resourceTypename, typeMap, allowedTypes)}
+      }
+      totalCount
+    }
+    }`
+  }
+
   return gql`query ${manyLowerResourceName} (
     $offset: Int!,
     $first: Int!,
@@ -156,11 +183,22 @@ export const createGetListQuery = (
     }`
 }
 
-export const createTypeMap = (types: any[]) => {
+export const createTypeMap = (types: ReadonlyArray<IntrospectionType>) => {
   return types.reduce((map, next) => {
     return {
       ...map,
-      [next.name]: next
+      [next.name]: next,
     }
   }, {})
 }
+
+export const stripUndefined = (variables: Record<string, any>) =>
+  Object.keys(variables).reduce((next, key) => {
+    if (variables[key] === undefined) {
+      return next
+    }
+    return {
+      ...next,
+      [key]: variables[key],
+    }
+  }, {})

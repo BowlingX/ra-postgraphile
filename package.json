@@ -10,10 +10,10 @@
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p tsconfig.module.json",
     "fix": "run-s fix:*",
-    "fix:prettier": "prettier \"src/**/*.{ts,tsx}\" --write",
-    "fix:eslint": "yarn eslint \"./src/**/*.ts\" --fix",
+    "fix:prettier": "prettier \"**/*.{ts,tsx,js}\" --write",
+    "fix:eslint": "yarn eslint \"**/*.{ts,tsx,js}\" --fix",
     "test": "run-s build test:*",
-    "test:lint": "yarn eslint \"./src/**/*.ts\" && prettier \"src/**/*.{ts,tsx}\" --list-different",
+    "test:lint": "yarn eslint \"**/*.{ts,tsx,js}\" && prettier \"**/*.{ts,tsx,js}\" --list-different",
     "test:unit": "jest --coverage",
     "cov:send": "codecov",
     "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
@@ -22,7 +22,8 @@
     "doc:json": "typedoc src/ --exclude \"**/+(__tests__|examples)/*\" --target ES6 --mode file --json build/docs/typedoc.json",
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
     "clean": "trash build test",
-    "prepublishOnly": "run-s build"
+    "prepublishOnly": "run-s build",
+    "migrate": "node -r dotenv/config ./node_modules/graphile-migrate/dist/cli.js"
   },
   "sideEffects": false,
   "repository": {
@@ -49,10 +50,15 @@
     "@types/pluralize": "^0.0.29",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "@typescript-eslint/parser": "^2.16.0",
+    "@types/enzyme": "^3.10.5",
+    "@types/history": "^4.7.6",
+    "@types/react-router-dom": "^5.1.5",
+    "@types/lodash": "^4.14.157",
+    "@types/react-redux": "^7.1.9",
     "codecov": "^3.6.1",
     "cross-env": "^6.0.0",
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.14.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-import": "^2.20.0",
@@ -66,11 +72,12 @@
     "jest-junit": "^8.0.0",
     "npm-run-all": "^4.1.5",
     "open-cli": "^5.0.0",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "ra-data-graphql": "^3.0.0-beta.3",
     "react": "^16.9.0",
-    "react-admin": "^3.0.0-beta.3",
+    "react-admin": "^3.7.1",
+    "ra-core": "^3.7.1",
     "react-dom": "^16.9.0",
     "renamer": "^1.1.2",
     "semantic-release": "^17.0.4",
@@ -80,13 +87,23 @@
     "typedoc": "^0.15.4",
     "typescript": "^3.9.6",
     "postgraphile": "^4.7.0",
+    "graphile-build": "^4.7.0",
+    "graphile-build-pg": "^4.7.0",
+    "graphile-utils": "^4.7.0",
     "graphile-migrate": "^0.3.1",
     "@graphile-contrib/pg-simplify-inflector": "^6.0.0",
-    "postgraphile-plugin-connection-filter": "^2.0.0"
+    "postgraphile-plugin-connection-filter": "^2.0.0",
+    "apollo-link-schema": "^1.2.5",
+    "pg": "^8.3.0",
+    "dotenv": "^8.2.0",
+    "@graphql-codegen/core": "^1.17.0"
+  },
+  "resolutions": {
+    "query-string": "6.13.1"
   },
   "dependencies": {
-    "graphql": "^14.5.8",
-    "graphql-tag": "^2.10.1",
+    "graphql": "^14.7.0",
+    "graphql-tag": "^2.10.4",
     "pluralize": "^8.0.0"
   },
   "jest": {
@@ -106,10 +123,12 @@
     "setupFilesAfterEnv": [
       "jest-enzyme"
     ],
+    "globalSetup": "./setup.js",
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/examples/",
-      "/__tests__/"
+      "/__tests__/",
+      "/__test_utils/"
     ],
     "coverageReporters": [
       "text",

@@ -4,6 +4,15 @@ jobs:
   'node-12':
     docker:
       - image: circleci/node:12
+        environment:
+          DATABASE_URL: postgres://test:test@localhost:5432/test
+          ROOT_DATABASE_URL: postgres://test:test@localhost:5432/test
+          SHADOW_DATABASE_URL: postgres://test:test@localhost:5432/test_shadow
+      - image: postgres:12
+        environment:
+          POSTGRES_PASSWORD: test
+          POSTGRES_USER: test
+          POSTGRES_DB: test
     working_directory: ~/ra-pg
     steps:
       - checkout
@@ -23,6 +32,15 @@ jobs:
   'node-latest':
     docker:
       - image: circleci/node:latest
+        environment:
+          DATABASE_URL: postgres://test:test@localhost:5432/test
+          ROOT_DATABASE_URL: postgres://test:test@localhost:5432/test
+          SHADOW_DATABASE_URL: postgres://test:test@localhost:5432/test_shadow
+      - image: postgres:12
+        environment:
+          POSTGRES_PASSWORD: test
+          POSTGRES_USER: test
+          POSTGRES_DB: test
     working_directory: ~/ra-pg
     steps:
       - checkout

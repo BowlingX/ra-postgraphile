@@ -7,5 +7,6 @@ services:
     environment:
       POSTGRES_PASSWORD: test
       POSTGRES_USER: test
+      POSTGRES_DB: test
     ports:
-      - 5432:5432
+      - 5532:5432
