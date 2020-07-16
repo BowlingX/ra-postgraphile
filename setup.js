@@ -7,6 +7,6 @@ const opts = {
 }
 
 module.exports = async () => {
-  execSync('yarn migrate reset --shadow --erase', opts)
+  execSync('yarn migrate migrate', opts)
   console.log('\nsetup database...')
 }
