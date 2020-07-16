@@ -1,5 +1,5 @@
 --! Previous: -
---! Hash: sha1:f2951dfa5e15176d3bde21d2357fede45956fb0f
+--! Hash: sha1:d88addcabbd1b35fceb92a8a05f341a2005d2f82
 
 -- test migrations
 
