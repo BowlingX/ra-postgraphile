@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+require('dotenv').config()
 import { SchemaLink } from 'apollo-link-schema'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloClient } from 'apollo-client'
-require('dotenv').config()
 import { Pool } from 'pg'
 import { createPostGraphileSchema, withPostGraphileContext } from 'postgraphile'
 
@@ -11,7 +10,7 @@ import PgSimplifyInflectorPlugin from '@graphile-contrib/pg-simplify-inflector'
 import PgConnectionFilterPlugin from 'postgraphile-plugin-connection-filter'
 
 export async function makeQueryRunner(
-  connectionString = process.env.DATABASE_URL || 'postgres:///',
+  connectionString = process.env.DATABASE_URL || 'postgres://test:test@localhost:5432/test',
   schemaName = process.env.DATABASE_SCHEMA || 'app_public',
   options = {
     appendPlugins: [PgSimplifyInflectorPlugin, PgConnectionFilterPlugin],
