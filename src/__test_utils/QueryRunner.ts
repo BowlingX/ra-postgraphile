@@ -14,11 +14,6 @@ export async function makeQueryRunner(
   schemaName = process.env.DATABASE_SCHEMA || 'app_public',
   options = {
     appendPlugins: [PgSimplifyInflectorPlugin, PgConnectionFilterPlugin],
-    graphileBuildOptions: {
-      connectionFilterComputedColumns: false,
-      connectionFilterRelations: true,
-      nestedMutationsSimpleFieldNames: true,
-    },
   } // See https://www.graphile.org/postgraphile/usage-schema/ for options
 ) {
   // Create the PostGraphile schema

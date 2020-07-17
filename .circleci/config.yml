@@ -90,6 +90,7 @@ workflows:
             branches:
               only:
                 - master
+                - beta
           requires:
             - 'node-12'
             - 'node-latest'
