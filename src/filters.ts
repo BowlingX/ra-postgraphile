@@ -4,23 +4,23 @@ export const mapFilterType = (type: any, value: any, key: string) => {
     case 'boolean':
       return {
         [key]: {
-          equalTo: value
-        }
+          equalTo: value,
+        },
       }
     case 'string':
       return {
         or: [
           {
             [key]: {
-              equalTo: value
-            }
+              equalTo: value,
+            },
           },
           {
             [key]: {
-              like: `%${value}%`
-            }
-          }
-        ]
+              like: `%${value}%`,
+            },
+          },
+        ],
       }
     case 'uuid':
     case 'bigint':
@@ -28,13 +28,13 @@ export const mapFilterType = (type: any, value: any, key: string) => {
       return Array.isArray(value)
         ? {
             [key]: {
-              in: value
-            }
+              in: value,
+            },
           }
         : {
             [key]: {
-              equalTo: value
-            }
+              equalTo: value,
+            },
           }
     default:
       throw new Error(`Filter for type ${type.name} not implemented.`)

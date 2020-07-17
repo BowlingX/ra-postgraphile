@@ -6,8 +6,8 @@
     "module": "es6"
   },
   "exclude": [
-    "node_modules/**",
     "src/examples/**",
-    "**/__tests__/**"
+    "**/__tests__/**",
+    "src/__test_utils/**"
   ]
 }

@@ -74,6 +74,8 @@ const PgSimplifyInflectorPlugin = require('@graphile-contrib/pg-simplify-inflect
 const PgConnectionFilterPlugin = require('postgraphile-plugin-connection-filter')
 ```
 
+Please see `src\__test_utils\QueryRunner.ts` for an example setup.
+
 ## Configuration
 
 You can pass an _optional_ configuration object:
@@ -103,3 +105,5 @@ This let's us automatically create release notes and releases to NPM.
 ## Development
 
 We are using `yarn` for package management.
+
+To run all tests you have to start the dependent postgres container with `docker-compose up -d`.

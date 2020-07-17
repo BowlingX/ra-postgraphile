@@ -1,0 +1,9 @@
+{
+  "placeholders": {
+    ":DATABASE_VISITOR": "!ENV",
+    ":SYSTEM_ROLE": "!ENV"
+  },
+  "beforeAllMigrations": [],
+  "afterReset": [],
+  "afterCurrent": []
+}
