@@ -12,7 +12,7 @@ export interface ProviderOptions {
 }
 
 export interface GraphqlProviderOptions {
-  introspection?: IntrospectionSchema
+  introspection?: { schema: IntrospectionSchema }
 }
 
 export interface Factory {

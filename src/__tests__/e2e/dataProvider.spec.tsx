@@ -1,25 +1,18 @@
 import expect from 'expect'
 import { ApolloClient } from 'apollo-client'
-import { introspectionFromSchema, IntrospectionQuery } from 'graphql'
 import { convertLegacyDataProvider, DataProvider } from 'ra-core'
 import { makeQueryRunner } from '../../__test_utils/QueryRunner'
 import { factory } from '../../factory'
 
 let client: ApolloClient<any>
 let cleanup: () => void
-let introspection: IntrospectionQuery
 let dataProvider: DataProvider
 
 beforeAll(async () => {
-  const { schema, release, apolloClient } = await makeQueryRunner()
+  const { release, apolloClient, schema } = await makeQueryRunner()
   cleanup = release
   client = apolloClient
-  introspection = introspectionFromSchema(schema, { descriptions: true })
-  const legacyProvider = await factory(
-    client,
-    { queryValueToInputValueMap: {} },
-    { introspection: introspection.__schema }
-  )
+  const legacyProvider = await factory(client, undefined, { introspection: { schema } })
   dataProvider = convertLegacyDataProvider(legacyProvider)
 })
 

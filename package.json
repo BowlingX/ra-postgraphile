@@ -50,7 +50,6 @@
     "@graphql-codegen/core": "^1.17.0",
     "@types/enzyme": "^3.10.5",
     "@types/history": "^4.7.6",
-    "@types/invariant": "^2.2.33",
     "@types/jest": "^24.0.23",
     "@types/lodash": "^4.14.157",
     "@types/pluralize": "^0.0.29",
@@ -58,7 +57,6 @@
     "@types/react-router-dom": "^5.1.5",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "@typescript-eslint/parser": "^2.16.0",
-    "apollo-link-schema": "^1.2.5",
     "codecov": "^3.7.0",
     "cross-env": "^6.0.0",
     "dotenv": "^8.2.0",
@@ -105,7 +103,6 @@
   "dependencies": {
     "graphql": "^14.7.0",
     "graphql-tag": "^2.10.4",
-    "invariant": "^2.2.4",
     "pluralize": "^8.0.0"
   },
   "jest": {
