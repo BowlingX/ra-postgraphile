@@ -3503,7 +3503,7 @@
 											"sources": [
 												{
 													"fileName": "src/__test_utils/QueryRunner.ts",
-													"line": 41,
+													"line": 40,
 													"character": 16
 												}
 											],
@@ -3529,7 +3529,7 @@
 											"sources": [
 												{
 													"fileName": "src/__test_utils/QueryRunner.ts",
-													"line": 40,
+													"line": 39,
 													"character": 11
 												}
 											],
@@ -3549,7 +3549,7 @@
 											"sources": [
 												{
 													"fileName": "src/__test_utils/QueryRunner.ts",
-													"line": 42,
+													"line": 41,
 													"character": 10
 												}
 											],
