@@ -146,7 +146,7 @@ export const createGetManyQuery = (
   }
   return gql`
     query ${manyLowerResourceName}($ids: [${primaryKey.primaryKeyType.name}!]) {
-      ${manyLowerResourceName}(filter: { id: { in: $ids }}) {
+      ${manyLowerResourceName}(filter: { ${primaryKey.primaryKeyName}: { in: $ids }}) {
       nodes {
         ${createQueryFromType(resourceTypename, typeMap, allowedTypes, primaryKey)}
       }

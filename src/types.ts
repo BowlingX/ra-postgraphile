@@ -22,11 +22,6 @@ export interface Factory {
 
 export type SortDirection = 'ASC' | 'DESC'
 
-export interface UpdateManyParams {
-  ids: Array<number | string>
-  data: any
-}
-
 export interface Query {
   args: Array<IntrospectionInputValue>
 }
@@ -37,14 +32,6 @@ export interface QueryMap {
 
 export interface TypeMap {
   [type: string]: IntrospectionType
-}
-
-export interface ManyReferenceParams {
-  filter: any
-  sort: { field: string; order: SortDirection }
-  target: string
-  id: number
-  pagination: { page: number; perPage: number }
 }
 
 export interface Response {

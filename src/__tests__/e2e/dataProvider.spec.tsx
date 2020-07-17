@@ -90,7 +90,7 @@ describe('Query Types', () => {
     describe('Error resilience', () => {
       it('should fail on unknown resources', () => {
         expect(() => dataProvider.getOne('unknownResource', { id: 1 })).toThrow(
-          Error('Type "UnknownResource" did not exist in introspection result.')
+          Error('Type "UnknownResource" did not exist in the introspection result.')
         )
       })
 

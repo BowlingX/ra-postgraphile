@@ -12,6 +12,7 @@ import {
   DELETE_MANY,
   DELETE,
 } from 'ra-core'
+import type { GetManyReferenceParams, UpdateManyParams } from 'ra-core'
 import { createFilter } from './filters'
 import { getManyReference } from './getManyReference'
 import {
@@ -28,15 +29,7 @@ import {
   stripUndefined,
 } from './utils'
 
-import {
-  Factory,
-  ManyReferenceParams,
-  NATURAL_SORTING,
-  QueryMap,
-  Response,
-  UpdateManyParams,
-  TypeMap,
-} from './types'
+import { Factory, NATURAL_SORTING, QueryMap, Response, TypeMap, SortDirection } from './types'
 
 // cache for all types
 let typeMap: TypeMap
@@ -80,7 +73,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
   const type = typeMap[resourceTypename]
 
   if (!type) {
-    throw new Error(`Type "${resourceTypename}" did not exist in introspection result.`)
+    throw new Error(`Type "${resourceTypename}" did not exist in the introspection result.`)
   }
 
   const pluralizedResourceTypeName = pluralize(resourceTypename)
@@ -97,19 +90,19 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
     getResourceName,
     updateResourceName,
     idKeyName,
-    primaryKeyType: idType,
+    primaryKeyType: primaryKeyType,
   } = primaryKey
 
   switch (raFetchType) {
     case GET_ONE:
       return {
-        query: gql`query ${getResourceName}($id: ${idType.name}!) {
+        query: gql`query ${getResourceName}($id: ${primaryKeyType.name}!) {
             ${getResourceName}(${idKeyName}: $id) {
             ${createQueryFromType(resourceTypename, typeMap, allowedComplexTypes, primaryKey)}
         }
         }`,
         variables: {
-          id: mapType(idType, params.id),
+          id: mapType(primaryKeyType, params.id),
         },
         parseResponse: (response: Response) => {
           return { data: response.data[singleLowerResourceName] }
@@ -129,7 +122,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
         variables: {
           ids: params.ids
             .filter((v?: string) => typeof v !== 'undefined')
-            .map((id: string | number) => mapType(idType, id)),
+            .map((id: string | number) => mapType(primaryKeyType, id)),
         },
         parseResponse: (response: Response) => {
           const { nodes } = response.data[manyLowerResourceName]
@@ -149,10 +142,10 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
         primaryKey
       )
     case GET_LIST: {
-      const { filter, sort } = params as ManyReferenceParams
+      const { filter, sort } = params as GetManyReferenceParams
       const orderBy =
         sort && sort.field && sort.order
-          ? [createSortingKey(sort.field, sort.order)]
+          ? [createSortingKey(sort.field, sort.order as SortDirection)]
           : [NATURAL_SORTING]
       const filters = createFilter(filter, type)
       return {
@@ -209,7 +202,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
       return {
         variables: {
           input: {
-            id: mapType(idType, params.id),
+            id: mapType(primaryKeyType, params.id),
           },
         },
         query: gql`
@@ -229,7 +222,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
     case DELETE_MANY: {
       const thisIds = (params as UpdateManyParams).ids
       const deletions = thisIds.map((id) => ({
-        id: mapType(idType, id),
+        id: mapType(primaryKeyType, id),
         clientMutationId: id.toString(),
       }))
       return {
@@ -257,7 +250,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
         `,
         parseResponse: (response: Response) => ({
           data: params.ids.map((id: string) =>
-            mapType(idType, response.data[`k${escapeIdType(id)}`].clientMutationId)
+            mapType(primaryKeyType, response.data[`k${escapeIdType(id)}`].clientMutationId)
           ),
         }),
       }
@@ -265,7 +258,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
     case UPDATE: {
       const updateVariables = {
         input: {
-          id: mapType(idType, params.id),
+          id: mapType(primaryKeyType, params.id),
           patch: mapInputToVariables(
             params.data,
             typeMap[`${resourceTypename}Patch`],
@@ -293,7 +286,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
     case UPDATE_MANY: {
       const { ids, data } = params as UpdateManyParams
       const inputs = ids.map((id) => ({
-        id: mapType(idType, id),
+        id: mapType(primaryKeyType, id),
         clientMutationId: id.toString(),
         patch: mapInputToVariables(
           data,
@@ -324,7 +317,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
         }`,
         parseResponse: (response: Response) => ({
           data: ids.map((id) =>
-            mapType(idType, response.data[`update${escapeIdType(id)}`].clientMutationId)
+            mapType(primaryKeyType, response.data[`update${escapeIdType(id)}`].clientMutationId)
           ),
         }),
       }
