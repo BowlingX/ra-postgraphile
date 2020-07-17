@@ -1,5 +1,5 @@
 --! Previous: -
---! Hash: sha1:03122b5c686dd15ccb8f390308526f2af1ef26d3
+--! Hash: sha1:d1c3a191312604b716eaddcba366870223ce5c9a
 
 -- test migrations
 
@@ -76,7 +76,7 @@ INSERT INTO app_public.favorite_books (isbn) VALUES ('3221123');
 -- A View
 
 CREATE VIEW app_public.all_favorite_books as (
-    SELECT * from app_public.books where isbn IN (select isbn from app_public.favorite_books)
+    SELECT id, name from app_public.books where isbn IN (select isbn from app_public.favorite_books)
    );
 
 GRANT SELECT on app_public.all_favorite_books TO :DATABASE_VISITOR;

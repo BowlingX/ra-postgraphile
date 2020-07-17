@@ -70,16 +70,12 @@ Object {
   "data": Array [
     Object {
       "__typename": "AllFavoriteBook",
-      "authorId": 2,
       "id": 2,
-      "isbn": "51231",
       "name": "The China Study",
     },
     Object {
       "__typename": "AllFavoriteBook",
-      "authorId": 3,
       "id": 3,
-      "isbn": "3221123",
       "name": "How Not to Die",
     },
   ],

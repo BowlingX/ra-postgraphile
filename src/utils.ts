@@ -8,6 +8,7 @@ import type {
   IntrospectionObjectType,
   IntrospectionListTypeRef,
   IntrospectionNonNullTypeRef,
+  IntrospectionInputValue,
 } from 'graphql'
 import {
   IntrospectionNamedTypeRef,
@@ -68,11 +69,15 @@ export const mapInputToVariables = (
   }, {})
 }
 
-export const queryHasArgument = (type: string, argument: string, queryMap: QueryMap) => {
+export const queryHasArgument = (
+  type: string,
+  argument: string,
+  queryMap: QueryMap
+): IntrospectionInputValue | undefined => {
   if (!queryMap[type]) {
-    return false
+    return undefined
   }
-  return Boolean(queryMap[type].args.find((f) => f.name === argument))
+  return queryMap[type].args.find((f) => f.name === argument)
 }
 
 type PossibleListCases = IntrospectionListTypeRef<IntrospectionObjectType | IntrospectionEnumType>
@@ -156,6 +161,17 @@ export const createGetManyQuery = (
     }`
 }
 
+const hasOthersThenNaturalOrdering = (
+  typeMap: TypeMap,
+  orderingArgument: IntrospectionInputValue | undefined
+) => {
+  const listType = orderingArgument?.type as IntrospectionListTypeRef<
+    IntrospectionNonNullTypeRef<IntrospectionNamedTypeRef>
+  >
+  const orderTypeName = listType?.ofType?.ofType?.name
+  return (typeMap[orderTypeName] as IntrospectionEnumType)?.enumValues?.length > 1
+}
+
 export const createGetListQuery = (
   type: IntrospectionType,
   manyLowerResourceName: string,
@@ -167,7 +183,11 @@ export const createGetListQuery = (
   primaryKey: PrimaryKey
 ) => {
   const hasFilters = queryHasArgument(manyLowerResourceName, ARGUMENT_FILTER, queryMap)
-  const hasOrdering = queryHasArgument(manyLowerResourceName, ARGUMENT_ORDER_BY, queryMap)
+  const ordering = queryHasArgument(manyLowerResourceName, ARGUMENT_ORDER_BY, queryMap)
+  const hasOrdering = hasOthersThenNaturalOrdering(
+    typeMap,
+    ordering?.type as IntrospectionInputValue | undefined
+  )
 
   if (!hasFilters && !hasOrdering) {
     return gql`query ${manyLowerResourceName}($offset: Int!, $first: Int!) {
