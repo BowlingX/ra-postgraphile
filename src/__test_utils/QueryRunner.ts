@@ -25,7 +25,6 @@ export async function makeQueryRunner(
   const schema = await createPostGraphileSchema(connectionString, schemaName, options)
   const introspection = introspectionFromSchema(schema, { descriptions: true })
 
-  // @ts-ignore
   const apolloClient = new ApolloClient({
     ssrMode: true,
     cache: new InMemoryCache(),
