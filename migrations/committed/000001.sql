@@ -1,5 +1,5 @@
 --! Previous: -
---! Hash: sha1:8373af982339823514655fa2cc4b09ab097492d2
+--! Hash: sha1:03122b5c686dd15ccb8f390308526f2af1ef26d3
 
 -- test migrations
 
@@ -68,7 +68,15 @@ grant delete on table app_public.favorite_books to :DATABASE_VISITOR;
 grant insert (isbn) on table app_public.favorite_books to :DATABASE_VISITOR;
 grant update (isbn) on table app_public.favorite_books to :DATABASE_VISITOR;
 
-INSERT INTO app_public.favorite_books (isbn) VALUES ('12345');
 INSERT INTO app_public.favorite_books (isbn) VALUES ('51231');
+INSERT INTO app_public.favorite_books (isbn) VALUES ('3221123');
 
 ----------------------------------------------------------------------------------------------------
+
+-- A View
+
+CREATE VIEW app_public.all_favorite_books as (
+    SELECT * from app_public.books where isbn IN (select isbn from app_public.favorite_books)
+   );
+
+GRANT SELECT on app_public.all_favorite_books TO :DATABASE_VISITOR;

@@ -5,9 +5,9 @@ Object {
   "data": Array [
     Object {
       "__typename": "FavoriteBook",
-      "id": "WyJmYXZvcml0ZV9ib29rcyIsIjEyMzQ1Il0=",
-      "isbn": "12345",
-      "nodeId": "WyJmYXZvcml0ZV9ib29rcyIsIjEyMzQ1Il0=",
+      "id": "WyJmYXZvcml0ZV9ib29rcyIsIjMyMjExMjMiXQ==",
+      "isbn": "3221123",
+      "nodeId": "WyJmYXZvcml0ZV9ib29rcyIsIjMyMjExMjMiXQ==",
     },
     Object {
       "__typename": "FavoriteBook",
