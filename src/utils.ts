@@ -17,6 +17,8 @@ import { CAMEL_REGEX, Query, QueryInputTypeMapper, QueryMap, SortDirection, Type
 
 const ARGUMENT_FILTER = 'filter'
 const ARGUMENT_ORDER_BY = 'orderBy'
+const DEFAULT_ID_FIELD_NAME = 'id'
+const NODE_ID_FIELD_NAME = 'nodeId'
 
 export const capitalize = (str: string) => str[0].toUpperCase() + str.slice(1)
 export const lowercase = (str: string) => str[0].toLowerCase() + str.slice(1)
@@ -95,7 +97,7 @@ export const createQueryFromType = (
       // We alias the primaryKey to `nodeId` to keep react-admin happy
       const fieldName =
         primaryKey.field === field && primaryKey.shouldRewrite
-          ? `id: ${primaryKey.idKeyName} ${primaryKey.primaryKeyName}`
+          ? `${DEFAULT_ID_FIELD_NAME}: ${primaryKey.idKeyName} ${primaryKey.primaryKeyName}`
           : field.name
 
       if (fieldIsObjectOrListOfObject(field)) {
@@ -252,7 +254,8 @@ export const preparePrimaryKey = (
   resourceTypename: string,
   type: IntrospectionType
 ): PrimaryKey => {
-  const primaryKeyName = query?.args[0]?.name
+  // in case we don't have any arguments we fall back to the default `id` type.
+  const primaryKeyName = query?.args[0]?.name || DEFAULT_ID_FIELD_NAME
   const field = findTypeByName(type, primaryKeyName)
   let primaryKeyType: RequiredPrimaryKeyType | undefined = field?.type as
     | RequiredPrimaryKeyType
@@ -269,10 +272,10 @@ export const preparePrimaryKey = (
     >)?.ofType
   }
 
-  if (primaryKeyName !== 'id') {
+  if (primaryKeyName !== DEFAULT_ID_FIELD_NAME) {
     return {
       field: field as IntrospectionField,
-      idKeyName: 'nodeId',
+      idKeyName: NODE_ID_FIELD_NAME,
       primaryKeyName,
       primaryKeyType: primaryKeyType as IntrospectionNamedTypeRef<IntrospectionOutputType>,
       getResourceName: `${resourceName}ByNodeId`,
@@ -284,7 +287,7 @@ export const preparePrimaryKey = (
 
   return {
     field: field as IntrospectionField,
-    idKeyName: 'id',
+    idKeyName: DEFAULT_ID_FIELD_NAME,
     primaryKeyName,
     primaryKeyType: primaryKeyType as IntrospectionNamedTypeRef<IntrospectionOutputType>,
     getResourceName: `${resourceName}`,

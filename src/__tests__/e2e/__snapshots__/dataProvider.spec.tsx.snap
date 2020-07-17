@@ -65,6 +65,28 @@ Object {
 }
 `;
 
+exports[`Query Types should getList View should work with views 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "__typename": "AllFavoriteBook",
+      "authorId": 2,
+      "id": 2,
+      "isbn": "51231",
+      "name": "The China Study",
+    },
+    Object {
+      "__typename": "AllFavoriteBook",
+      "authorId": 3,
+      "id": 3,
+      "isbn": "3221123",
+      "name": "How Not to Die",
+    },
+  ],
+  "total": 2,
+}
+`;
+
 exports[`Query Types should getList should filter books 1`] = `
 Object {
   "data": Array [

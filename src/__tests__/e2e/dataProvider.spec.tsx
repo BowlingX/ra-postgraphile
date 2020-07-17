@@ -87,6 +87,18 @@ describe('Query Types', () => {
       ).toMatchSnapshot()
     })
 
+    describe('View', () => {
+      it('should work with views', async () => {
+        expect(
+          await dataProvider.getList('allFavoriteBooks', {
+            sort: { field: 'id', order: 'ASC' },
+            filter: {},
+            pagination: { perPage: 10, page: 1 },
+          })
+        ).toMatchSnapshot()
+      })
+    })
+
     describe('Error resilience', () => {
       it('should fail on unknown resources', () => {
         expect(() => dataProvider.getOne('unknownResource', { id: 1 })).toThrow(
