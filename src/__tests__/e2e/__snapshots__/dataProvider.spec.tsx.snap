@@ -52,6 +52,19 @@ Object {
 }
 `;
 
+exports[`Query Types should getList Error resilience should work on uppercase resource names 1`] = `
+Object {
+  "data": Object {
+    "__typename": "Book",
+    "authorId": 1,
+    "id": 1,
+    "isbn": "12345",
+    "name": "Moby Dick or The Whale",
+    "nodeId": "WyJib29rcyIsMV0=",
+  },
+}
+`;
+
 exports[`Query Types should getList should filter books 1`] = `
 Object {
   "data": Array [

@@ -103,6 +103,10 @@ describe('Query Types', () => {
           })
         ).toMatchSnapshot()
       })
+
+      it('should work on uppercase resource names', async () => {
+        expect(await dataProvider.getOne('Book', { id: 1 })).toMatchSnapshot()
+      })
     })
   })
 })

@@ -228,7 +228,7 @@ export const stripUndefined = <T extends Record<string, any>>(variables: T) =>
     }
   }, {})
 
-const findTypeByName = (type: IntrospectionType, name: string) =>
+const findTypeByName = (type: IntrospectionType, name: string | undefined) =>
   (type as IntrospectionObjectType).fields?.find((thisType: any) => thisType.name === name)
 
 type RequiredPrimaryKeyType =
@@ -247,18 +247,18 @@ export interface PrimaryKey {
 }
 
 export const preparePrimaryKey = (
-  query: Query,
+  query: Query | undefined,
   resourceName: string,
   resourceTypename: string,
   type: IntrospectionType
 ): PrimaryKey => {
-  const primaryKeyName = query.args[0]?.name
+  const primaryKeyName = query?.args[0]?.name
   const field = findTypeByName(type, primaryKeyName)
   let primaryKeyType: RequiredPrimaryKeyType | undefined = field?.type as
     | RequiredPrimaryKeyType
     | undefined
 
-  if (!primaryKeyType) {
+  if (!primaryKeyType || !primaryKeyName) {
     throw new Error(`Could not determine primaryKey on type ${resourceTypename} field.
       Please add a primary key to ${resourceTypename}`)
   }

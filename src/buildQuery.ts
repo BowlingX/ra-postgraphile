@@ -80,7 +80,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
   const manyLowerResourceName = lowercase(pluralizedResourceTypeName)
   const singleLowerResourceName = lowercase(resourceTypename)
   const primaryKey = preparePrimaryKey(
-    queryMap[resourceName],
+    queryMap[singleLowerResourceName],
     singleLowerResourceName,
     resourceTypename,
     type
