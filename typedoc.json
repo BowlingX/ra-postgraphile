@@ -2026,8 +2026,17 @@
 								"isExported": true
 							},
 							"type": {
-								"type": "intrinsic",
-								"name": "string"
+								"type": "union",
+								"types": [
+									{
+										"type": "intrinsic",
+										"name": "string"
+									},
+									{
+										"type": "intrinsic",
+										"name": "undefined"
+									}
+								]
 							}
 						}
 					],
@@ -3428,9 +3437,18 @@
 								"isExported": true
 							},
 							"type": {
-								"type": "reference",
-								"id": 50,
-								"name": "Query"
+								"type": "union",
+								"types": [
+									{
+										"type": "reference",
+										"id": 50,
+										"name": "Query"
+									},
+									{
+										"type": "intrinsic",
+										"name": "undefined"
+									}
+								]
 							}
 						},
 						{
