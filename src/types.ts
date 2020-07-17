@@ -27,10 +27,12 @@ export interface UpdateManyParams {
   data: any
 }
 
+export interface Query {
+  args: Array<IntrospectionInputValue>
+}
+
 export interface QueryMap {
-  [query: string]: {
-    args: Array<IntrospectionInputValue>
-  }
+  [query: string]: Query
 }
 
 export interface TypeMap {

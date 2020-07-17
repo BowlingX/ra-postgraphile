@@ -7,6 +7,7 @@ export const getManyReference = (
   type: object,
   manyLowerResourceName: string,
   resourceTypename: string,
+  pluralizedResourceTypeName: string,
   typeMap: object,
   queryMap: QueryMap,
   allowedTypes: string[]
@@ -19,6 +20,7 @@ export const getManyReference = (
       type,
       manyLowerResourceName,
       resourceTypename,
+      pluralizedResourceTypeName,
       typeMap,
       queryMap,
       allowedTypes

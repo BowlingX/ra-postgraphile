@@ -1,7 +1,6 @@
 import gql from 'graphql-tag'
 import pluralize, { singular } from 'pluralize'
-import type { IntrospectionSchema, IntrospectionType } from 'graphql'
-import { IntrospectionObjectType } from 'graphql/utilities/introspectionQuery'
+import type { IntrospectionNamedTypeRef, IntrospectionSchema, IntrospectionType } from 'graphql'
 import {
   GET_MANY,
   GET_LIST,
@@ -23,6 +22,7 @@ import {
   createSortingKey,
   createTypeMap,
   escapeIdType,
+  preparePrimaryKey,
   lowercase,
   mapInputToVariables,
   stripUndefined,
@@ -42,7 +42,7 @@ import {
 let typeMap: TypeMap
 let queryMap: QueryMap
 
-export const mapType = (idType: any, value: string | number) =>
+export const mapType = (idType: IntrospectionNamedTypeRef<any>, value: string | number) =>
   ['uuid', 'string'].includes(idType.name.toLowerCase()) ? value : parseInt(value as string, 10)
 
 type IntrospectionResult = {
@@ -80,28 +80,32 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
   const type = typeMap[resourceTypename]
 
   if (!type) {
-    throw new Error(`Type ${resourceTypename} did not exist in introspection result.`)
+    throw new Error(`Type "${resourceTypename}" did not exist in introspection result.`)
   }
 
-  const manyLowerResourceName = pluralize(lowercase(resourceTypename))
+  const pluralizedResourceTypeName = pluralize(resourceTypename)
+  const manyLowerResourceName = lowercase(pluralizedResourceTypeName)
   const singleLowerResourceName = lowercase(resourceTypename)
-  const idField = (type as IntrospectionObjectType)?.fields?.find(
-    (thisType: any) => thisType.name === 'id'
+  const primaryKey = preparePrimaryKey(
+    queryMap[resourceName],
+    singleLowerResourceName,
+    resourceTypename,
+    type
   )
+  const {
+    deleteResourceName,
+    getResourceName,
+    updateResourceName,
+    idKeyName,
+    primaryKeyType: idType,
+  } = primaryKey
 
-  let idType: any = idField?.type
-  if (!idType) {
-    throw new Error('All types currently require an `id` field.')
-  }
-  if (idType.ofType) {
-    idType = idType.ofType
-  }
   switch (raFetchType) {
     case GET_ONE:
       return {
-        query: gql`query ${singleLowerResourceName}($id: ${idType.name}!) {
-            ${singleLowerResourceName}(id: $id) {
-            ${createQueryFromType(resourceTypename, typeMap, allowedComplexTypes)}
+        query: gql`query ${getResourceName}($id: ${idType.name}!) {
+            ${getResourceName}(${idKeyName}: $id) {
+            ${createQueryFromType(resourceTypename, typeMap, allowedComplexTypes, primaryKey)}
         }
         }`,
         variables: {
@@ -120,7 +124,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
           typeMap,
           queryMap,
           allowedComplexTypes,
-          idType.name
+          primaryKey
         ),
         variables: {
           ids: params.ids
@@ -138,22 +142,28 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
         type,
         manyLowerResourceName,
         resourceTypename,
+        pluralizedResourceTypeName,
         typeMap,
         queryMap,
         allowedComplexTypes
       )
     case GET_LIST: {
       const { filter, sort } = params as ManyReferenceParams
-      const orderBy = sort ? [createSortingKey(sort.field, sort.order)] : [NATURAL_SORTING]
+      const orderBy =
+        sort && sort.field && sort.order
+          ? [createSortingKey(sort.field, sort.order)]
+          : [NATURAL_SORTING]
       const filters = createFilter(filter, type)
       return {
         query: createGetListQuery(
           type,
           manyLowerResourceName,
           resourceTypename,
+          pluralizedResourceTypeName,
           typeMap,
           queryMap,
-          allowedComplexTypes
+          allowedComplexTypes,
+          primaryKey
         ),
         variables: stripUndefined({
           offset: (params.pagination.page - 1) * params.pagination.perPage,
@@ -185,7 +195,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
           input: $input
         ) {
           ${singleLowerResourceName} {
-          ${createQueryFromType(resourceTypename, typeMap, allowedComplexTypes)}
+          ${createQueryFromType(resourceTypename, typeMap, allowedComplexTypes, primaryKey)}
         }
         }
         }`,
@@ -202,16 +212,16 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
           },
         },
         query: gql`
-          mutation delete${resourceTypename}($input: Delete${resourceTypename}Input!) {
-            delete${resourceTypename}(input: $input) {
+          mutation ${deleteResourceName}($input: Delete${resourceTypename}Input!) {
+            ${deleteResourceName}(input: $input) {
             ${singleLowerResourceName} {
-            ${createQueryFromType(resourceTypename, typeMap, allowedComplexTypes)}
+            ${createQueryFromType(resourceTypename, typeMap, allowedComplexTypes, primaryKey)}
           }
           }
           }
         `,
         parseResponse: (response: Response) => ({
-          data: response.data[`delete${resourceTypename}`][singleLowerResourceName],
+          data: response.data[`${deleteResourceName}`][singleLowerResourceName],
         }),
       }
     }
@@ -237,7 +247,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
             ) {
             ${params.ids.map(
               (id: string) => `
-                k${escapeIdType(id)}:delete${resourceTypename}(input: $arg${escapeIdType(id)}) {
+                k${escapeIdType(id)}:${deleteResourceName}(input: $arg${escapeIdType(id)}) {
                   clientMutationId
                 }\n
                 `
@@ -266,16 +276,16 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
       return {
         variables: updateVariables,
         query: gql`
-          mutation update${resourceTypename}($input: Update${resourceTypename}Input!) {
-            update${resourceTypename}(input: $input) {
+          mutation ${updateResourceName}($input: Update${resourceTypename}Input!) {
+            ${updateResourceName}(input: $input) {
             ${singleLowerResourceName} {
-            ${createQueryFromType(resourceTypename, typeMap, allowedComplexTypes)}
+            ${createQueryFromType(resourceTypename, typeMap, allowedComplexTypes, primaryKey)}
           }
           }
           }
         `,
         parseResponse: (response: Response) => ({
-          data: response.data[`update${resourceTypename}`][singleLowerResourceName],
+          data: response.data[`${updateResourceName}`][singleLowerResourceName],
         }),
       }
     }
@@ -303,7 +313,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
         ${ids.map((id) => `$arg${escapeIdType(id)}: Update${resourceTypename}Input!`).join(',')}) {
           ${inputs.map((input) => {
             return `
-             update${escapeIdType(input.id)}:update${resourceTypename}(input: $arg${escapeIdType(
+             update${escapeIdType(input.id)}:${updateResourceName}(input: $arg${escapeIdType(
               input.id
             )}) {
                clientMutationId
