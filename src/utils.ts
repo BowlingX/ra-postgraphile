@@ -155,11 +155,11 @@ export const createGetManyQuery = (
 }
 
 export const createGetListQuery = (
-  type: any,
+  type: IntrospectionType,
   manyLowerResourceName: string,
   resourceTypename: string,
   pluralizedResourceTypeName: string,
-  typeMap: any,
+  typeMap: TypeMap,
   queryMap: QueryMap,
   allowedTypes: string[],
   primaryKey: PrimaryKey
@@ -235,7 +235,7 @@ type RequiredPrimaryKeyType =
   | IntrospectionNamedTypeRef<IntrospectionOutputType>
   | IntrospectionNonNullTypeRef<IntrospectionNamedTypeRef<IntrospectionOutputType>>
 
-interface PrimaryKey {
+export interface PrimaryKey {
   idKeyName: string
   primaryKeyType: IntrospectionNamedTypeRef<IntrospectionOutputType>
   field: IntrospectionField

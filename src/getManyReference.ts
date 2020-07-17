@@ -1,16 +1,18 @@
+import { IntrospectionType } from 'graphql'
 import { createFilter } from './filters'
-import { ManyReferenceParams, NATURAL_SORTING, QueryMap, Response } from './types'
-import { createGetListQuery, createSortingKey } from './utils'
+import { ManyReferenceParams, NATURAL_SORTING, QueryMap, Response, TypeMap } from './types'
+import { createGetListQuery, createSortingKey, PrimaryKey } from './utils'
 
 export const getManyReference = (
   params: ManyReferenceParams,
-  type: object,
+  type: IntrospectionType,
   manyLowerResourceName: string,
   resourceTypename: string,
   pluralizedResourceTypeName: string,
-  typeMap: object,
+  typeMap: TypeMap,
   queryMap: QueryMap,
-  allowedTypes: string[]
+  allowedTypes: string[],
+  primaryKey: PrimaryKey
 ) => {
   const { filter, sort, target, id, pagination } = params
   const orderBy = sort ? [createSortingKey(sort.field, sort.order)] : [NATURAL_SORTING]
@@ -23,7 +25,8 @@ export const getManyReference = (
       pluralizedResourceTypeName,
       typeMap,
       queryMap,
-      allowedTypes
+      allowedTypes,
+      primaryKey
     ),
     variables: {
       offset: (pagination.page - 1) * pagination.perPage,

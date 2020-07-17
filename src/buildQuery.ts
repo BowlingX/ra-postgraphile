@@ -145,7 +145,8 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
         pluralizedResourceTypeName,
         typeMap,
         queryMap,
-        allowedComplexTypes
+        allowedComplexTypes,
+        primaryKey
       )
     case GET_LIST: {
       const { filter, sort } = params as ManyReferenceParams
