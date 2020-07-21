@@ -1,0 +1,183 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Primary keys should handle non-id field primary keys with \`nodeId\` 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "__typename": "FavoriteBook",
+      "id": "WyJmYXZvcml0ZV9ib29rcyIsIjMyMjExMjMiXQ==",
+      "isbn": "3221123",
+      "nodeId": "WyJmYXZvcml0ZV9ib29rcyIsIjMyMjExMjMiXQ==",
+    },
+    Object {
+      "__typename": "FavoriteBook",
+      "id": "WyJmYXZvcml0ZV9ib29rcyIsIjUxMjMxIl0=",
+      "isbn": "51231",
+      "nodeId": "WyJmYXZvcml0ZV9ib29rcyIsIjUxMjMxIl0=",
+    },
+  ],
+  "total": 2,
+}
+`;
+
+exports[`Query Types should getList Error resilience should allow lowercase fields to sort on 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "__typename": "Book",
+      "authorId": 1,
+      "id": 1,
+      "isbn": "12345",
+      "name": "Moby Dick or The Whale",
+      "nodeId": "WyJib29rcyIsMV0=",
+    },
+    Object {
+      "__typename": "Book",
+      "authorId": 2,
+      "id": 2,
+      "isbn": "51231",
+      "name": "The China Study",
+      "nodeId": "WyJib29rcyIsMl0=",
+    },
+    Object {
+      "__typename": "Book",
+      "authorId": 3,
+      "id": 3,
+      "isbn": "3221123",
+      "name": "How Not to Die",
+      "nodeId": "WyJib29rcyIsM10=",
+    },
+  ],
+  "total": 3,
+}
+`;
+
+exports[`Query Types should getList Error resilience should work on uppercase resource names 1`] = `
+Object {
+  "data": Object {
+    "__typename": "Book",
+    "authorId": 1,
+    "id": 1,
+    "isbn": "12345",
+    "name": "Moby Dick or The Whale",
+    "nodeId": "WyJib29rcyIsMV0=",
+  },
+}
+`;
+
+exports[`Query Types should getList View should work with views 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "__typename": "AllFavoriteBook",
+      "id": 2,
+      "name": "The China Study",
+    },
+    Object {
+      "__typename": "AllFavoriteBook",
+      "id": 3,
+      "name": "How Not to Die",
+    },
+  ],
+  "total": 2,
+}
+`;
+
+exports[`Query Types should getList should filter books 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "__typename": "Book",
+      "authorId": 1,
+      "id": 1,
+      "isbn": "12345",
+      "name": "Moby Dick or The Whale",
+      "nodeId": "WyJib29rcyIsMV0=",
+    },
+  ],
+  "total": 1,
+}
+`;
+
+exports[`Query Types should getList should list all books with sorting 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "__typename": "Book",
+      "authorId": 1,
+      "id": 1,
+      "isbn": "12345",
+      "name": "Moby Dick or The Whale",
+      "nodeId": "WyJib29rcyIsMV0=",
+    },
+    Object {
+      "__typename": "Book",
+      "authorId": 2,
+      "id": 2,
+      "isbn": "51231",
+      "name": "The China Study",
+      "nodeId": "WyJib29rcyIsMl0=",
+    },
+    Object {
+      "__typename": "Book",
+      "authorId": 3,
+      "id": 3,
+      "isbn": "3221123",
+      "name": "How Not to Die",
+      "nodeId": "WyJib29rcyIsM10=",
+    },
+  ],
+  "total": 3,
+}
+`;
+
+exports[`Query Types should getList should list all books without filter and sorting 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "__typename": "Book",
+      "authorId": 1,
+      "id": 1,
+      "isbn": "12345",
+      "name": "Moby Dick or The Whale",
+      "nodeId": "WyJib29rcyIsMV0=",
+    },
+    Object {
+      "__typename": "Book",
+      "authorId": 2,
+      "id": 2,
+      "isbn": "51231",
+      "name": "The China Study",
+      "nodeId": "WyJib29rcyIsMl0=",
+    },
+    Object {
+      "__typename": "Book",
+      "authorId": 3,
+      "id": 3,
+      "isbn": "3221123",
+      "name": "How Not to Die",
+      "nodeId": "WyJib29rcyIsM10=",
+    },
+  ],
+  "total": 3,
+}
+`;
+
+exports[`Query Types should getOne should find a book 1`] = `
+Object {
+  "data": Object {
+    "__typename": "Book",
+    "authorId": 1,
+    "id": 1,
+    "isbn": "12345",
+    "name": "Moby Dick or The Whale",
+    "nodeId": "WyJib29rcyIsMV0=",
+  },
+}
+`;
+
+exports[`Query Types should getOne should return null if book was not found 1`] = `
+Object {
+  "data": null,
+}
+`;

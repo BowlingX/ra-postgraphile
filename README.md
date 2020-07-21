@@ -6,6 +6,8 @@
 
 Postgraphile client for react-admin
 
+Typescript API: https://bowlingx.github.io/ra-postgraphile/
+
 ## Install
 
     $ yarn add ra-postgraphile / npm install ra-postgraphile --save
@@ -18,7 +20,7 @@ The `ra-postgraphile` data provider accepts 2 arguments:
 
 - `config` - _optional_ configuration
 
-    pgDataProvider(client, [config])
+  pgDataProvider(client, [config])
 
 The following examples shows the basic usage:
 
@@ -44,18 +46,8 @@ const App = () => {
   return (
     dataProvider && (
       <Admin dataProvider={dataProvider} layout={Layout}>
-        <Resource
-          name="Posts"
-          list={PostList}
-          edit={PostEdit}
-          create={PostCreate}
-        />
-        <Resource
-          name="Comments"
-          list={CommentList}
-          create={CommentCreate}
-          edit={CommentEdit}
-        />
+        <Resource name="Posts" list={PostList} edit={PostEdit} create={PostCreate} />
+        <Resource name="Comments" list={CommentList} create={CommentCreate} edit={CommentEdit} />
       </Admin>
     )
   )
@@ -74,6 +66,8 @@ const PgSimplifyInflectorPlugin = require('@graphile-contrib/pg-simplify-inflect
 const PgConnectionFilterPlugin = require('postgraphile-plugin-connection-filter')
 ```
 
+Please see `src\__test_utils\QueryRunner.ts` for a minimal example setup.
+
 ## Configuration
 
 You can pass an _optional_ configuration object:
@@ -81,8 +75,8 @@ You can pass an _optional_ configuration object:
 ```js
 const pgDataProviderConfig = {
   queryValueToInputValueMap: {
-    GeographyPoint: value => value.geojson
-  }
+    GeographyPoint: (value) => value.geojson,
+  },
 }
 ```
 
@@ -93,13 +87,19 @@ const pgDataProviderConfig = {
   The Map is also used to specify what complex types should be completely queried.
   By default only `scalar` and `scalar[]` fields are fetched.
 
+## Primary Keys
+
+`react-admin` requires each resource to be identified by a unique `id`. If your resource does not have an `id` field,
+we will use the generated `nodeId` from your `primaryKey`.
 
 ## Contribution
 
 - Contribution is very welcome :).
 - Please create your commit messages based on [semantic-release syntax](https://github.com/semantic-release/semantic-release#how-does-it-work) and semantics (e.g. properly mark Breaking changes etc.).
-This let's us automatically create release notes and releases to NPM.
+  This let's us automatically create release notes and releases to NPM.
 
 ## Development
 
 We are using `yarn` for package management.
+
+To run all tests you have to start the dependent postgres container with `docker-compose up -d`.
