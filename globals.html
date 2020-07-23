@@ -108,6 +108,7 @@
 								<li class="tsd-kind-variable"><a href="globals.html#natural_sorting" class="tsd-kind-icon">NATURAL_<wbr>SORTING</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#node_id_field_name" class="tsd-kind-icon">NODE_<wbr>ID_<wbr>FIELD_<wbr>NAME</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#querymap" class="tsd-kind-icon">query<wbr>Map</a></li>
+								<li class="tsd-kind-variable"><a href="globals.html#reservedkeys" class="tsd-kind-icon">reserved<wbr>Keys</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#typemap" class="tsd-kind-icon">type<wbr>Map</a></li>
 							</ul>
 						</section>
@@ -125,6 +126,7 @@
 								<li class="tsd-kind-function"><a href="globals.html#escapeidtype" class="tsd-kind-icon">escape<wbr>IdType</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#factory" class="tsd-kind-icon">factory</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#fieldisobjectorlistofobject" class="tsd-kind-icon">field<wbr>IsObject<wbr>OrList<wbr>OfObject</a></li>
+								<li class="tsd-kind-function"><a href="globals.html#findrightprimarykey" class="tsd-kind-icon">find<wbr>Right<wbr>Primary<wbr>Key</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#findtypebyname" class="tsd-kind-icon">find<wbr>Type<wbr>ByName</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#getmanyreference" class="tsd-kind-icon">get<wbr>Many<wbr>Reference</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#hasothersthennaturalordering" class="tsd-kind-icon">has<wbr>Others<wbr>Then<wbr>Natural<wbr>Ordering</a></li>
@@ -156,7 +158,7 @@
 					<div class="tsd-signature tsd-kind-icon">Introspection<wbr>Result<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>queries<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>resources<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>schema<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IntrospectionSchema</span><span class="tsd-signature-symbol">; </span>types<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IntrospectionType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/buildQuery.ts#L41">src/buildQuery.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/buildQuery.ts#L41">src/buildQuery.ts:41</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -183,7 +185,7 @@
 					<div class="tsd-signature tsd-kind-icon">Possible<wbr>List<wbr>Cases<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IntrospectionListTypeRef</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IntrospectionObjectType</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">IntrospectionEnumType</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L83">src/utils.ts:83</a></li>
+							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L83">src/utils.ts:83</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -193,7 +195,7 @@
 					<div class="tsd-signature tsd-kind-icon">Possible<wbr>List<wbr>Non<wbr>Null<wbr>Cases<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IntrospectionListTypeRef</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IntrospectionNonNullTypeRef</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IntrospectionObjectType</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">IntrospectionEnumType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L84">src/utils.ts:84</a></li>
+							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L84">src/utils.ts:84</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -203,7 +205,7 @@
 					<div class="tsd-signature tsd-kind-icon">Required<wbr>Primary<wbr>Key<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IntrospectionNamedTypeRef</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IntrospectionOutputType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">IntrospectionNonNullTypeRef</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IntrospectionNamedTypeRef</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IntrospectionOutputType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L256">src/utils.ts:256</a></li>
+							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L272">src/utils.ts:272</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -213,7 +215,7 @@
 					<div class="tsd-signature tsd-kind-icon">Sort<wbr>Direction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"ASC"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"DESC"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/types.ts#L23">src/types.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/types.ts#L23">src/types.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -226,7 +228,7 @@
 					<div class="tsd-signature tsd-kind-icon">ARGUMENT_<wbr>FILTER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"filter"</span><span class="tsd-signature-symbol"> = &quot;filter&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L19">src/utils.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L19">src/utils.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -236,7 +238,7 @@
 					<div class="tsd-signature tsd-kind-icon">ARGUMENT_<wbr>ORDER_<wbr>BY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"orderBy"</span><span class="tsd-signature-symbol"> = &quot;orderBy&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L20">src/utils.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L20">src/utils.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -246,7 +248,7 @@
 					<div class="tsd-signature tsd-kind-icon">CAMEL_<wbr>REGEX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> = /(.+?)([A-Z])/gm</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/types.ts#L43">src/types.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/types.ts#L43">src/types.ts:43</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -256,7 +258,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>ID_<wbr>FIELD_<wbr>NAME<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"id"</span><span class="tsd-signature-symbol"> = &quot;id&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L21">src/utils.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L21">src/utils.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -266,7 +268,7 @@
 					<div class="tsd-signature tsd-kind-icon">NATURAL_<wbr>SORTING<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"NATURAL"</span><span class="tsd-signature-symbol"> = &quot;NATURAL&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/types.ts#L44">src/types.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/types.ts#L44">src/types.ts:44</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -276,7 +278,7 @@
 					<div class="tsd-signature tsd-kind-icon">NODE_<wbr>ID_<wbr>FIELD_<wbr>NAME<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"nodeId"</span><span class="tsd-signature-symbol"> = &quot;nodeId&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L22">src/utils.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L22">src/utils.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -286,7 +288,17 @@
 					<div class="tsd-signature tsd-kind-icon">query<wbr>Map<span class="tsd-signature-symbol">:</span> <a href="interfaces/querymap.html" class="tsd-signature-type">QueryMap</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/buildQuery.ts#L36">src/buildQuery.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/buildQuery.ts#L36">src/buildQuery.ts:36</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable">
+					<a name="reservedkeys" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> reserved<wbr>Keys</h3>
+					<div class="tsd-signature tsd-kind-icon">reserved<wbr>Keys<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [&#x27;first&#x27;, &#x27;last&#x27;, &#x27;offset&#x27;, &#x27;before&#x27;, &#x27;after&#x27;, &#x27;filter&#x27;]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L287">src/utils.ts:287</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -296,7 +308,7 @@
 					<div class="tsd-signature tsd-kind-icon">type<wbr>Map<span class="tsd-signature-symbol">:</span> <a href="interfaces/typemap.html" class="tsd-signature-type">TypeMap</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/buildQuery.ts#L35">src/buildQuery.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/buildQuery.ts#L35">src/buildQuery.ts:35</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -313,7 +325,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/buildQuery.ts#L48">src/buildQuery.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/buildQuery.ts#L48">src/buildQuery.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -339,7 +351,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L24">src/utils.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L24">src/utils.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -362,7 +374,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/filters.ts#L44">src/filters.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/filters.ts#L44">src/filters.ts:44</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -388,7 +400,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L175">src/utils.ts:175</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L174">src/utils.ts:174</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -432,7 +444,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L136">src/utils.ts:136</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L136">src/utils.ts:136</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -473,7 +485,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L88">src/utils.ts:88</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L88">src/utils.ts:88</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -505,7 +517,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L34">src/utils.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L34">src/utils.ts:34</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -531,7 +543,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L233">src/utils.ts:233</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L249">src/utils.ts:249</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -556,7 +568,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L38">src/utils.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L38">src/utils.ts:38</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -579,7 +591,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/factory.ts#L8">src/factory.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/factory.ts#L8">src/factory.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -614,7 +626,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L29">src/utils.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L29">src/utils.ts:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -628,6 +640,29 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="findrightprimarykey" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> find<wbr>Right<wbr>Primary<wbr>Key</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">find<wbr>Right<wbr>Primary<wbr>Key<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IntrospectionInputValue</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IntrospectionInputValue</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L288">src/utils.ts:288</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>args: <span class="tsd-signature-type">IntrospectionInputValue</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">IntrospectionInputValue</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="findtypebyname" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> find<wbr>Type<wbr>ByName</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -637,7 +672,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L253">src/utils.ts:253</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L269">src/utils.ts:269</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -663,7 +698,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/getManyReference.ts#L7">src/getManyReference.ts:7</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/getManyReference.ts#L7">src/getManyReference.ts:7</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -710,7 +745,7 @@
 										<li class="tsd-description">
 											<aside class="tsd-sources">
 												<ul>
-													<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/getManyReference.ts#L40">src/getManyReference.ts:40</a></li>
+													<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/getManyReference.ts#L40">src/getManyReference.ts:40</a></li>
 												</ul>
 											</aside>
 											<h4 class="tsd-parameters-title">Parameters</h4>
@@ -756,13 +791,13 @@
 					<a name="hasothersthennaturalordering" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> has<wbr>Others<wbr>Then<wbr>Natural<wbr>Ordering</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">has<wbr>Others<wbr>Then<wbr>Natural<wbr>Ordering<span class="tsd-signature-symbol">(</span>typeMap<span class="tsd-signature-symbol">: </span><a href="interfaces/typemap.html" class="tsd-signature-type">TypeMap</a>, orderingArgument<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IntrospectionInputValue</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">has<wbr>Others<wbr>Then<wbr>Natural<wbr>Ordering<span class="tsd-signature-symbol">(</span>typeMap<span class="tsd-signature-symbol">: </span><a href="interfaces/typemap.html" class="tsd-signature-type">TypeMap</a>, orderingArgument<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IntrospectionListTypeRef</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IntrospectionNonNullTypeRef</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IntrospectionNamedTypeRef</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">""</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L164">src/utils.ts:164</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L164">src/utils.ts:164</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -771,10 +806,10 @@
 									<h5>typeMap: <a href="interfaces/typemap.html" class="tsd-signature-type">TypeMap</a></h5>
 								</li>
 								<li>
-									<h5>orderingArgument: <span class="tsd-signature-type">IntrospectionInputValue</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<h5>orderingArgument: <span class="tsd-signature-type">IntrospectionListTypeRef</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IntrospectionNonNullTypeRef</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IntrospectionNamedTypeRef</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">""</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -788,7 +823,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L25">src/utils.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L25">src/utils.ts:25</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -811,7 +846,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/__test_utils/QueryRunner.ts#L13">src/__test_utils/QueryRunner.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/__test_utils/QueryRunner.ts#L13">src/__test_utils/QueryRunner.ts:13</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -845,7 +880,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/filters.ts#L1">src/filters.ts:1</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/filters.ts#L1">src/filters.ts:1</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -874,7 +909,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L41">src/utils.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L41">src/utils.ts:41</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -906,7 +941,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/buildQuery.ts#L38">src/buildQuery.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/buildQuery.ts#L38">src/buildQuery.ts:38</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -932,7 +967,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L271">src/utils.ts:271</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L293">src/utils.ts:293</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -964,7 +999,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L72">src/utils.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L72">src/utils.ts:72</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -993,7 +1028,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L27">src/utils.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L27">src/utils.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1016,7 +1051,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/utils.ts#L242">src/utils.ts:242</a></li>
+									<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/utils.ts#L258">src/utils.ts:258</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -1046,7 +1081,7 @@
 					<div class="tsd-signature tsd-kind-icon">default<wbr>Query<wbr>Value<wbr>ToInput<wbr>Value<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/defaultValueInputTypeMapping.ts#L1">src/defaultValueInputTypeMapping.ts:1</a></li>
+							<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/defaultValueInputTypeMapping.ts#L1">src/defaultValueInputTypeMapping.ts:1</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-object-literal">
@@ -1059,7 +1094,7 @@
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/defaultValueInputTypeMapping.ts#L4">src/defaultValueInputTypeMapping.ts:4</a></li>
+										<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/defaultValueInputTypeMapping.ts#L4">src/defaultValueInputTypeMapping.ts:4</a></li>
 									</ul>
 								</aside>
 								<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1100,7 +1135,7 @@
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/defaultValueInputTypeMapping.ts#L3">src/defaultValueInputTypeMapping.ts:3</a></li>
+										<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/defaultValueInputTypeMapping.ts#L3">src/defaultValueInputTypeMapping.ts:3</a></li>
 									</ul>
 								</aside>
 								<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1141,7 +1176,7 @@
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/c734c38/src/defaultValueInputTypeMapping.ts#L2">src/defaultValueInputTypeMapping.ts:2</a></li>
+										<li>Defined in <a href="https://github.com/BowlingX/ra-postgraphile/blob/fd18987/src/defaultValueInputTypeMapping.ts#L2">src/defaultValueInputTypeMapping.ts:2</a></li>
 									</ul>
 								</aside>
 								<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1255,6 +1290,9 @@
 						<a href="globals.html#querymap" class="tsd-kind-icon">query<wbr>Map</a>
 					</li>
 					<li class=" tsd-kind-variable">
+						<a href="globals.html#reservedkeys" class="tsd-kind-icon">reserved<wbr>Keys</a>
+					</li>
+					<li class=" tsd-kind-variable">
 						<a href="globals.html#typemap" class="tsd-kind-icon">type<wbr>Map</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -1289,6 +1327,9 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#fieldisobjectorlistofobject" class="tsd-kind-icon">field<wbr>IsObject<wbr>OrList<wbr>OfObject</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#findrightprimarykey" class="tsd-kind-icon">find<wbr>Right<wbr>Primary<wbr>Key</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#findtypebyname" class="tsd-kind-icon">find<wbr>Type<wbr>ByName</a>
