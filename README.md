@@ -87,7 +87,18 @@ const pgDataProviderConfig = {
   The Map is also used to specify what complex types should be completely queried.
   By default only `scalar` and `scalar[]` fields are fetched.
 
-## Primary Keys
+## Supported concepts
+
+`ra-postgraphile` works on graphql types that are exposed by `postgraphile`.
+We currently support the following constructs to query data:
+
+- `Tables`
+- `Views`
+- `Functions` with custom return type.
+
+Please see [here](migrations/committed/000001.sql) for an example schema.
+
+### Primary Keys
 
 `react-admin` requires each resource to be identified by a unique `id`. If your resource does not have an `id` field,
 we will use the generated `nodeId` from your `primaryKey`.
