@@ -163,13 +163,12 @@ export const createGetManyQuery = (
 
 const hasOthersThenNaturalOrdering = (
   typeMap: TypeMap,
-  orderingArgument: IntrospectionInputValue | undefined
+  orderingArgument:
+    | IntrospectionListTypeRef<IntrospectionNonNullTypeRef<IntrospectionNamedTypeRef>>
+    | undefined
 ) => {
-  const listType = orderingArgument?.type as IntrospectionListTypeRef<
-    IntrospectionNonNullTypeRef<IntrospectionNamedTypeRef>
-  >
-  const orderTypeName = listType?.ofType?.ofType?.name
-  return (typeMap[orderTypeName] as IntrospectionEnumType)?.enumValues?.length > 1
+  const orderTypeName = orderingArgument?.ofType?.ofType?.name
+  return orderTypeName && (typeMap[orderTypeName] as IntrospectionEnumType)?.enumValues?.length > 1
 }
 
 export const createGetListQuery = (
@@ -186,7 +185,9 @@ export const createGetListQuery = (
   const ordering = queryHasArgument(manyLowerResourceName, ARGUMENT_ORDER_BY, queryMap)
   const hasOrdering = hasOthersThenNaturalOrdering(
     typeMap,
-    ordering?.type as IntrospectionInputValue | undefined
+    ordering?.type as
+      | IntrospectionListTypeRef<IntrospectionNonNullTypeRef<IntrospectionNamedTypeRef>>
+      | undefined
   )
 
   if (!hasFilters && !hasOrdering) {
@@ -200,13 +201,28 @@ export const createGetListQuery = (
     }`
   }
 
-  if (!hasFilters) {
+  if (!hasFilters && hasOrdering) {
     return gql`query ${manyLowerResourceName} (
     $offset: Int!,
     $first: Int!,
     $orderBy: [${pluralizedResourceTypeName}OrderBy!]
     ) {
       ${manyLowerResourceName}(first: $first, offset: $offset, orderBy: $orderBy) {
+      nodes {
+        ${createQueryFromType(resourceTypename, typeMap, allowedTypes, primaryKey)}
+      }
+      totalCount
+    }
+    }`
+  }
+
+  if (hasFilters && !hasOrdering) {
+    return gql`query ${manyLowerResourceName} (
+    $offset: Int!,
+    $first: Int!,
+    $filter: ${resourceTypename}Filter,
+    ) {
+      ${manyLowerResourceName}(first: $first, offset: $offset, filter: $filter) {
       nodes {
         ${createQueryFromType(resourceTypename, typeMap, allowedTypes, primaryKey)}
       }
@@ -237,6 +253,90 @@ export const createTypeMap = (types: ReadonlyArray<IntrospectionType>) => {
       [next.name]: next,
     }
   }, {})
+}
+
+export const stripUndefined = <T extends Record<string, any>>(variables: T) =>
+  Object.keys(variables).reduce((next, key) => {
+    if (variables[key] === undefined) {
+      return next
+    }
+    return {
+      ...next,
+      [key]: variables[key],
+    }
+  }, {})
+
+const findTypeByName = (type: IntrospectionType, name: string | undefined) =>
+  (type as IntrospectionObjectType).fields?.find((thisType: any) => thisType.name === name)
+
+type RequiredPrimaryKeyType =
+  | IntrospectionNamedTypeRef<IntrospectionOutputType>
+  | IntrospectionNonNullTypeRef<IntrospectionNamedTypeRef<IntrospectionOutputType>>
+
+export interface PrimaryKey {
+  idKeyName: string
+  primaryKeyType: IntrospectionNamedTypeRef<IntrospectionOutputType>
+  field: IntrospectionField
+  primaryKeyName: string
+  getResourceName: string
+  deleteResourceName: string
+  updateResourceName: string
+  shouldRewrite: boolean
+}
+
+export const reservedKeys = ['first', 'last', 'offset', 'before', 'after', 'filter']
+const findRightPrimaryKey = (
+  args: IntrospectionInputValue[] | undefined
+): IntrospectionInputValue[] =>
+  (args && args.filter((key) => reservedKeys.indexOf(key.name) === -1)) || []
+
+export const preparePrimaryKey = (
+  query: Query | undefined,
+  resourceName: string,
+  resourceTypename: string,
+  type: IntrospectionType
+): PrimaryKey => {
+  // in case we don't have any arguments we fall back to the default `id` type.
+  const primaryKeyName = findRightPrimaryKey(query?.args)[0]?.name || DEFAULT_ID_FIELD_NAME
+  const field = findTypeByName(type, primaryKeyName)
+  let primaryKeyType: RequiredPrimaryKeyType | undefined = field?.type as
+    | RequiredPrimaryKeyType
+    | undefined
+
+  if (!primaryKeyType || !primaryKeyName) {
+    throw new Error(`Could not determine primaryKey on type ${resourceTypename} field.
+      Please add a primary key to ${resourceTypename}`)
+  }
+
+  if (((primaryKeyType as any) as IntrospectionNonNullTypeRef)?.ofType) {
+    primaryKeyType = (primaryKeyType as IntrospectionNonNullTypeRef<
+      IntrospectionNamedTypeRef<IntrospectionOutputType>
+    >)?.ofType
+  }
+
+  if (primaryKeyName !== DEFAULT_ID_FIELD_NAME) {
+    return {
+      field: field as IntrospectionField,
+      idKeyName: NODE_ID_FIELD_NAME,
+      primaryKeyName,
+      primaryKeyType: primaryKeyType as IntrospectionNamedTypeRef<IntrospectionOutputType>,
+      getResourceName: `${resourceName}ByNodeId`,
+      deleteResourceName: `delete${resourceTypename}ByNodeId`,
+      updateResourceName: `update${resourceTypename}ByNodeId`,
+      shouldRewrite: true,
+    }
+  }
+
+  return {
+    field: field as IntrospectionField,
+    idKeyName: DEFAULT_ID_FIELD_NAME,
+    primaryKeyName,
+    primaryKeyType: primaryKeyType as IntrospectionNamedTypeRef<IntrospectionOutputType>,
+    getResourceName: `${resourceName}`,
+    deleteResourceName: `delete${resourceTypename}`,
+    updateResourceName: `update${resourceTypename}`,
+    shouldRewrite: false,
+  }
 }
 
 export const stripUndefined = <T extends Record<string, any>>(variables: T) =>

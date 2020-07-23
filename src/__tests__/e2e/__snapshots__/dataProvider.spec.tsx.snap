@@ -65,6 +65,19 @@ Object {
 }
 `;
 
+exports[`Query Types should getList Function should be able to fetch a resource by a \`setof\` function and custom type 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "__typename": "MyCustomBook",
+      "id": 2,
+      "name": "The China Study",
+    },
+  ],
+  "total": 1,
+}
+`;
+
 exports[`Query Types should getList View should work with views 1`] = `
 Object {
   "data": Array [
