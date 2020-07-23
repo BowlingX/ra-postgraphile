@@ -142,8 +142,19 @@
 						By default only <code>scalar</code> and <code>scalar[]</code> fields are fetched.</p>
 					</li>
 				</ul>
+				<a href="#supported-concepts" id="supported-concepts" style="color: inherit; text-decoration: none;">
+					<h2>Supported concepts</h2>
+				</a>
+				<p><code>ra-postgraphile</code> works on graphql types that are exposed by <code>postgraphile</code>.
+				We currently support the following constructs to query data:</p>
+				<ul>
+					<li><code>Tables</code></li>
+					<li><code>Views</code></li>
+					<li><code>Functions</code> with custom return type.</li>
+				</ul>
+				<p>Please see <a href="migrations/committed/000001.sql">here</a> for an example schema.</p>
 				<a href="#primary-keys" id="primary-keys" style="color: inherit; text-decoration: none;">
-					<h2>Primary Keys</h2>
+					<h3>Primary Keys</h3>
 				</a>
 				<p><code>react-admin</code> requires each resource to be identified by a unique <code>id</code>. If your resource does not have an <code>id</code> field,
 				we will use the generated <code>nodeId</code> from your <code>primaryKey</code>.</p>
