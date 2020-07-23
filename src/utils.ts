@@ -163,13 +163,12 @@ export const createGetManyQuery = (
 
 const hasOthersThenNaturalOrdering = (
   typeMap: TypeMap,
-  orderingArgument: IntrospectionInputValue | undefined
+  orderingArgument:
+    | IntrospectionListTypeRef<IntrospectionNonNullTypeRef<IntrospectionNamedTypeRef>>
+    | undefined
 ) => {
-  const listType = orderingArgument?.type as IntrospectionListTypeRef<
-    IntrospectionNonNullTypeRef<IntrospectionNamedTypeRef>
-  >
-  const orderTypeName = listType?.ofType?.ofType?.name
-  return (typeMap[orderTypeName] as IntrospectionEnumType)?.enumValues?.length > 1
+  const orderTypeName = orderingArgument?.ofType?.ofType?.name
+  return orderTypeName && (typeMap[orderTypeName] as IntrospectionEnumType)?.enumValues?.length > 1
 }
 
 export const createGetListQuery = (
@@ -186,7 +185,9 @@ export const createGetListQuery = (
   const ordering = queryHasArgument(manyLowerResourceName, ARGUMENT_ORDER_BY, queryMap)
   const hasOrdering = hasOthersThenNaturalOrdering(
     typeMap,
-    ordering?.type as IntrospectionInputValue | undefined
+    ordering?.type as
+      | IntrospectionListTypeRef<IntrospectionNonNullTypeRef<IntrospectionNamedTypeRef>>
+      | undefined
   )
 
   if (!hasFilters && !hasOrdering) {
@@ -200,13 +201,28 @@ export const createGetListQuery = (
     }`
   }
 
-  if (!hasFilters) {
+  if (!hasFilters && hasOrdering) {
     return gql`query ${manyLowerResourceName} (
     $offset: Int!,
     $first: Int!,
     $orderBy: [${pluralizedResourceTypeName}OrderBy!]
     ) {
       ${manyLowerResourceName}(first: $first, offset: $offset, orderBy: $orderBy) {
+      nodes {
+        ${createQueryFromType(resourceTypename, typeMap, allowedTypes, primaryKey)}
+      }
+      totalCount
+    }
+    }`
+  }
+
+  if (hasFilters && !hasOrdering) {
+    return gql`query ${manyLowerResourceName} (
+    $offset: Int!,
+    $first: Int!,
+    $filter: ${resourceTypename}Filter,
+    ) {
+      ${manyLowerResourceName}(first: $first, offset: $offset, filter: $filter) {
       nodes {
         ${createQueryFromType(resourceTypename, typeMap, allowedTypes, primaryKey)}
       }
@@ -268,6 +284,12 @@ export interface PrimaryKey {
   shouldRewrite: boolean
 }
 
+export const reservedKeys = ['first', 'last', 'offset', 'before', 'after', 'filter']
+const findRightPrimaryKey = (
+  args: IntrospectionInputValue[] | undefined
+): IntrospectionInputValue[] =>
+  (args && args.filter((key) => reservedKeys.indexOf(key.name) === -1)) || []
+
 export const preparePrimaryKey = (
   query: Query | undefined,
   resourceName: string,
@@ -275,7 +297,7 @@ export const preparePrimaryKey = (
   type: IntrospectionType
 ): PrimaryKey => {
   // in case we don't have any arguments we fall back to the default `id` type.
-  const primaryKeyName = query?.args[0]?.name || DEFAULT_ID_FIELD_NAME
+  const primaryKeyName = findRightPrimaryKey(query?.args)[0]?.name || DEFAULT_ID_FIELD_NAME
   const field = findTypeByName(type, primaryKeyName)
   let primaryKeyType: RequiredPrimaryKeyType | undefined = field?.type as
     | RequiredPrimaryKeyType

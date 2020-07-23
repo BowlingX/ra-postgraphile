@@ -1,5 +1,5 @@
 --! Previous: -
---! Hash: sha1:d1c3a191312604b716eaddcba366870223ce5c9a
+--! Hash: sha1:9bfa55b3d4453c66c724fe660d0da7400424ff0a
 
 -- test migrations
 
@@ -80,3 +80,14 @@ CREATE VIEW app_public.all_favorite_books as (
    );
 
 GRANT SELECT on app_public.all_favorite_books TO :DATABASE_VISITOR;
+
+-- A Function as Query
+
+CREATE TYPE app_public.my_custom_book AS ( id int, name VARCHAR );
+
+CREATE FUNCTION app_public.my_custom_books () returns setof app_public.my_custom_book AS
+$$
+    SELECT id, name from app_public.books where author_id IN (2)
+$$ language sql STABLE;
+
+GRANT ALL ON FUNCTION app_public.my_custom_books () TO :DATABASE_VISITOR;

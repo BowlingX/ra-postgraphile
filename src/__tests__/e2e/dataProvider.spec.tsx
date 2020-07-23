@@ -92,6 +92,18 @@ describe('Query Types', () => {
       })
     })
 
+    describe('Function', () => {
+      it('should be able to fetch a resource by a `setof` function and custom type', async () => {
+        expect(
+          await dataProvider.getList('MyCustomBook', {
+            sort: { field: 'id', order: 'ASC' },
+            filter: {},
+            pagination: { perPage: 10, page: 1 },
+          })
+        ).toMatchSnapshot()
+      })
+    })
+
     describe('Error resilience', () => {
       it('should fail on unknown resources', () => {
         expect(() => dataProvider.getOne('unknownResource', { id: 1 })).toThrow(
