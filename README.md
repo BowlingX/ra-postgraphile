@@ -72,20 +72,33 @@ Please see `src\__test_utils\QueryRunner.ts` for a minimal example setup.
 
 You can pass an _optional_ configuration object:
 
-```js
-const pgDataProviderConfig = {
-  queryValueToInputValueMap: {
-    GeographyPoint: (value) => value.geojson,
+```ts
+const pgDataProviderConfig: ProviderOptions = {
+  typeMap: {
+    YourType: {
+      expand: true,
+    },
   },
 }
 ```
 
-- `queryValueToInputValueMap` - allows you to specify a mapping of how a type should map if it's taken as an Input.
-  Please see ([src/defaultValueInputTypeMapping](src/defaultValueInputTypeMapping.ts)) for a default mapping.
+- `typeMap` - allows you to configure complex types and how they should be handled.
+  Please see ([src/defaultTypeConfig.ts](src/defaultTypeConfig.ts)) for a default mapping.
   Your config will be merged with the defaults.
 
-  The Map is also used to specify what complex types should be completely queried.
-  By default only `scalar` and `scalar[]` fields are fetched.
+### TypeConfig options
+
+The following can be configured
+
+| Option                     | Signature                                                                                    | Description                                                                                                                                           |
+| -------------------------- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `queryValueToInputValue`   | `(value: any ) => any`                                                                       | Allows you to map the value if used as an input type for mutations. Some values might not convert 1:1 if returned from the query and used as an input |
+| `excludeFields`            | `string[] or ((fieldName: string ) => boolean)`                                              | Allows you to exclude certain fields, either by passing an array (e.g. `['field1', 'field2']`) or a function                                          |
+| `includeFields`            | `string[] or ((fieldName: string ) => boolean)`                                              | Same as exclude fields, but if provided will let you dynamically decide if a field is queried.                                                        |
+| `computeArgumentsForField` | `(fieldName: string, args: ReadonlyArray<IntrospectionInputValue> ) => Record< string, any>` | Allows you to dynamically provide arguments for a given field                                                                                         |
+| `expand`                   | `boolean`                                                                                    | If true, will expand this type and query subfields                                                                                                    |
+
+Please see ([src/types.ts](src/types.ts)) for detailed types of `TypeConfig`.
 
 ## Supported concepts
 
@@ -101,7 +114,7 @@ Please see [here](migrations/committed/000001.sql) for an example schema.
 ### Primary Keys
 
 `react-admin` requires each resource to be identified by a unique `id`. If your resource does not have an `id` field,
-we will use the generated `nodeId` from your `primaryKey`.
+we will use the generated `nodeId` from your `primaryKey`. All types processed by `ra-postgraphile` require a primary key.
 
 ## Contribution
 

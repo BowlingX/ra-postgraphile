@@ -12,7 +12,19 @@ import {
   DELETE_MANY,
   DELETE,
 } from 'ra-core'
-import type { GetManyReferenceParams, UpdateManyParams } from 'ra-core'
+import type {
+  GetManyReferenceParams,
+  UpdateManyParams,
+  CreateParams,
+  DeleteManyParams,
+  GetListParams,
+  GetManyParams,
+  GetOneParams,
+  DeleteParams,
+  ListParams,
+  UpdateParams,
+  Identifier,
+} from 'ra-core'
 import { createFilter } from './filters'
 import { getManyReference } from './getManyReference'
 import {
@@ -45,10 +57,22 @@ type IntrospectionResult = {
   resources: Array<any>
 }
 
+type AllParams =
+  | GetOneParams
+  | GetManyReferenceParams
+  | UpdateManyParams
+  | CreateParams
+  | DeleteManyParams
+  | GetListParams
+  | GetManyParams
+  | DeleteParams
+  | ListParams
+  | UpdateParams
+
 export const buildQuery = (introspectionResults: IntrospectionResult, factory: Factory) => (
   raFetchType: string,
   resName: string,
-  params: any
+  params: AllParams
 ) => {
   if (!raFetchType || !resName) {
     return { data: null }
@@ -59,7 +83,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
 
   const options = factory.options
   // By default we don't query for any complex types on the object, just scalars and scalars[]
-  const allowedComplexTypes = Object.keys(options.queryValueToInputValueMap)
+  const typeMapConfiguration = options.typeMap
 
   const resourceTypename = capitalize(resourceName)
   const { types, queries } = introspectionResults
@@ -97,12 +121,12 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
     case GET_ONE:
       return {
         query: gql`query ${getResourceName}($id: ${primaryKeyType.name}!) {
-            ${getResourceName}(${idKeyName}: $id) {
-            ${createQueryFromType(resourceTypename, typeMap, allowedComplexTypes, primaryKey)}
+          ${getResourceName}(${idKeyName}: $id) {
+          ${createQueryFromType(resourceTypename, typeMap, typeMapConfiguration, primaryKey)}
         }
         }`,
         variables: {
-          id: mapType(primaryKeyType, params.id),
+          id: mapType(primaryKeyType, (params as GetOneParams).id),
         },
         parseResponse: (response: Response) => {
           return { data: response.data[singleLowerResourceName] }
@@ -116,12 +140,12 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
           resourceTypename,
           typeMap,
           queryMap,
-          allowedComplexTypes,
+          typeMapConfiguration,
           primaryKey
         ),
         variables: {
-          ids: params.ids
-            .filter((v?: string) => typeof v !== 'undefined')
+          ids: (params as GetManyParams).ids
+            .filter((v?: Identifier) => typeof v !== 'undefined')
             .map((id: string | number) => mapType(primaryKeyType, id)),
         },
         parseResponse: (response: Response) => {
@@ -131,18 +155,18 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
       }
     case GET_MANY_REFERENCE:
       return getManyReference(
-        params,
+        params as GetManyReferenceParams,
         type,
         manyLowerResourceName,
         resourceTypename,
         pluralizedResourceTypeName,
         typeMap,
         queryMap,
-        allowedComplexTypes,
+        typeMapConfiguration,
         primaryKey
       )
     case GET_LIST: {
-      const { filter, sort } = params as GetManyReferenceParams
+      const { filter, sort, pagination } = params as GetManyReferenceParams
       const orderBy =
         sort && sort.field && sort.order
           ? [createSortingKey(sort.field, sort.order as SortDirection)]
@@ -156,12 +180,12 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
           pluralizedResourceTypeName,
           typeMap,
           queryMap,
-          allowedComplexTypes,
+          typeMapConfiguration,
           primaryKey
         ),
         variables: stripUndefined({
-          offset: (params.pagination.page - 1) * params.pagination.perPage,
-          first: params.pagination.perPage,
+          offset: (pagination.page - 1) * pagination.perPage,
+          first: pagination.perPage,
           filter: filters,
           orderBy,
         }),
@@ -175,10 +199,10 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
       const variables = {
         input: {
           [singleLowerResourceName]: mapInputToVariables(
-            params.data,
+            (params as CreateParams).data,
             typeMap[`${resourceTypename}Input`],
             type,
-            options.queryValueToInputValueMap
+            typeMapConfiguration
           ),
         },
       }
@@ -189,7 +213,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
           input: $input
         ) {
           ${singleLowerResourceName} {
-          ${createQueryFromType(resourceTypename, typeMap, allowedComplexTypes, primaryKey)}
+          ${createQueryFromType(resourceTypename, typeMap, typeMapConfiguration, primaryKey)}
         }
         }
         }`,
@@ -202,14 +226,14 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
       return {
         variables: {
           input: {
-            id: mapType(primaryKeyType, params.id),
+            id: mapType(primaryKeyType, (params as DeleteParams).id),
           },
         },
         query: gql`
           mutation ${deleteResourceName}($input: Delete${resourceTypename}Input!) {
             ${deleteResourceName}(input: $input) {
             ${singleLowerResourceName} {
-            ${createQueryFromType(resourceTypename, typeMap, allowedComplexTypes, primaryKey)}
+            ${createQueryFromType(resourceTypename, typeMap, typeMapConfiguration, primaryKey)}
           }
           }
           }
@@ -234,36 +258,37 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
           {}
         ),
         query: gql`
-            mutation deleteMany${resourceTypename}(
-            ${thisIds
-              .map((id) => `$arg${escapeIdType(id)}: Delete${resourceTypename}Input!`)
-              .join(',')}
-            ) {
-            ${params.ids.map(
-              (id: string) => `
+          mutation deleteMany${resourceTypename}(
+          ${thisIds
+            .map((id) => `$arg${escapeIdType(id)}: Delete${resourceTypename}Input!`)
+            .join(',')}
+          ) {
+            ${thisIds.map(
+              (id: Identifier) => `
                 k${escapeIdType(id)}:${deleteResourceName}(input: $arg${escapeIdType(id)}) {
                   clientMutationId
                 }\n
                 `
             )}
-            }
+          }
         `,
         parseResponse: (response: Response) => ({
-          data: params.ids.map((id: string) =>
+          data: thisIds.map((id: Identifier) =>
             mapType(primaryKeyType, response.data[`k${escapeIdType(id)}`].clientMutationId)
           ),
         }),
       }
     }
     case UPDATE: {
+      const updateParams = params as UpdateParams
       const updateVariables = {
         input: {
-          id: mapType(primaryKeyType, params.id),
+          id: mapType(primaryKeyType, updateParams.id),
           patch: mapInputToVariables(
-            params.data,
+            updateParams.data,
             typeMap[`${resourceTypename}Patch`],
             type,
-            options.queryValueToInputValueMap
+            typeMapConfiguration
           ),
         },
       }
@@ -273,7 +298,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
           mutation ${updateResourceName}($input: Update${resourceTypename}Input!) {
             ${updateResourceName}(input: $input) {
             ${singleLowerResourceName} {
-            ${createQueryFromType(resourceTypename, typeMap, allowedComplexTypes, primaryKey)}
+            ${createQueryFromType(resourceTypename, typeMap, typeMapConfiguration, primaryKey)}
           }
           }
           }
@@ -292,7 +317,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
           data,
           typeMap[`${resourceTypename}Patch`],
           type,
-          options.queryValueToInputValueMap
+          typeMapConfiguration
         ),
       }))
       return {

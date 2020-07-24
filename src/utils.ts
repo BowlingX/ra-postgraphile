@@ -14,7 +14,15 @@ import {
   IntrospectionNamedTypeRef,
   IntrospectionOutputType,
 } from 'graphql/utilities/introspectionQuery'
-import { CAMEL_REGEX, Query, QueryInputTypeMapper, QueryMap, SortDirection, TypeMap } from './types'
+import {
+  CAMEL_REGEX,
+  Query,
+  QueryMap,
+  SortDirection,
+  TypeConfig,
+  TypeConfigMap,
+  TypeMap,
+} from './types'
 
 const ARGUMENT_FILTER = 'filter'
 const ARGUMENT_ORDER_BY = 'orderBy'
@@ -37,12 +45,31 @@ export const createSortingKey = (field: string, sort: SortDirection) => {
 
 export const escapeIdType = (id: any) => String(id).replace(/-/gi, '_')
 
+export const formatArgumentsAsQuery = (obj: any, level = 0) => {
+  if (typeof obj === 'number') {
+    return obj
+  }
+  if (Array.isArray(obj)) {
+    const props: string = obj
+      .map((value) => `${formatArgumentsAsQuery(value, level + 1)}`)
+      .join(',')
+    return `[${props}]`
+  }
+  if (typeof obj === 'object') {
+    const props: string = Object.keys(obj)
+      .map((key) => `${key}:${formatArgumentsAsQuery(obj[key], level + 1)}`)
+      .join(',')
+    return level === 0 ? props : `{${props}}`
+  }
+  return JSON.stringify(obj)
+}
+
 // Maps any input object to variables of a mutation. Passes certain types through a mapping process.
 export const mapInputToVariables = (
   input: any,
   inputType: any,
   type: any,
-  typeMapper: QueryInputTypeMapper
+  typeConfiguration: TypeConfigMap
 ) => {
   const inputFields = inputType.inputFields
   return inputFields.reduce((current: any, next: any) => {
@@ -54,11 +81,11 @@ export const mapInputToVariables = (
       (field: any) => fieldIsObjectOrListOfObject(field) && field.name === key
     )
     if (fieldType) {
-      const valueMapperForType = typeMapper[fieldType.type.ofType.name]
-      if (valueMapperForType) {
+      const valueMapperForType = typeConfiguration[fieldType.type.ofType.name]
+      if (valueMapperForType && valueMapperForType.queryValueToInputValue) {
         return {
           ...current,
-          [key]: valueMapperForType(input[key]),
+          [key]: valueMapperForType.queryValueToInputValue(input[key]),
         }
       }
     }
@@ -85,40 +112,91 @@ type PossibleListNonNullCases = IntrospectionListTypeRef<
   IntrospectionNonNullTypeRef<IntrospectionObjectType | IntrospectionEnumType>
 >
 
+const shouldQueryField = (fieldName: string, typeConfig: TypeConfig) => {
+  if (typeConfig.includeFields) {
+    if (typeof typeConfig.includeFields === 'function') {
+      return typeConfig.includeFields(fieldName)
+    }
+    return typeConfig.includeFields.indexOf(fieldName) > -1
+  }
+  if (typeConfig.excludeFields) {
+    if (typeof typeConfig.excludeFields === 'function') {
+      return !typeConfig.excludeFields(fieldName)
+    }
+    return typeConfig.excludeFields.indexOf(fieldName) === -1
+  }
+  return true
+}
+
+const applyArgumentsForField = (
+  fieldName: string,
+  typeConfig: TypeConfig,
+  args: ReadonlyArray<IntrospectionInputValue>
+) => {
+  if (typeConfig.computeArgumentsForField) {
+    const result = typeConfig.computeArgumentsForField(fieldName, args)
+    if (!result) {
+      return fieldName
+    }
+    return `${fieldName}(${formatArgumentsAsQuery(result)})`
+  }
+  return fieldName
+}
+
 export const createQueryFromType = (
   type: string,
   typeMap: TypeMap,
-  allowedTypes: string[],
+  typeConfiguration: TypeConfigMap,
   primaryKey: PrimaryKey
 ): string => {
   return (typeMap[type] as IntrospectionObjectType).fields.reduce(
     (current: any, field: IntrospectionField) => {
       // we have to skip fields that require arguments
-      if ((field as IntrospectionField).args && (field as IntrospectionField).args.length > 0) {
-        // TODO: allow arguments to be set
+      const hasArguments =
+        (field as IntrospectionField).args && (field as IntrospectionField).args.length > 0
+
+      const thisTypeConfig = typeConfiguration[type]
+
+      // We skip fields that have arguments without type config
+      if (hasArguments && !thisTypeConfig) {
         return current
       }
 
       // We alias the primaryKey to `nodeId` to keep react-admin happy
-      const fieldName =
+      let fieldName =
         primaryKey.field === field && primaryKey.shouldRewrite
           ? `${DEFAULT_ID_FIELD_NAME}: ${primaryKey.idKeyName} ${primaryKey.primaryKeyName}`
           : field.name
 
+      if (thisTypeConfig) {
+        if (!shouldQueryField(fieldName, thisTypeConfig)) {
+          return current
+        }
+        if (hasArguments) {
+          fieldName = applyArgumentsForField(
+            fieldName,
+            thisTypeConfig,
+            (field as IntrospectionField).args
+          )
+        }
+      }
+
       if (fieldIsObjectOrListOfObject(field)) {
-        const thisType: IntrospectionObjectType | IntrospectionEnumType =
-          (field.type as PossibleListCases).ofType &&
-          ((field.type as PossibleListCases).ofType.name
-            ? (field.type as PossibleListCases).ofType
-            : // We also handle cases where we have e.g. [TYPE!] (List of type)
-              (field.type as PossibleListNonNullCases).ofType.ofType)
-        const typeName = thisType && thisType.name
-        if (typeName && allowedTypes.indexOf(typeName) !== -1) {
+        const thisType:
+          | IntrospectionObjectType
+          | IntrospectionEnumType = (field.type as PossibleListCases).ofType?.name
+          ? (field.type as PossibleListCases).ofType
+          : // We also handle cases where we have e.g. [TYPE!] (List of type)
+            (field.type as PossibleListNonNullCases).ofType?.ofType
+        const typeName = (thisType && thisType.name) || (field.type as IntrospectionObjectType).name
+        const shouldExpand =
+          typeName && typeConfiguration[typeName] && typeConfiguration[typeName].expand
+        if (typeName && shouldExpand) {
           return `
         ${current} ${field.name} {${createQueryFromType(
             typeName,
             typeMap,
-            allowedTypes,
+            typeConfiguration,
             primaryKey
           )} }
         `
@@ -139,14 +217,14 @@ export const createGetManyQuery = (
   resourceTypename: string,
   typeMap: any,
   queryMap: QueryMap,
-  allowedTypes: string[],
+  typeConfiguration: TypeConfigMap,
   primaryKey: PrimaryKey
 ) => {
   if (!queryHasArgument(manyLowerResourceName, ARGUMENT_FILTER, queryMap)) {
     return gql`query ${manyLowerResourceName}{
       ${manyLowerResourceName} {
       nodes {
-        ${createQueryFromType(resourceTypename, typeMap, allowedTypes, primaryKey)}
+        ${createQueryFromType(resourceTypename, typeMap, typeConfiguration, primaryKey)}
       }
     }
     }`
@@ -155,7 +233,7 @@ export const createGetManyQuery = (
     query ${manyLowerResourceName}($ids: [${primaryKey.primaryKeyType.name}!]) {
       ${manyLowerResourceName}(filter: { ${primaryKey.primaryKeyName}: { in: $ids }}) {
       nodes {
-        ${createQueryFromType(resourceTypename, typeMap, allowedTypes, primaryKey)}
+        ${createQueryFromType(resourceTypename, typeMap, typeConfiguration, primaryKey)}
       }
     }
     }`
@@ -178,7 +256,7 @@ export const createGetListQuery = (
   pluralizedResourceTypeName: string,
   typeMap: TypeMap,
   queryMap: QueryMap,
-  allowedTypes: string[],
+  typeConfiguration: TypeConfigMap,
   primaryKey: PrimaryKey
 ) => {
   const hasFilters = queryHasArgument(manyLowerResourceName, ARGUMENT_FILTER, queryMap)
@@ -194,7 +272,7 @@ export const createGetListQuery = (
     return gql`query ${manyLowerResourceName}($offset: Int!, $first: Int!) {
       ${manyLowerResourceName}(first: $first, offset: $offset) {
       nodes {
-        ${createQueryFromType(resourceTypename, typeMap, allowedTypes, primaryKey)}
+        ${createQueryFromType(resourceTypename, typeMap, typeConfiguration, primaryKey)}
       }
       totalCount
     }
@@ -209,7 +287,7 @@ export const createGetListQuery = (
     ) {
       ${manyLowerResourceName}(first: $first, offset: $offset, orderBy: $orderBy) {
       nodes {
-        ${createQueryFromType(resourceTypename, typeMap, allowedTypes, primaryKey)}
+        ${createQueryFromType(resourceTypename, typeMap, typeConfiguration, primaryKey)}
       }
       totalCount
     }
@@ -224,7 +302,7 @@ export const createGetListQuery = (
     ) {
       ${manyLowerResourceName}(first: $first, offset: $offset, filter: $filter) {
       nodes {
-        ${createQueryFromType(resourceTypename, typeMap, allowedTypes, primaryKey)}
+        ${createQueryFromType(resourceTypename, typeMap, typeConfiguration, primaryKey)}
       }
       totalCount
     }
@@ -239,7 +317,7 @@ export const createGetListQuery = (
   ) {
     ${manyLowerResourceName}(first: $first, offset: $offset, filter: $filter, orderBy: $orderBy) {
     nodes {
-      ${createQueryFromType(resourceTypename, typeMap, allowedTypes, primaryKey)}
+      ${createQueryFromType(resourceTypename, typeMap, typeConfiguration, primaryKey)}
     }
     totalCount
   }
@@ -284,12 +362,6 @@ export interface PrimaryKey {
   shouldRewrite: boolean
 }
 
-export const reservedKeys = ['first', 'last', 'offset', 'before', 'after', 'filter']
-const findRightPrimaryKey = (
-  args: IntrospectionInputValue[] | undefined
-): IntrospectionInputValue[] =>
-  (args && args.filter((key) => reservedKeys.indexOf(key.name) === -1)) || []
-
 export const preparePrimaryKey = (
   query: Query | undefined,
   resourceName: string,
@@ -297,7 +369,7 @@ export const preparePrimaryKey = (
   type: IntrospectionType
 ): PrimaryKey => {
   // in case we don't have any arguments we fall back to the default `id` type.
-  const primaryKeyName = findRightPrimaryKey(query?.args)[0]?.name || DEFAULT_ID_FIELD_NAME
+  const primaryKeyName = query?.args[0]?.name || DEFAULT_ID_FIELD_NAME
   const field = findTypeByName(type, primaryKeyName)
   let primaryKeyType: RequiredPrimaryKeyType | undefined = field?.type as
     | RequiredPrimaryKeyType

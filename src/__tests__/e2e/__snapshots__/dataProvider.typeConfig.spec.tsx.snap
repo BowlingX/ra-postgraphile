@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Extended type configuration Book should query \`greet\` with arguments 1`] = `
+Array [
+  Object {
+    "__typename": "Book",
+    "authorId": 1,
+    "complexType": Object {
+      "__typename": "ComplexType",
+      "deeper": Object {
+        "__typename": "AnotherType",
+        "field": "DeepField",
+      },
+      "name": "Name",
+    },
+    "greet": "Hello :), Moby Dick or The Whale",
+    "id": 1,
+    "name": "Moby Dick or The Whale",
+    "nodeId": "WyJib29rcyIsMV0=",
+  },
+  Object {
+    "__typename": "Book",
+    "authorId": 3,
+    "complexType": Object {
+      "__typename": "ComplexType",
+      "deeper": Object {
+        "__typename": "AnotherType",
+        "field": "DeepField",
+      },
+      "name": "Name",
+    },
+    "greet": "Hello :), How Not to Die",
+    "id": 3,
+    "name": "How Not to Die",
+    "nodeId": "WyJib29rcyIsM10=",
+  },
+  Object {
+    "__typename": "Book",
+    "authorId": 2,
+    "complexType": Object {
+      "__typename": "ComplexType",
+      "deeper": Object {
+        "__typename": "AnotherType",
+        "field": "DeepField",
+      },
+      "name": "Name",
+    },
+    "greet": "Hello :), The China Study",
+    "id": 2,
+    "name": "The China Study",
+    "nodeId": "WyJib29rcyIsMl0=",
+  },
+]
+`;

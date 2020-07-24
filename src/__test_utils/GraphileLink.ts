@@ -31,9 +31,9 @@ export default class GraphileLink extends ApolloLink {
       ;(async () => {
         try {
           const op = getOperationAST(operation.query, operation.operationName)
+          /* Only do queries (not subscriptions)  */
           if (!op || op.operation !== 'query') {
             if (!observer.closed) {
-              /* Only do queries (not subscriptions) on server side */
               observer.complete()
             }
             return

@@ -1,7 +1,7 @@
 import { IntrospectionType } from 'graphql'
 import type { GetManyReferenceParams } from 'ra-core'
 import { createFilter } from './filters'
-import { NATURAL_SORTING, QueryMap, Response, SortDirection, TypeMap } from './types'
+import { NATURAL_SORTING, QueryMap, Response, SortDirection, TypeConfigMap, TypeMap } from './types'
 import { createGetListQuery, createSortingKey, PrimaryKey } from './utils'
 
 export const getManyReference = (
@@ -12,7 +12,7 @@ export const getManyReference = (
   pluralizedResourceTypeName: string,
   typeMap: TypeMap,
   queryMap: QueryMap,
-  allowedTypes: string[],
+  typeConfiguration: TypeConfigMap,
   primaryKey: PrimaryKey
 ) => {
   const { filter, sort, target, id, pagination } = params
@@ -28,7 +28,7 @@ export const getManyReference = (
       pluralizedResourceTypeName,
       typeMap,
       queryMap,
-      allowedTypes,
+      typeConfiguration,
       primaryKey
     ),
     variables: {
