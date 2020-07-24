@@ -1,4 +1,11 @@
-export const mapFilterType = (type: any, value: any, key: string) => {
+import type {
+  IntrospectionNamedTypeRef,
+  IntrospectionObjectType,
+  IntrospectionNonNullTypeRef,
+  IntrospectionType,
+} from 'graphql'
+
+export const mapFilterType = (type: IntrospectionNamedTypeRef, value: any, key: string) => {
   const normalizedName = type.name.toLowerCase()
   switch (normalizedName) {
     case 'boolean':
@@ -41,13 +48,13 @@ export const mapFilterType = (type: any, value: any, key: string) => {
   }
 }
 
-export const createFilter = (fields: any, type: any) => {
+export const createFilter = (fields: any, type: IntrospectionType) => {
   const empty = [] as object[]
   const filters = Object.keys(fields).reduce((next, key) => {
-    const maybeType = type.fields.find((f: any) => f.name === key)
+    const maybeType = (type as IntrospectionObjectType).fields.find((f: any) => f.name === key)
     if (maybeType) {
-      const thisType = maybeType.type.ofType || maybeType.type
-      return [...next, mapFilterType(thisType, fields[key], key)]
+      const thisType = (maybeType.type as IntrospectionNonNullTypeRef).ofType || maybeType.type
+      return [...next, mapFilterType(thisType as IntrospectionNamedTypeRef, fields[key], key)]
     }
     return next
   }, empty)
