@@ -67,7 +67,7 @@ const PgSimplifyInflectorPlugin = require('@graphile-contrib/pg-simplify-inflect
 const PgConnectionFilterPlugin = require('postgraphile-plugin-connection-filter')
 ```
 
-Please see `src\__test_utils\QueryRunner.ts` for a minimal example setup.
+Please see [src/__test_utils/QueryRunner.ts](src/__test_utils/QueryRunner.ts) for a minimal example setup.
 
 ## Configuration
 
