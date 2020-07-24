@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Extended type configuration Book should query \`greet\` with arguments 1`] = `
+exports[`Extended type configuration Book should query \`greet\` with arguments and complex types should be expanded 1`] = `
 Array [
   Object {
     "__typename": "Book",
