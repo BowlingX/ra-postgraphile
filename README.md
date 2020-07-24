@@ -90,7 +90,7 @@ const pgDataProviderConfig: ProviderOptions = {
 
 The following can be configured
 
-| Option                     | Signature                                                                                    | Description                                                                                                                                           |
+| Option                     | Signature                                                                                            | Description                                                                                                                                           |
 | -------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `queryValueToInputValue`   | `(value: any ) => any`                                                                               | Allows you to map the value if used as an input type for mutations. Some values might not convert 1:1 if returned from the query and used as an input |
 | `excludeFields`            | `string[] or ((fieldName: string ) => boolean)`                                                      | Allows you to exclude certain fields, either by passing an array (e.g. `['field1', 'field2']`) or a function                                          |
