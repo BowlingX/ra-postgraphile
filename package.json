@@ -111,7 +111,8 @@
     ]
   },
   "resolutions": {
-    "query-string": "6.13.1"
+    "query-string": "6.13.1",
+    "dot-prop": "5.2.0"
   },
   "dependencies": {
     "graphql": "^14.7.0",
