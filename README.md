@@ -87,6 +87,20 @@ const pgDataProviderConfig: ProviderOptions = {
   Please see ([src/defaultTypeConfig.ts](src/defaultTypeConfig.ts)) for a default mapping.
   Your config will be merged with the defaults.
 
+### TypeConfig options
+
+The following can be configured
+
+| Option                     | Signature                                                                                            | Description                                                                                                                                           |
+| -------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `queryValueToInputValue`   | `(value: any ) => any`                                                                               | Allows you to map the value if used as an input type for mutations. Some values might not convert 1:1 if returned from the query and used as an input |
+| `excludeFields`            | `string[] or ((fieldName: string ) => boolean)`                                                      | Allows you to exclude certain fields, either by passing an array (e.g. `['field1', 'field2']`) or a function                                          |
+| `includeFields`            | `string[] or ((fieldName: string ) => boolean)`                                                      | Same as exclude fields, but if provided will let you dynamically decide if a field is queried.                                                        |
+| `computeArgumentsForField` | `(fieldName: string, args: ReadonlyArray<IntrospectionInputValue> ) => Record< string, any> or null` | Allows you to dynamically provide arguments for a given field                                                                                         |
+| `expand`                   | `boolean`                                                                                            | If true, will expand this type and query subfields                                                                                                    |
+
+Please see ([src/types.ts](src/types.ts)) for detailed types of `TypeConfig`.
+
 ### Apollo client
 
 Both version `2.x` and `3.x` of apollo client are supported (because you provide the instance).
@@ -103,20 +117,6 @@ const dataProvider = await createDataProvider(client as any /** other options **
 ```
 
 Version 5 will depend on `@apollo/client` `3.x`.
-
-### TypeConfig options
-
-The following can be configured
-
-| Option                     | Signature                                                                                            | Description                                                                                                                                           |
-| -------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `queryValueToInputValue`   | `(value: any ) => any`                                                                               | Allows you to map the value if used as an input type for mutations. Some values might not convert 1:1 if returned from the query and used as an input |
-| `excludeFields`            | `string[] or ((fieldName: string ) => boolean)`                                                      | Allows you to exclude certain fields, either by passing an array (e.g. `['field1', 'field2']`) or a function                                          |
-| `includeFields`            | `string[] or ((fieldName: string ) => boolean)`                                                      | Same as exclude fields, but if provided will let you dynamically decide if a field is queried.                                                        |
-| `computeArgumentsForField` | `(fieldName: string, args: ReadonlyArray<IntrospectionInputValue> ) => Record< string, any> or null` | Allows you to dynamically provide arguments for a given field                                                                                         |
-| `expand`                   | `boolean`                                                                                            | If true, will expand this type and query subfields                                                                                                    |
-
-Please see ([src/types.ts](src/types.ts)) for detailed types of `TypeConfig`.
 
 ## Supported concepts
 
