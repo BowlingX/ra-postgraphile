@@ -67,7 +67,7 @@ const PgSimplifyInflectorPlugin = require('@graphile-contrib/pg-simplify-inflect
 const PgConnectionFilterPlugin = require('postgraphile-plugin-connection-filter')
 ```
 
-Please see [src/__test_utils/QueryRunner.ts](src/__test_utils/QueryRunner.ts) for a minimal example setup.
+Please see [src/\_\_test_utils/QueryRunner.ts](src/__test_utils/QueryRunner.ts) for a minimal example setup.
 
 ## Configuration
 
@@ -86,6 +86,23 @@ const pgDataProviderConfig: ProviderOptions = {
 - `typeMap` - allows you to configure complex types and how they should be handled.
   Please see ([src/defaultTypeConfig.ts](src/defaultTypeConfig.ts)) for a default mapping.
   Your config will be merged with the defaults.
+
+### Apollo client
+
+Both version `2.x` and `3.x` of apollo client are supported (because you provide the instance).
+The current `4.x` version of this library depends on `apollo-client` `2.x`, so
+you will get typescript errors. To resolve that you have to cast to `any`:
+
+**Example**:
+
+```ts
+// ..
+// fix for apollo-client v3
+const dataProvider = await createDataProvider(client as any /** other options **/)
+// ..
+```
+
+Version 5 will depend on `@apollo/client` `3.x`.
 
 ### TypeConfig options
 
