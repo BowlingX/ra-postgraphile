@@ -142,18 +142,6 @@
 						Please see (<a href="src/defaultTypeConfig.ts">src/defaultTypeConfig.ts</a>) for a default mapping.
 					Your config will be merged with the defaults.</li>
 				</ul>
-				<a href="#apollo-client" id="apollo-client" style="color: inherit; text-decoration: none;">
-					<h3>Apollo client</h3>
-				</a>
-				<p>Both version <code>2.x</code> and <code>3.x</code> of apollo client are supported (because you provide the instance).
-					The current <code>4.x</code> version of this library depends on <code>apollo-client</code> <code>2.x</code>, so
-				you will get typescript errors. To resolve that you have to cast to <code>any</code>:</p>
-				<p><strong>Example</strong>:</p>
-				<pre><code class="language-ts"><span class="hljs-comment">// ..</span>
-<span class="hljs-comment">// fix for apollo-client v3</span>
-<span class="hljs-keyword">const</span> dataProvider = <span class="hljs-keyword">await</span> createDataProvider(client <span class="hljs-keyword">as</span> <span class="hljs-built_in">any</span> <span class="hljs-comment">/** other options **/</span>)
-<span class="hljs-comment">// ..</span></code></pre>
-				<p>Version 5 will depend on <code>@apollo/client</code> <code>3.x</code>.</p>
 				<a href="#typeconfig-options" id="typeconfig-options" style="color: inherit; text-decoration: none;">
 					<h3>TypeConfig options</h3>
 				</a>
@@ -193,6 +181,18 @@
 						</tr>
 				</tbody></table>
 				<p>Please see (<a href="src/types.ts">src/types.ts</a>) for detailed types of <code>TypeConfig</code>.</p>
+				<a href="#apollo-client" id="apollo-client" style="color: inherit; text-decoration: none;">
+					<h3>Apollo client</h3>
+				</a>
+				<p>Both version <code>2.x</code> and <code>3.x</code> of apollo client are supported (because you provide the instance).
+					The current <code>4.x</code> version of this library depends on <code>apollo-client</code> <code>2.x</code>, so
+				you will get typescript errors. To resolve that you have to cast to <code>any</code>:</p>
+				<p><strong>Example</strong>:</p>
+				<pre><code class="language-ts"><span class="hljs-comment">// ..</span>
+<span class="hljs-comment">// fix for apollo-client v3</span>
+<span class="hljs-keyword">const</span> dataProvider = <span class="hljs-keyword">await</span> createDataProvider(client <span class="hljs-keyword">as</span> <span class="hljs-built_in">any</span> <span class="hljs-comment">/** other options **/</span>)
+<span class="hljs-comment">// ..</span></code></pre>
+				<p>Version 5 will depend on <code>@apollo/client</code> <code>3.x</code>.</p>
 				<a href="#supported-concepts" id="supported-concepts" style="color: inherit; text-decoration: none;">
 					<h2>Supported concepts</h2>
 				</a>
@@ -275,6 +275,9 @@
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#allparams" class="tsd-kind-icon">All<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#fetchquerytype" class="tsd-kind-icon">Fetch<wbr>Query<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#introspectionresult" class="tsd-kind-icon">Introspection<wbr>Result</a>
