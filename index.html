@@ -161,12 +161,12 @@
 						</tr>
 						<tr>
 							<td><code>excludeFields</code></td>
-							<td><code>string[] or ((fieldName: string ) =&gt; boolean)</code></td>
+							<td><code>string[] or ((fieldName: string, queryFetchType: FetchQueryType) =&gt; boolean)</code></td>
 							<td>Allows you to exclude certain fields, either by passing an array (e.g. <code>[&#39;field1&#39;, &#39;field2&#39;]</code>) or a function</td>
 						</tr>
 						<tr>
 							<td><code>includeFields</code></td>
-							<td><code>string[] or ((fieldName: string ) =&gt; boolean)</code></td>
+							<td><code>string[] or ((fieldName: string, queryFetchType: FetchQueryType) =&gt; boolean)</code></td>
 							<td>Same as exclude fields, but if provided will let you dynamically decide if a field is queried.</td>
 						</tr>
 						<tr>
