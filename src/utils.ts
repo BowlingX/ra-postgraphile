@@ -22,6 +22,7 @@ import {
   TypeConfig,
   TypeConfigMap,
   TypeMap,
+  FetchQueryType,
 } from './types'
 
 const ARGUMENT_FILTER = 'filter'
@@ -112,16 +113,20 @@ type PossibleListNonNullCases = IntrospectionListTypeRef<
   IntrospectionNonNullTypeRef<IntrospectionObjectType | IntrospectionEnumType>
 >
 
-const shouldQueryField = (fieldName: string, typeConfig: TypeConfig) => {
+const shouldQueryField = (
+  fieldName: string,
+  typeConfig: TypeConfig,
+  fetchQueryType: FetchQueryType
+) => {
   if (typeConfig.includeFields) {
     if (typeof typeConfig.includeFields === 'function') {
-      return typeConfig.includeFields(fieldName)
+      return typeConfig.includeFields(fieldName, fetchQueryType)
     }
     return typeConfig.includeFields.indexOf(fieldName) > -1
   }
   if (typeConfig.excludeFields) {
     if (typeof typeConfig.excludeFields === 'function') {
-      return !typeConfig.excludeFields(fieldName)
+      return !typeConfig.excludeFields(fieldName, fetchQueryType)
     }
     return typeConfig.excludeFields.indexOf(fieldName) === -1
   }
@@ -147,7 +152,8 @@ export const createQueryFromType = (
   type: string,
   typeMap: TypeMap,
   typeConfiguration: TypeConfigMap,
-  primaryKey: PrimaryKey
+  primaryKey: PrimaryKey,
+  fetchQueryType: FetchQueryType
 ): string => {
   return (typeMap[type] as IntrospectionObjectType).fields.reduce(
     (current: any, field: IntrospectionField) => {
@@ -169,7 +175,7 @@ export const createQueryFromType = (
           : field.name
 
       if (thisTypeConfig) {
-        if (!shouldQueryField(fieldName, thisTypeConfig)) {
+        if (!shouldQueryField(fieldName, thisTypeConfig, fetchQueryType)) {
           return current
         }
         if (hasArguments) {
@@ -197,7 +203,8 @@ export const createQueryFromType = (
             typeName,
             typeMap,
             typeConfiguration,
-            primaryKey
+            primaryKey,
+            fetchQueryType
           )} }
         `
         }
@@ -218,13 +225,20 @@ export const createGetManyQuery = (
   typeMap: any,
   queryMap: QueryMap,
   typeConfiguration: TypeConfigMap,
-  primaryKey: PrimaryKey
+  primaryKey: PrimaryKey,
+  fetchQueryType: FetchQueryType
 ) => {
   if (!queryHasArgument(manyLowerResourceName, ARGUMENT_FILTER, queryMap)) {
     return gql`query ${manyLowerResourceName}{
       ${manyLowerResourceName} {
       nodes {
-        ${createQueryFromType(resourceTypename, typeMap, typeConfiguration, primaryKey)}
+        ${createQueryFromType(
+          resourceTypename,
+          typeMap,
+          typeConfiguration,
+          primaryKey,
+          fetchQueryType
+        )}
       }
     }
     }`
@@ -233,7 +247,13 @@ export const createGetManyQuery = (
     query ${manyLowerResourceName}($ids: [${primaryKey.primaryKeyType.name}!]) {
       ${manyLowerResourceName}(filter: { ${primaryKey.primaryKeyName}: { in: $ids }}) {
       nodes {
-        ${createQueryFromType(resourceTypename, typeMap, typeConfiguration, primaryKey)}
+        ${createQueryFromType(
+          resourceTypename,
+          typeMap,
+          typeConfiguration,
+          primaryKey,
+          fetchQueryType
+        )}
       }
     }
     }`
@@ -257,7 +277,8 @@ export const createGetListQuery = (
   typeMap: TypeMap,
   queryMap: QueryMap,
   typeConfiguration: TypeConfigMap,
-  primaryKey: PrimaryKey
+  primaryKey: PrimaryKey,
+  fetchQueryType: FetchQueryType
 ) => {
   const hasFilters = queryHasArgument(manyLowerResourceName, ARGUMENT_FILTER, queryMap)
   const ordering = queryHasArgument(manyLowerResourceName, ARGUMENT_ORDER_BY, queryMap)
@@ -272,7 +293,13 @@ export const createGetListQuery = (
     return gql`query ${manyLowerResourceName}($offset: Int!, $first: Int!) {
       ${manyLowerResourceName}(first: $first, offset: $offset) {
       nodes {
-        ${createQueryFromType(resourceTypename, typeMap, typeConfiguration, primaryKey)}
+        ${createQueryFromType(
+          resourceTypename,
+          typeMap,
+          typeConfiguration,
+          primaryKey,
+          fetchQueryType
+        )}
       }
       totalCount
     }
@@ -287,7 +314,13 @@ export const createGetListQuery = (
     ) {
       ${manyLowerResourceName}(first: $first, offset: $offset, orderBy: $orderBy) {
       nodes {
-        ${createQueryFromType(resourceTypename, typeMap, typeConfiguration, primaryKey)}
+        ${createQueryFromType(
+          resourceTypename,
+          typeMap,
+          typeConfiguration,
+          primaryKey,
+          fetchQueryType
+        )}
       }
       totalCount
     }
@@ -302,7 +335,13 @@ export const createGetListQuery = (
     ) {
       ${manyLowerResourceName}(first: $first, offset: $offset, filter: $filter) {
       nodes {
-        ${createQueryFromType(resourceTypename, typeMap, typeConfiguration, primaryKey)}
+        ${createQueryFromType(
+          resourceTypename,
+          typeMap,
+          typeConfiguration,
+          primaryKey,
+          fetchQueryType
+        )}
       }
       totalCount
     }
@@ -317,7 +356,13 @@ export const createGetListQuery = (
   ) {
     ${manyLowerResourceName}(first: $first, offset: $offset, filter: $filter, orderBy: $orderBy) {
     nodes {
-      ${createQueryFromType(resourceTypename, typeMap, typeConfiguration, primaryKey)}
+      ${createQueryFromType(
+        resourceTypename,
+        typeMap,
+        typeConfiguration,
+        primaryKey,
+        fetchQueryType
+      )}
     }
     totalCount
   }

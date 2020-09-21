@@ -1,9 +1,9 @@
 import expect from 'expect'
 import { ApolloClient } from 'apollo-client'
-import { convertLegacyDataProvider, DataProvider } from 'ra-core'
+import { convertLegacyDataProvider, DataProvider, GET_LIST } from 'ra-core'
 import { makeQueryRunner } from '../../__test_utils/QueryRunner'
 import { factory } from '../../factory'
-import { ProviderOptions } from '../../types'
+import { FetchQueryType, ProviderOptions } from '../../types'
 
 let client: ApolloClient<any>
 let cleanup: () => void
@@ -12,7 +12,9 @@ let dataProvider: DataProvider
 const extendedConfiguration: ProviderOptions = {
   typeMap: {
     Book: {
-      excludeFields: ['isbn'],
+      excludeFields: (fieldName: string, queryType: FetchQueryType) => {
+        return fieldName === 'isbn' && queryType === GET_LIST
+      },
       computeArgumentsForField: (fieldName) => {
         if (fieldName === 'greet') {
           return { greeting: 'Hello :)' }

@@ -1,4 +1,14 @@
 import type { IntrospectionInputValue, IntrospectionSchema, IntrospectionType } from 'graphql'
+import { CREATE, DELETE, GET_LIST, GET_MANY, GET_MANY_REFERENCE, GET_ONE, UPDATE } from 'ra-core'
+
+export type FetchQueryType =
+  | typeof GET_MANY
+  | typeof GET_LIST
+  | typeof GET_ONE
+  | typeof GET_MANY_REFERENCE
+  | typeof DELETE
+  | typeof UPDATE
+  | typeof CREATE
 
 export interface TypeConfig {
   /**
@@ -14,13 +24,13 @@ export interface TypeConfig {
    * If you have expansive computations that you don't want to expose to `react-admin`, this is the
    * perfect place to do so :).
    */
-  excludeFields?: string[] | ((fieldName: string) => boolean)
+  excludeFields?: string[] | ((fieldName: string, fetchType: FetchQueryType) => boolean)
   /**
    * Same as exclude fields, but if provided will let you dynamically decide if a field is queried.
    * Will only pass fields of type `Scalar`, `Enum` and `List<Scalar|Enum>.`
    * You can only provide either `includeFields` or `excludeFields`.
    */
-  includeFields?: string[] | ((fieldName: string) => boolean)
+  includeFields?: string[] | ((fieldName: string, fetchType: FetchQueryType) => boolean)
 
   /**
    * Allows you to dynamically provide arguments for a given field

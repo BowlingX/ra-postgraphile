@@ -122,7 +122,13 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
       return {
         query: gql`query ${getResourceName}($id: ${primaryKeyType.name}!) {
           ${getResourceName}(${idKeyName}: $id) {
-          ${createQueryFromType(resourceTypename, typeMap, typeMapConfiguration, primaryKey)}
+          ${createQueryFromType(
+            resourceTypename,
+            typeMap,
+            typeMapConfiguration,
+            primaryKey,
+            GET_ONE
+          )}
         }
         }`,
         variables: {
@@ -141,7 +147,8 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
           typeMap,
           queryMap,
           typeMapConfiguration,
-          primaryKey
+          primaryKey,
+          GET_MANY
         ),
         variables: {
           ids: (params as GetManyParams).ids
@@ -163,7 +170,8 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
         typeMap,
         queryMap,
         typeMapConfiguration,
-        primaryKey
+        primaryKey,
+        GET_MANY_REFERENCE
       )
     case GET_LIST: {
       const { filter, sort, pagination } = params as GetManyReferenceParams
@@ -181,7 +189,8 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
           typeMap,
           queryMap,
           typeMapConfiguration,
-          primaryKey
+          primaryKey,
+          GET_LIST
         ),
         variables: stripUndefined({
           offset: (pagination.page - 1) * pagination.perPage,
@@ -213,7 +222,13 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
           input: $input
         ) {
           ${singleLowerResourceName} {
-          ${createQueryFromType(resourceTypename, typeMap, typeMapConfiguration, primaryKey)}
+          ${createQueryFromType(
+            resourceTypename,
+            typeMap,
+            typeMapConfiguration,
+            primaryKey,
+            CREATE
+          )}
         }
         }
         }`,
@@ -233,7 +248,13 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
           mutation ${deleteResourceName}($input: Delete${resourceTypename}Input!) {
             ${deleteResourceName}(input: $input) {
             ${singleLowerResourceName} {
-            ${createQueryFromType(resourceTypename, typeMap, typeMapConfiguration, primaryKey)}
+            ${createQueryFromType(
+              resourceTypename,
+              typeMap,
+              typeMapConfiguration,
+              primaryKey,
+              DELETE
+            )}
           }
           }
           }
@@ -298,7 +319,13 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
           mutation ${updateResourceName}($input: Update${resourceTypename}Input!) {
             ${updateResourceName}(input: $input) {
             ${singleLowerResourceName} {
-            ${createQueryFromType(resourceTypename, typeMap, typeMapConfiguration, primaryKey)}
+            ${createQueryFromType(
+              resourceTypename,
+              typeMap,
+              typeMapConfiguration,
+              primaryKey,
+              UPDATE
+            )}
           }
           }
           }
