@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { TypeKind } from 'graphql'
+import { IntrospectionTypeRef, TypeKind } from 'graphql'
 
 import type {
   IntrospectionEnumType,
@@ -108,11 +108,6 @@ export const queryHasArgument = (
   return queryMap[type].args.find((f) => f.name === argument)
 }
 
-type PossibleListCases = IntrospectionListTypeRef<IntrospectionObjectType | IntrospectionEnumType>
-type PossibleListNonNullCases = IntrospectionListTypeRef<
-  IntrospectionNonNullTypeRef<IntrospectionObjectType | IntrospectionEnumType>
->
-
 const shouldQueryField = (
   fieldName: string,
   typeConfig: TypeConfig,
@@ -188,13 +183,27 @@ export const createQueryFromType = (
       }
 
       if (fieldIsObjectOrListOfObject(field)) {
-        const thisType:
-          | IntrospectionObjectType
-          | IntrospectionEnumType = (field.type as PossibleListCases).ofType?.name
-          ? (field.type as PossibleListCases).ofType
-          : // We also handle cases where we have e.g. [TYPE!] (List of type)
-            (field.type as PossibleListNonNullCases).ofType?.ofType
-        const typeName = (thisType && thisType.name) || (field.type as IntrospectionObjectType).name
+        const extractFromNonNull = <T extends IntrospectionTypeRef>(
+          type: IntrospectionNonNullTypeRef<T> | T
+        ) => {
+          return type.kind === 'NON_NULL' ? (type as IntrospectionNonNullTypeRef<T>).ofType : type
+        }
+
+        const extractFromList = <T extends IntrospectionTypeRef>(
+          type: IntrospectionListTypeRef<T> | T
+        ) => {
+          return type.kind === 'LIST' ? (type as IntrospectionListTypeRef<T>).ofType : type
+        }
+
+        // Get the "base" type of this field. It can be wrapped in a few different ways:
+        // - TYPE (bare type)
+        // - TYPE! (non-null type)
+        // - [TYPE] (list of type)
+        // - [TYPE!] (list of non-null type)
+        // - [TYPE!]! (non-null list of non-null type)
+        const thisType = extractFromNonNull(extractFromList(extractFromNonNull(field.type)))
+
+        const typeName = thisType?.name || (field.type as IntrospectionObjectType).name
         const shouldExpand =
           typeName && typeConfiguration[typeName] && typeConfiguration[typeName].expand
         if (typeName && shouldExpand) {
