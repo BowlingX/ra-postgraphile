@@ -1,3 +1,10 @@
+## [4.1.1](https://github.com/BowlingX/ra-postgraphile/compare/v4.1.0...v4.1.1) (2020-11-17)
+
+
+### Bug Fixes
+
+* **lists:** Fixed issues with `List[Type!]!` see pr [#43](https://github.com/BowlingX/ra-postgraphile/issues/43) ([934fa91](https://github.com/BowlingX/ra-postgraphile/commit/934fa919f09996c92939bd50770086e1bebe307a))
+
 # [4.1.0](https://github.com/BowlingX/ra-postgraphile/compare/v4.0.2...v4.1.0) (2020-09-21)
 
 
