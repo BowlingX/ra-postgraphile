@@ -175,11 +175,13 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
       )
     case GET_LIST: {
       const { filter, sort, pagination } = params as GetManyReferenceParams
+      const { condition, ...pluginFilters } = filter || {}
+
       const orderBy =
         sort && sort.field && sort.order
           ? [createSortingKey(sort.field, sort.order as SortDirection)]
           : [NATURAL_SORTING]
-      const filters = createFilter(filter, type)
+      const filters = createFilter(pluginFilters, type)
       return {
         query: createGetListQuery(
           type,
@@ -197,6 +199,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
           first: pagination.perPage,
           filter: filters,
           orderBy,
+          condition,
         }),
         parseResponse: (response: Response) => {
           const { nodes, totalCount } = response.data[manyLowerResourceName]
