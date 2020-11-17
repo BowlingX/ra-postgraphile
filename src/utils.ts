@@ -143,6 +143,16 @@ const applyArgumentsForField = (
   return fieldName
 }
 
+const extractFromNonNull = <T extends IntrospectionTypeRef>(
+  type: IntrospectionNonNullTypeRef<T> | T
+) => {
+  return type.kind === 'NON_NULL' ? (type as IntrospectionNonNullTypeRef<T>).ofType : type
+}
+
+const extractFromList = <T extends IntrospectionTypeRef>(type: IntrospectionListTypeRef<T> | T) => {
+  return type.kind === 'LIST' ? (type as IntrospectionListTypeRef<T>).ofType : type
+}
+
 export const createQueryFromType = (
   type: string,
   typeMap: TypeMap,
@@ -183,18 +193,6 @@ export const createQueryFromType = (
       }
 
       if (fieldIsObjectOrListOfObject(field)) {
-        const extractFromNonNull = <T extends IntrospectionTypeRef>(
-          type: IntrospectionNonNullTypeRef<T> | T
-        ) => {
-          return type.kind === 'NON_NULL' ? (type as IntrospectionNonNullTypeRef<T>).ofType : type
-        }
-
-        const extractFromList = <T extends IntrospectionTypeRef>(
-          type: IntrospectionListTypeRef<T> | T
-        ) => {
-          return type.kind === 'LIST' ? (type as IntrospectionListTypeRef<T>).ofType : type
-        }
-
         // Get the "base" type of this field. It can be wrapped in a few different ways:
         // - TYPE (bare type)
         // - TYPE! (non-null type)
