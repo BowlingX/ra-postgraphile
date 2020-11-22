@@ -1,3 +1,10 @@
+## [4.1.2](https://github.com/BowlingX/ra-postgraphile/compare/v4.1.1...v4.1.2) (2020-11-22)
+
+
+### Bug Fixes
+
+* **non-null:** Fixed non null types for lists ([414482a](https://github.com/BowlingX/ra-postgraphile/commit/414482afb1f5dac078a5bcd4caa053b2450165be))
+
 ## [4.1.1](https://github.com/BowlingX/ra-postgraphile/compare/v4.1.0...v4.1.1) (2020-11-17)
 
 
