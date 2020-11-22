@@ -1,9 +1,11 @@
 import gql from 'graphql-tag'
-import { IntrospectionTypeRef, TypeKind } from 'graphql'
+
+import { TypeKind } from 'graphql'
 
 import type {
   IntrospectionEnumType,
   IntrospectionType,
+  IntrospectionTypeRef,
   IntrospectionField,
   IntrospectionObjectType,
   IntrospectionListTypeRef,
@@ -35,10 +37,27 @@ export const lowercase = (str: string) => str[0].toLowerCase() + str.slice(1)
 
 export const snake = (camelCaseInput: string) => camelCaseInput.replace(CAMEL_REGEX, '$1_$2')
 
+const extractFromNonNull = <T extends IntrospectionTypeRef>(
+  type: IntrospectionNonNullTypeRef<T> | T
+) => {
+  return type.kind === 'NON_NULL' ? (type as IntrospectionNonNullTypeRef<T>).ofType : type
+}
+
+const extractFromList = <T extends IntrospectionTypeRef>(type: IntrospectionListTypeRef<T> | T) => {
+  return type.kind === 'LIST' ? (type as IntrospectionListTypeRef<T>).ofType : type
+}
+
+// Get the "base" type of a field. It can be wrapped in a few different ways:
+// - TYPE (bare type)
+// - TYPE! (non-null type)
+// - [TYPE] (list of type)
+// - [TYPE!] (list of non-null type)
+// - [TYPE!]! (non-null list of non-null type)
+const extractBaseType = <T extends IntrospectionTypeRef>(type: IntrospectionListTypeRef<T> | T) =>
+  extractFromNonNull(extractFromList(extractFromNonNull(type)))
+
 const fieldIsObjectOrListOfObject = (field: any) =>
-  field.type.kind === TypeKind.OBJECT ||
-  (field.type.ofType &&
-    (field.type.ofType.kind === TypeKind.OBJECT || field.type.ofType.kind === TypeKind.LIST))
+  extractBaseType(field.type).kind === TypeKind.OBJECT
 
 export const createSortingKey = (field: string, sort: SortDirection) => {
   return `${snake(field).toUpperCase()}_${sort.toUpperCase()}`
@@ -143,16 +162,6 @@ const applyArgumentsForField = (
   return fieldName
 }
 
-const extractFromNonNull = <T extends IntrospectionTypeRef>(
-  type: IntrospectionNonNullTypeRef<T> | T
-) => {
-  return type.kind === 'NON_NULL' ? (type as IntrospectionNonNullTypeRef<T>).ofType : type
-}
-
-const extractFromList = <T extends IntrospectionTypeRef>(type: IntrospectionListTypeRef<T> | T) => {
-  return type.kind === 'LIST' ? (type as IntrospectionListTypeRef<T>).ofType : type
-}
-
 export const createQueryFromType = (
   type: string,
   typeMap: TypeMap,
@@ -193,14 +202,7 @@ export const createQueryFromType = (
       }
 
       if (fieldIsObjectOrListOfObject(field)) {
-        // Get the "base" type of this field. It can be wrapped in a few different ways:
-        // - TYPE (bare type)
-        // - TYPE! (non-null type)
-        // - [TYPE] (list of type)
-        // - [TYPE!] (list of non-null type)
-        // - [TYPE!]! (non-null list of non-null type)
-        const thisType = extractFromNonNull(extractFromList(extractFromNonNull(field.type)))
-
+        const thisType = extractBaseType(field.type)
         const typeName = thisType?.name || (field.type as IntrospectionObjectType).name
         const shouldExpand =
           typeName && typeConfiguration[typeName] && typeConfiguration[typeName].expand
