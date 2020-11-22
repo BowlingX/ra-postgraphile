@@ -18,18 +18,9 @@ Object {
 
 exports[`filters should filter by String 1`] = `
 Object {
-  "or": Array [
-    Object {
-      "id": Object {
-        "equalTo": "value",
-      },
-    },
-    Object {
-      "id": Object {
-        "like": "%value%",
-      },
-    },
-  ],
+  "id": Object {
+    "includes": "value",
+  },
 }
 `;
 
@@ -49,4 +40,37 @@ Object {
 }
 `;
 
-exports[`filters should throw on unsupported types 1`] = `"Filter for type Unsupported not implemented."`;
+exports[`filters should filter using a FilterSpec 1`] = `
+Object {
+  "id": Object {
+    "likeInsensitive": "ilike value",
+  },
+}
+`;
+
+exports[`filters should filter with Full Text 1`] = `
+Object {
+  "id": Object {
+    "matches": "test:*",
+  },
+}
+`;
+
+exports[`filters should support a value of undefined 1`] = `undefined`;
+
+exports[`filters should support custom filters via objects 1`] = `
+Object {
+  "id": Object {
+    "contains": Array [
+      "a",
+      "b",
+    ],
+  },
+}
+`;
+
+exports[`filters should support custom filters with a value of undefined 1`] = `undefined`;
+
+exports[`filters should throw an error if custom filter is not of type FilterSpec 1`] = `"Alternative {} filter is not of type FilterSpec"`;
+
+exports[`filters should throw an error if custom filter is not of type FilterSpec 2`] = `"Alternative {\\"value\\":\\"foo\\"} filter is not of type FilterSpec"`;
