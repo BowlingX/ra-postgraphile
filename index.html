@@ -126,6 +126,8 @@
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> PgSimplifyInflectorPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@graphile-contrib/pg-simplify-inflector&#x27;</span>)
 <span class="hljs-keyword">const</span> PgConnectionFilterPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;postgraphile-plugin-connection-filter&#x27;</span>)</code></pre>
 				<p>Please see <a href="src/__test_utils/QueryRunner.ts">src/__test_utils/QueryRunner.ts</a> for a minimal example setup.</p>
+				<p>For full-text search capabilities, the following plugin is also required:</p>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> PostGraphileFulltextFilterPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;postgraphile-plugin-fulltext-filter&#x27;</span>)</code></pre>
 				<a href="#configuration" id="configuration" style="color: inherit; text-decoration: none;">
 					<h2>Configuration</h2>
 				</a>
@@ -241,6 +243,15 @@
 						<a href="interfaces/factory.html" class="tsd-kind-icon">Factory</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/filter.html" class="tsd-kind-icon">Filter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filtermap.html" class="tsd-kind-icon">Filter<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filterspec.html" class="tsd-kind-icon">Filter<wbr>Spec</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/geojson.html" class="tsd-kind-icon">GeoJSON</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -281,6 +292,9 @@
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#introspectionresult" class="tsd-kind-icon">Introspection<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operator" class="tsd-kind-icon">Operator</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#requiredprimarykeytype" class="tsd-kind-icon">Required<wbr>Primary<wbr>Key<wbr>Type</a>
