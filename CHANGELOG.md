@@ -1,3 +1,10 @@
+# [4.2.0](https://github.com/BowlingX/ra-postgraphile/compare/v4.1.2...v4.2.0) (2020-11-22)
+
+
+### Features
+
+* **filters:** Support alternative filter operators [@hjr3](https://github.com/hjr3) [@christiaanwesterbeek](https://github.com/christiaanwesterbeek) ([26fc8d4](https://github.com/BowlingX/ra-postgraphile/commit/26fc8d4ffc703845293f60e30f0ded6ba25aac74))
+
 ## [4.1.2](https://github.com/BowlingX/ra-postgraphile/compare/v4.1.1...v4.1.2) (2020-11-22)
 
 
