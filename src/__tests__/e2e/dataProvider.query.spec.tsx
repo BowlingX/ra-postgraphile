@@ -134,7 +134,8 @@ describe('Query Types', () => {
         filter: {},
         pagination: { perPage: 10, page: 1 },
       })
-      expect(result).toMatchSnapshot()
+      expect(result.data[0]).toBeDefined()
+      expect(result.data[0]?.name).toEqual('David')
     })
   })
 })
