@@ -20,6 +20,22 @@ Object {
 }
 `;
 
+exports[`Query Types UUID type (#48) should list \`Profile\` 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "__typename": "Profile",
+      "createdAt": "2020-12-02T17:54:35.826118",
+      "id": "70ab58f2-34c7-11eb-b0ea-d3f4f0dd411f",
+      "name": "David",
+      "nodeId": "WyJwcm9maWxlcyIsIjcwYWI1OGYyLTM0YzctMTFlYi1iMGVhLWQzZjRmMGRkNDExZiJd",
+      "updatedAt": "2020-12-02T17:54:35.826118",
+    },
+  ],
+  "total": 1,
+}
+`;
+
 exports[`Query Types should getList Error resilience should allow lowercase fields to sort on 1`] = `
 Object {
   "data": Array [

@@ -126,4 +126,15 @@ describe('Query Types', () => {
       })
     })
   })
+
+  describe('UUID type (#48)', () => {
+    it('should list `Profile`', async () => {
+      const result = await dataProvider.getList('profile', {
+        sort: { order: 'asc', field: 'id' },
+        filter: {},
+        pagination: { perPage: 10, page: 1 },
+      })
+      expect(result).toMatchSnapshot()
+    })
+  })
 })
