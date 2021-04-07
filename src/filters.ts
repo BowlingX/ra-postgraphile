@@ -65,7 +65,18 @@ export const mapFilterType = (
   } else {
     // make sure object has a shape of FilterSpec
     if (value?.operator === undefined) {
-      throw new Error(`Alternative ${JSON.stringify(value)} filter is not of type FilterSpec`)
+      // Extract FilterSpec from key-value notation.
+      // It allows to use complex filters inside list filters.
+      // Example: <DateInput source="date.greaterThan" />
+      const keys = Object.keys(value)
+      if (keys.length === 1) {
+        value = {
+          operator: keys[0],
+          value: value[keys[0]],
+        }
+      } else {
+        throw new Error(`Alternative ${JSON.stringify(value)} filter is not of type FilterSpec`)
+      }
     }
   }
 
