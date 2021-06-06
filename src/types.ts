@@ -122,12 +122,19 @@ export type Operator =
   // operators from https://github.com/mlipscombe/postgraphile-plugin-fulltext-filter
   | 'matches'
 
-export interface FilterSpec {
-  operator: Operator
-  /** optional key, that will be taken instead of the filters input name */
-  key?: string
-  value: any
-}
+export type FilterSpec =
+  | {
+      operator: Operator
+      /** optional key, that will be taken instead of the filters input name */
+      key?: string
+      value?: any
+    }
+  | {
+      operator?: Operator
+      /** optional key, that will be taken instead of the filters input name */
+      key?: string
+      value: Record<string, any>
+    }
 
 export interface Filter {
   [key: string]: {
