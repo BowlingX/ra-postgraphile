@@ -1,5 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`filters should allow to change the filter key 1`] = `
+Object {
+  "anotherField": Object {
+    "contains": Object {
+      "or": Array [
+        Object {
+          "id": Object {
+            "contains": Array [
+              "A, B",
+            ],
+          },
+        },
+      ],
+    },
+  },
+}
+`;
+
 exports[`filters should filter by BigInt 1`] = `
 Object {
   "id": Object {

@@ -50,6 +50,22 @@ describe('filters', () => {
     }
     expect(mapFilterType({ kind: 'SCALAR', name: 'String' }, spec, 'id')).toMatchSnapshot()
   })
+  it('should allow to change the filter key', () => {
+    const spec: FilterSpec = {
+      operator: 'contains',
+      value: {
+        or: [
+          {
+            id: {
+              contains: ['A, B'],
+            },
+          },
+        ],
+      },
+      key: 'anotherField',
+    }
+    expect(mapFilterType({ kind: 'SCALAR', name: 'String' }, spec, 'id')).toMatchSnapshot()
+  })
   it('should throw an error if custom filter is not of type FilterSpec', () => {
     expect(() =>
       mapFilterType({ kind: 'SCALAR', name: 'String' }, {}, 'id')

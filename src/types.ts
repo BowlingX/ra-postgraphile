@@ -124,6 +124,8 @@ export type Operator =
 
 export interface FilterSpec {
   operator: Operator
+  /** optional key, that will be taken instead of the filters input name */
+  key?: string
   value: any
 }
 

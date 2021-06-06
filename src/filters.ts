@@ -69,7 +69,7 @@ export const mapFilterType = (
     }
   }
 
-  const { operator, value: v } = value
+  const { operator, value: v, key: filterKey } = value
 
   // react-admin sends the value as undefined when the filter is cleared
   // rather than making every parse function handle that, deal with it here
@@ -78,7 +78,7 @@ export const mapFilterType = (
   }
 
   return {
-    [key]: {
+    [filterKey || key]: {
       [operator]: v,
     },
   }
