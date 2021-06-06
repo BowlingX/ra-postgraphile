@@ -81,13 +81,11 @@ describe('filters', () => {
     }
     expect(mapFilterType({ kind: 'SCALAR', name: 'String' }, spec, 'id')).toMatchSnapshot()
   })
-  it('should throw an error if custom filter is not of type FilterSpec', () => {
-    expect(() =>
-      mapFilterType({ kind: 'SCALAR', name: 'String' }, {}, 'id')
-    ).toThrowErrorMatchingSnapshot()
+  it('should handle undefined filter behaviour', () => {
+    expect(mapFilterType({ kind: 'SCALAR', name: 'String' }, {}, 'id')).toMatchSnapshot()
 
-    expect(() =>
+    expect(
       mapFilterType({ kind: 'SCALAR', name: 'String' }, { operator: undefined, value: 'foo' }, 'id')
-    ).toThrowErrorMatchingSnapshot()
+    ).toMatchSnapshot()
   })
 })

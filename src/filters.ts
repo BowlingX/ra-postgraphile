@@ -62,11 +62,6 @@ export const mapFilterType = (
     }
 
     value = spec
-  } else {
-    // make sure object has a shape of FilterSpec
-    if (value?.operator === undefined && !(typeof value?.value === 'object')) {
-      throw new Error(`Alternative ${JSON.stringify(value)} filter is not of type FilterSpec`)
-    }
   }
 
   const { operator, value: v, key: filterKey } = value

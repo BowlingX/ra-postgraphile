@@ -90,6 +90,14 @@ Object {
 }
 `;
 
+exports[`filters should handle undefined filter behaviour 1`] = `undefined`;
+
+exports[`filters should handle undefined filter behaviour 2`] = `
+Object {
+  "id": "foo",
+}
+`;
+
 exports[`filters should support a value of undefined 1`] = `undefined`;
 
 exports[`filters should support custom filters via objects 1`] = `
@@ -104,7 +112,3 @@ Object {
 `;
 
 exports[`filters should support custom filters with a value of undefined 1`] = `undefined`;
-
-exports[`filters should throw an error if custom filter is not of type FilterSpec 1`] = `"Alternative {} filter is not of type FilterSpec"`;
-
-exports[`filters should throw an error if custom filter is not of type FilterSpec 2`] = `"Alternative {\\"value\\":\\"foo\\"} filter is not of type FilterSpec"`;
