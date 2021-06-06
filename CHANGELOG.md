@@ -1,3 +1,10 @@
+# [4.4.0](https://github.com/BowlingX/ra-postgraphile/compare/v4.3.0...v4.4.0) (2021-06-06)
+
+
+### Features
+
+* **filters:** make operator optional if value is an object ([23a8342](https://github.com/BowlingX/ra-postgraphile/commit/23a8342c25fecc36280bd652fca0b0a3a49181e8))
+
 # [4.3.0](https://github.com/BowlingX/ra-postgraphile/compare/v4.2.0...v4.3.0) (2021-06-06)
 
 
