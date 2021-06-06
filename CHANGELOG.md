@@ -1,3 +1,10 @@
+## [4.4.1](https://github.com/BowlingX/ra-postgraphile/compare/v4.4.0...v4.4.1) (2021-06-06)
+
+
+### Bug Fixes
+
+* **filters:** do not throw an exception for optional operator ([f4f3c01](https://github.com/BowlingX/ra-postgraphile/commit/f4f3c013307fcc6f2e341c023be32a6e55dbd526))
+
 # [4.4.0](https://github.com/BowlingX/ra-postgraphile/compare/v4.3.0...v4.4.0) (2021-06-06)
 
 
