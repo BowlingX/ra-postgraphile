@@ -1,3 +1,10 @@
+# [4.3.0](https://github.com/BowlingX/ra-postgraphile/compare/v4.2.0...v4.3.0) (2021-06-06)
+
+
+### Features
+
+* **filter-key:** make the filter key customizable for custom filters; added `key` attribute. ([8753b6b](https://github.com/BowlingX/ra-postgraphile/commit/8753b6b87685a786d9a2ebde7bb40f970734c571))
+
 # [4.2.0](https://github.com/BowlingX/ra-postgraphile/compare/v4.1.2...v4.2.0) (2020-11-22)
 
 
