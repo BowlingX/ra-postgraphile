@@ -101,7 +101,7 @@ export const mapInputToVariables = (
       (field: any) => fieldIsObjectOrListOfObject(field) && field.name === key
     )
     if (fieldType) {
-      const valueMapperForType = typeConfiguration[fieldType.type.ofType.name]
+      const valueMapperForType = typeConfiguration[fieldType?.type?.ofType?.name]
       if (valueMapperForType && valueMapperForType.queryValueToInputValue) {
         return {
           ...current,
