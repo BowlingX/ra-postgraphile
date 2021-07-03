@@ -1,3 +1,10 @@
+## [4.4.2](https://github.com/BowlingX/ra-postgraphile/compare/v4.4.1...v4.4.2) (2021-07-03)
+
+
+### Bug Fixes
+
+* **np:** fix missing `ofType` on custom types ([#67](https://github.com/BowlingX/ra-postgraphile/issues/67)) ([507fbbb](https://github.com/BowlingX/ra-postgraphile/commit/507fbbba4883d4b64f81059e13cb7fa2f27e162b))
+
 ## [4.4.1](https://github.com/BowlingX/ra-postgraphile/compare/v4.4.0...v4.4.1) (2021-06-06)
 
 
