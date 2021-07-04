@@ -1,3 +1,11 @@
+## [4.4.3](https://github.com/BowlingX/ra-postgraphile/compare/v4.4.2...v4.4.3) (2021-07-04)
+
+
+### Bug Fixes
+
+* **npm:** fixed semver range, bumped packages, fixes [#66](https://github.com/BowlingX/ra-postgraphile/issues/66) ([0e37413](https://github.com/BowlingX/ra-postgraphile/commit/0e37413b0e753bf3a3dd25ef4eebb9eba97625c5))
+* **tests:** fixed tests after dependency upgrades ([6a76e8a](https://github.com/BowlingX/ra-postgraphile/commit/6a76e8ab0bd1b48ebf2ad09c9d4b98adb6218c7d))
+
 ## [4.4.2](https://github.com/BowlingX/ra-postgraphile/compare/v4.4.1...v4.4.2) (2021-07-03)
 
 
