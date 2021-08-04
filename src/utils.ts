@@ -300,19 +300,23 @@ export const createGetListQuery = (
   )
 
   if (!hasFilters && !hasOrdering) {
-    return gql`query ${manyLowerResourceName}($offset: Int!, $first: Int!) {
-      ${manyLowerResourceName}(first: $first, offset: $offset) {
-      nodes {
-        ${createQueryFromType(
-          resourceTypename,
-          typeMap,
-          typeConfiguration,
-          primaryKey,
-          fetchQueryType
-        )}
+    return gql`query ${manyLowerResourceName}(
+        $offset: Int!,
+        $first: Int!,
+        $condition = ${resourceTypename}Condition = {}
+      ) {
+        ${manyLowerResourceName}(first: $first, offset: $offset, condition: $condition) {
+        nodes {
+          ${createQueryFromType(
+            resourceTypename,
+            typeMap,
+            typeConfiguration,
+            primaryKey,
+            fetchQueryType
+          )}
+        }
+        totalCount
       }
-      totalCount
-    }
     }`
   }
 
@@ -321,8 +325,14 @@ export const createGetListQuery = (
     $offset: Int!,
     $first: Int!,
     $orderBy: [${pluralizedResourceTypeName}OrderBy!]
+    $condition: ${resourceTypename}Condition = {}
     ) {
-      ${manyLowerResourceName}(first: $first, offset: $offset, orderBy: $orderBy) {
+      ${manyLowerResourceName}(
+        first: $first,
+        offset: $offset,
+        orderBy: $orderBy,
+        condition: $condition
+      ) {
       nodes {
         ${createQueryFromType(
           resourceTypename,
@@ -342,8 +352,14 @@ export const createGetListQuery = (
     $offset: Int!,
     $first: Int!,
     $filter: ${resourceTypename}Filter,
+    $condition: ${resourceTypename}Condition = {}
     ) {
-      ${manyLowerResourceName}(first: $first, offset: $offset, filter: $filter) {
+      ${manyLowerResourceName}(
+        first: $first,
+        offset: $offset,
+        filter: $filter,
+        condition: $condition
+      ) {
       nodes {
         ${createQueryFromType(
           resourceTypename,
@@ -362,9 +378,16 @@ export const createGetListQuery = (
   $offset: Int!,
   $first: Int!,
   $filter: ${resourceTypename}Filter,
+  $condition: ${resourceTypename}Condition,
   $orderBy: [${pluralizedResourceTypeName}OrderBy!]
   ) {
-    ${manyLowerResourceName}(first: $first, offset: $offset, filter: $filter, orderBy: $orderBy) {
+    ${manyLowerResourceName}(
+      first: $first,
+      offset: $offset,
+      filter: $filter,
+      orderBy: $orderBy,
+      condition: $condition
+    ) {
     nodes {
       ${createQueryFromType(
         resourceTypename,
