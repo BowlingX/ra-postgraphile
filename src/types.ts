@@ -81,6 +81,71 @@ export interface Response {
   data: any
 }
 
+// Most operators are from https://github.com/graphile-contrib/postgraphile-plugin-connection-filter/blob/master/src/PgConnectionArgFilterOperatorsPlugin.js#L42-L277
+export type Operator =
+  // Standard Operators
+  | 'isNull'
+  | 'equalTo'
+  | 'notEqualTo'
+  | 'distinctFrom'
+  | 'notDistinctFrom'
+  | 'in'
+  | 'notIn'
+
+  // Pattern Matching Operators
+  | 'includes'
+  | 'notIncludes'
+  | 'includesInsensitive'
+  | 'notIncludesInsensitive'
+  | 'startsWith'
+  | 'notStartsWith'
+  | 'startsWithInsensitive'
+  | 'notStartsWithInsensitive'
+  | 'endsWith'
+  | 'notEndsWith'
+  | 'endsWithInsensitive'
+  | 'notEndsWithInsensitive'
+  | 'like'
+  | 'notLike'
+  | 'likeInsensitive'
+  | 'notLikeInsensitive'
+
+  // HStore / JSON / INET Operators
+  | 'contains'
+  | 'containsKey'
+  | 'containsAllKeys'
+  | 'containsAnyKeys'
+  | 'containedBy'
+  | 'containedByOrEqualTo'
+  | 'containsOrContainedBy'
+
+  // operators from https://github.com/mlipscombe/postgraphile-plugin-fulltext-filter
+  | 'matches'
+
+export type FilterSpec =
+  | {
+      operator: Operator
+      /** optional key, that will be taken instead of the filters input name */
+      key?: string
+      value?: any
+    }
+  | {
+      operator?: Operator
+      /** optional key, that will be taken instead of the filters input name */
+      key?: string
+      value: Record<string, any>
+    }
+
+export interface Filter {
+  [key: string]: {
+    [operator: string]: any
+  }
+}
+
+export interface FilterMap {
+  and: Filter[]
+}
+
 // Constants
 
 export const CAMEL_REGEX = /(.+?)([A-Z])/gm

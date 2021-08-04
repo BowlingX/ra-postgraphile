@@ -105,8 +105,8 @@ describe('Query Types', () => {
     })
 
     describe('Error resilience', () => {
-      it('should fail on unknown resources', () => {
-        expect(() => dataProvider.getOne('unknownResource', { id: 1 })).toThrow(
+      it('should fail on unknown resources', async () => {
+        await expect(dataProvider.getOne('unknownResource', { id: 1 })).rejects.toEqual(
           Error('Type "UnknownResource" did not exist in the introspection result.')
         )
       })
@@ -124,6 +124,18 @@ describe('Query Types', () => {
       it('should work on uppercase resource names', async () => {
         expect(await dataProvider.getOne('Book', { id: 1 })).toMatchSnapshot()
       })
+    })
+  })
+
+  describe('UUID type (#48)', () => {
+    it('should list `Profile`', async () => {
+      const result = await dataProvider.getList('profile', {
+        sort: { order: 'asc', field: 'id' },
+        filter: {},
+        pagination: { perPage: 10, page: 1 },
+      })
+      expect(result.data[0]).toBeDefined()
+      expect(result.data[0]?.name).toEqual('David')
     })
   })
 })

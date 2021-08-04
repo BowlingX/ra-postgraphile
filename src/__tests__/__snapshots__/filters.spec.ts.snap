@@ -1,5 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`filters should allow operator to be undefined if an object is provided as value 1`] = `
+Object {
+  "anotherField": Object {
+    "or": Array [
+      Object {
+        "id": Object {
+          "contains": Array [
+            "A, B",
+          ],
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`filters should allow to change the filter key 1`] = `
+Object {
+  "anotherField": Object {
+    "contains": Object {
+      "or": Array [
+        Object {
+          "id": Object {
+            "contains": Array [
+              "A, B",
+            ],
+          },
+        },
+      ],
+    },
+  },
+}
+`;
+
 exports[`filters should filter by BigInt 1`] = `
 Object {
   "id": Object {
@@ -18,18 +52,9 @@ Object {
 
 exports[`filters should filter by String 1`] = `
 Object {
-  "or": Array [
-    Object {
-      "id": Object {
-        "equalTo": "value",
-      },
-    },
-    Object {
-      "id": Object {
-        "like": "%value%",
-      },
-    },
-  ],
+  "id": Object {
+    "includes": "value",
+  },
 }
 `;
 
@@ -49,4 +74,41 @@ Object {
 }
 `;
 
-exports[`filters should throw on unsupported types 1`] = `"Filter for type Unsupported not implemented."`;
+exports[`filters should filter using a FilterSpec 1`] = `
+Object {
+  "id": Object {
+    "likeInsensitive": "ilike value",
+  },
+}
+`;
+
+exports[`filters should filter with Full Text 1`] = `
+Object {
+  "id": Object {
+    "matches": "test:*",
+  },
+}
+`;
+
+exports[`filters should handle undefined filter behaviour 1`] = `undefined`;
+
+exports[`filters should handle undefined filter behaviour 2`] = `
+Object {
+  "id": "foo",
+}
+`;
+
+exports[`filters should support a value of undefined 1`] = `undefined`;
+
+exports[`filters should support custom filters via objects 1`] = `
+Object {
+  "id": Object {
+    "contains": Array [
+      "a",
+      "b",
+    ],
+  },
+}
+`;
+
+exports[`filters should support custom filters with a value of undefined 1`] = `undefined`;

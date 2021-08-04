@@ -5,61 +5,107 @@ import type {
   IntrospectionType,
 } from 'graphql'
 
-export const mapFilterType = (type: IntrospectionNamedTypeRef, value: any, key: string) => {
-  const normalizedName = type.name.toLowerCase()
-  switch (normalizedName) {
-    case 'boolean':
-      return {
-        [key]: {
-          equalTo: value,
-        },
-      }
-    case 'string':
-      return {
-        or: [
-          {
-            [key]: {
-              equalTo: value,
-            },
-          },
-          {
-            [key]: {
-              like: `%${value}%`,
-            },
-          },
-        ],
-      }
-    case 'uuid':
-    case 'bigint':
-    case 'int':
-      return Array.isArray(value)
+import type { Filter, FilterMap, FilterSpec, Operator } from './types'
+
+/**
+ * Transforms for a certain field type a search value for a field (the key)
+ * to a filter that is understood by postgraphile.
+ *
+ * For example:
+ *
+ * - type: {kind: "SCALAR", name: "String", ofType: null, __typename: "__Type"}
+ * - value: "some keyword"
+ * - key: "name"
+ *
+ * Is transformed to:
+ *
+ * ```ts
+ * {
+ *   name: {
+ *     includes: "some keyword"
+ *   }
+ * }
+ * ```
+ */
+export const mapFilterType = (
+  type: IntrospectionNamedTypeRef,
+  value: any,
+  key: string
+): Filter | undefined => {
+  if (Array.isArray(value)) {
+    const spec: FilterSpec = {
+      operator: 'in',
+      value,
+    }
+
+    value = spec
+  }
+
+  if (typeof value !== 'object') {
+    const typeName = (type?.name ?? '').toLowerCase()
+
+    let operator: Operator = 'equalTo'
+    // string uses includes as the default operator for historical reasons
+    if (typeName === 'string') {
+      operator = 'includes'
+    }
+
+    // a type of FullText uses matches as the default operator for historical reasons
+    if (typeName === 'fulltext') {
+      operator = 'matches'
+      value = `${value}:*`
+    }
+
+    const spec: FilterSpec = {
+      operator,
+      value,
+    }
+
+    value = spec
+  }
+
+  const { operator, value: v, key: filterKey } = value
+
+  // react-admin sends the value as undefined when the filter is cleared
+  // rather than making every parse function handle that, deal with it here
+  if (v === undefined) {
+    return undefined
+  }
+
+  return {
+    [filterKey || key]:
+      typeof operator !== 'undefined'
         ? {
-            [key]: {
-              in: value,
-            },
+            [operator]: v,
           }
-        : {
-            [key]: {
-              equalTo: value,
-            },
-          }
-    default:
-      throw new Error(`Filter for type ${type.name} not implemented.`)
+        : v,
   }
 }
 
-export const createFilter = (fields: any, type: IntrospectionType) => {
-  const empty = [] as object[]
+export const createFilter = (
+  fields: { [key: string]: unknown },
+  type: IntrospectionType
+): FilterMap | undefined => {
+  const empty: Filter[] = []
+
   const filters = Object.keys(fields).reduce((next, key) => {
     const maybeType = (type as IntrospectionObjectType).fields.find((f: any) => f.name === key)
     if (maybeType) {
       const thisType = (maybeType.type as IntrospectionNonNullTypeRef).ofType || maybeType.type
-      return [...next, mapFilterType(thisType as IntrospectionNamedTypeRef, fields[key], key)]
+
+      const filter = mapFilterType(thisType as IntrospectionNamedTypeRef, fields[key], key)
+      if (filter === undefined) {
+        return next
+      }
+
+      return [...next, filter]
     }
     return next
   }, empty)
+
   if (filters === empty) {
     return undefined
   }
+
   return { and: filters }
 }

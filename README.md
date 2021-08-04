@@ -69,6 +69,12 @@ const PgConnectionFilterPlugin = require('postgraphile-plugin-connection-filter'
 
 Please see [src/\_\_test_utils/QueryRunner.ts](src/__test_utils/QueryRunner.ts) for a minimal example setup.
 
+For full-text search capabilities, the following plugin is also required:
+
+```js
+const PostGraphileFulltextFilterPlugin = require('postgraphile-plugin-fulltext-filter')
+```
+
 ## Configuration
 
 You can pass an _optional_ configuration object:
