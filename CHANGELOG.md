@@ -1,3 +1,10 @@
+# [4.5.0](https://github.com/BowlingX/ra-postgraphile/compare/v4.4.3...v4.5.0) (2021-08-04)
+
+
+### Features
+
+* **filter:** added `contains` support for standard postgraphile filters; Use with `$contains: { ... }`. Thank you [@bencpeters](https://github.com/bencpeters) ([41e4a29](https://github.com/BowlingX/ra-postgraphile/commit/41e4a298f80dd74e2870ed20531f62ebcc439f65))
+
 ## [4.4.3](https://github.com/BowlingX/ra-postgraphile/compare/v4.4.2...v4.4.3) (2021-07-04)
 
 
