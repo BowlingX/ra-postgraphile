@@ -175,7 +175,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
       )
     case GET_LIST: {
       const { filter, sort, pagination } = params as GetManyReferenceParams
-      const { condition, ...pluginFilters } = filter || {}
+      const { $condition: condition, ...pluginFilters } = filter || {}
 
       const orderBy =
         sort && sort.field && sort.order

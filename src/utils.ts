@@ -28,6 +28,7 @@ import {
 } from './types'
 
 const ARGUMENT_FILTER = 'filter'
+const ARGUMENT_CONDITION = 'condition'
 const ARGUMENT_ORDER_BY = 'orderBy'
 const DEFAULT_ID_FIELD_NAME = 'id'
 const NODE_ID_FIELD_NAME = 'nodeId'
@@ -291,6 +292,7 @@ export const createGetListQuery = (
   fetchQueryType: FetchQueryType
 ) => {
   const hasFilters = queryHasArgument(manyLowerResourceName, ARGUMENT_FILTER, queryMap)
+  const hasCondition = queryHasArgument(manyLowerResourceName, ARGUMENT_CONDITION, queryMap)
   const ordering = queryHasArgument(manyLowerResourceName, ARGUMENT_ORDER_BY, queryMap)
   const hasOrdering = hasOthersThenNaturalOrdering(
     typeMap,
@@ -299,94 +301,30 @@ export const createGetListQuery = (
       | undefined
   )
 
-  if (!hasFilters && !hasOrdering) {
-    return gql`query ${manyLowerResourceName}(
-        $offset: Int!,
-        $first: Int!,
-        $condition = ${resourceTypename}Condition = {}
-      ) {
-        ${manyLowerResourceName}(first: $first, offset: $offset, condition: $condition) {
-        nodes {
-          ${createQueryFromType(
-            resourceTypename,
-            typeMap,
-            typeConfiguration,
-            primaryKey,
-            fetchQueryType
-          )}
-        }
-        totalCount
-      }
-    }`
-  }
+  // conditions
+  const conditionQueryArg = hasCondition && `$condition: ${resourceTypename}Condition`
+  const conditionArg = hasCondition && 'condition: $condition'
 
-  if (!hasFilters && hasOrdering) {
-    return gql`query ${manyLowerResourceName} (
-    $offset: Int!,
-    $first: Int!,
-    $orderBy: [${pluralizedResourceTypeName}OrderBy!]
-    $condition: ${resourceTypename}Condition = {}
-    ) {
-      ${manyLowerResourceName}(
-        first: $first,
-        offset: $offset,
-        orderBy: $orderBy,
-        condition: $condition
-      ) {
-      nodes {
-        ${createQueryFromType(
-          resourceTypename,
-          typeMap,
-          typeConfiguration,
-          primaryKey,
-          fetchQueryType
-        )}
-      }
-      totalCount
-    }
-    }`
-  }
+  // order by
+  const orderByQueryArg = hasOrdering && `$orderBy: [${pluralizedResourceTypeName}OrderBy!]`
+  const orderByArg = hasOrdering && 'orderBy: $orderBy'
 
-  if (hasFilters && !hasOrdering) {
-    return gql`query ${manyLowerResourceName} (
-    $offset: Int!,
-    $first: Int!,
-    $filter: ${resourceTypename}Filter,
-    $condition: ${resourceTypename}Condition = {}
-    ) {
-      ${manyLowerResourceName}(
-        first: $first,
-        offset: $offset,
-        filter: $filter,
-        condition: $condition
-      ) {
-      nodes {
-        ${createQueryFromType(
-          resourceTypename,
-          typeMap,
-          typeConfiguration,
-          primaryKey,
-          fetchQueryType
-        )}
-      }
-      totalCount
-    }
-    }`
-  }
+  // order by
+  const filterQueryArg = hasFilters && `$filter: ${resourceTypename}Filter`
+  const filterArg = hasFilters && 'filter: $filter'
+
+  const allQueryArgs = [conditionQueryArg, orderByQueryArg, filterQueryArg].filter(Boolean)
+  const allArgs = [conditionArg, orderByArg, filterArg].filter(Boolean)
 
   return gql`query ${manyLowerResourceName} (
   $offset: Int!,
-  $first: Int!,
-  $filter: ${resourceTypename}Filter,
-  $condition: ${resourceTypename}Condition,
-  $orderBy: [${pluralizedResourceTypeName}OrderBy!]
+  $first: Int!
+  ${allQueryArgs.join(',\n')}
   ) {
     ${manyLowerResourceName}(
       first: $first,
-      offset: $offset,
-      filter: $filter,
-      orderBy: $orderBy,
-      condition: $condition
+      offset: $offset
+      ${allArgs.join(',\n')}
     ) {
     nodes {
       ${createQueryFromType(

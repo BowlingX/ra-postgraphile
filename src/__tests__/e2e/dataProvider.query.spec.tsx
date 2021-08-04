@@ -80,6 +80,15 @@ describe('Query Types', () => {
       ).toMatchSnapshot()
     })
 
+    it('should use `$contains` to filter books', async () => {
+      const books = await dataProvider.getList('book', {
+        sort: { order: 'ASC', field: 'id' },
+        filter: { $condition: { id: 1 } },
+        pagination: { perPage: 10, page: 1 },
+      })
+      expect(books?.data?.length === 1)
+    })
+
     describe('View', () => {
       it('should work with views', async () => {
         expect(
