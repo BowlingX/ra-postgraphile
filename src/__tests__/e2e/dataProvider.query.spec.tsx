@@ -28,13 +28,53 @@ describe('dataProvider', () => {
 
 describe('Primary keys', () => {
   it('should handle non-id field primary keys with `nodeId`', async () => {
-    expect(
-      await dataProvider.getList('favoriteBook', {
-        sort: { field: 'isbn', order: 'ASC' },
-        filter: {},
-        pagination: { perPage: 10, page: 1 },
-      })
-    ).toMatchSnapshot()
+    const favoritesList = await dataProvider.getList('favoriteBook', {
+      sort: { field: 'isbn', order: 'ASC' },
+      filter: {},
+      pagination: { perPage: 10, page: 1 },
+    })
+    expect(favoritesList).toMatchSnapshot()
+  })
+
+  it('should fetch a single item by nodeId', async () => {
+    const favoritesList = await dataProvider.getList('favoriteBook', {
+      sort: { field: 'isbn', order: 'ASC' },
+      filter: {},
+      pagination: { perPage: 10, page: 1 },
+    })
+
+    const singleBook = await dataProvider.getOne('favoriteBook', {
+      id: favoritesList?.data[0]?.id,
+    })
+    expect(singleBook?.data?.isbn).toEqual('3221123')
+  })
+
+  it('should fetch many items by nodeId', async () => {
+    const favoritesList = await dataProvider.getList('favoriteBook', {
+      sort: { field: 'isbn', order: 'ASC' },
+      filter: {},
+      pagination: { perPage: 10, page: 1 },
+    })
+
+    const manyBooks = await dataProvider.getMany('favoriteBook', {
+      ids: favoritesList?.data.map((data) => data.isbn),
+    })
+    console.log(manyBooks)
+  })
+
+  it('should be able to delete for non-id field primary keys with `deleteByNodeId`', async () => {
+    const data = await dataProvider.getList('favoriteBook', {
+      pagination: { perPage: 10, page: 1 },
+      filter: {
+        isbn: '3221123',
+      },
+      sort: { field: 'isbn', order: 'ASC' },
+    })
+    const deletedBook = await dataProvider.delete('favoriteBook', {
+      id: data?.data[0].id,
+      previousData: data?.data[0],
+    })
+    console.log(deletedBook)
   })
 })
 

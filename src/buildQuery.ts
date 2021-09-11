@@ -135,7 +135,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
           id: mapType(primaryKeyType, (params as GetOneParams).id),
         },
         parseResponse: (response: Response) => {
-          return { data: response.data[singleLowerResourceName] }
+          return { data: response.data[getResourceName] }
         },
       }
     case GET_MANY:
@@ -244,33 +244,35 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
       return {
         variables: {
           input: {
-            id: mapType(primaryKeyType, (params as DeleteParams).id),
+            [primaryKey.idKeyName]: mapType(primaryKeyType, (params as DeleteParams).id),
           },
         },
         query: gql`
-          mutation ${deleteResourceName}($input: Delete${resourceTypename}Input!) {
+          mutation ${deleteResourceName}($input: ${capitalize(deleteResourceName)}Input!) {
             ${deleteResourceName}(input: $input) {
-            ${singleLowerResourceName} {
-            ${createQueryFromType(
-              resourceTypename,
-              typeMap,
-              typeMapConfiguration,
-              primaryKey,
-              DELETE
-            )}
-          }
-          }
+              ${singleLowerResourceName} {
+                ${createQueryFromType(
+                  resourceTypename,
+                  typeMap,
+                  typeMapConfiguration,
+                  primaryKey,
+                  DELETE
+                )}
+              }
+            }
           }
         `,
-        parseResponse: (response: Response) => ({
-          data: response.data[`${deleteResourceName}`][singleLowerResourceName],
-        }),
+        parseResponse: (response: Response) => {
+          return {
+            data: response?.data[deleteResourceName][singleLowerResourceName],
+          }
+        },
       }
     }
     case DELETE_MANY: {
       const thisIds = (params as UpdateManyParams).ids
       const deletions = thisIds.map((id) => ({
-        id: mapType(primaryKeyType, id),
+        [primaryKey.idKeyName]: mapType(primaryKeyType, id),
         clientMutationId: id.toString(),
       }))
       return {
@@ -284,7 +286,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
         query: gql`
           mutation deleteMany${resourceTypename}(
           ${thisIds
-            .map((id) => `$arg${escapeIdType(id)}: Delete${resourceTypename}Input!`)
+            .map((id) => `$arg${escapeIdType(id)}: ${capitalize(deleteResourceName)}Input!`)
             .join(',')}
           ) {
             ${thisIds.map(
