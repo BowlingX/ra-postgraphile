@@ -1,17 +1,83 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Primary keys should handle non-id field primary keys with \`nodeId\` 1`] = `
+exports[`Non standard Primary keys should be able to delete\` 1`] = `
+Object {
+  "data": Object {
+    "__typename": "FavoriteBook",
+    "id": "3221123",
+    "isSuperFavorite": false,
+    "isbn": "3221123",
+    "nodeId": "WyJmYXZvcml0ZV9ib29rcyIsIjMyMjExMjMiXQ==",
+  },
+}
+`;
+
+exports[`Non standard Primary keys should be able to update many 1`] = `
+Object {
+  "data": Array [
+    "3221123",
+    "51231",
+  ],
+}
+`;
+
+exports[`Non standard Primary keys should be able to update many 2`] = `
 Object {
   "data": Array [
     Object {
       "__typename": "FavoriteBook",
-      "id": "WyJmYXZvcml0ZV9ib29rcyIsIjMyMjExMjMiXQ==",
+      "id": "3221123",
+      "isSuperFavorite": true,
       "isbn": "3221123",
       "nodeId": "WyJmYXZvcml0ZV9ib29rcyIsIjMyMjExMjMiXQ==",
     },
     Object {
       "__typename": "FavoriteBook",
-      "id": "WyJmYXZvcml0ZV9ib29rcyIsIjUxMjMxIl0=",
+      "id": "51231",
+      "isSuperFavorite": true,
+      "isbn": "51231",
+      "nodeId": "WyJmYXZvcml0ZV9ib29rcyIsIjUxMjMxIl0=",
+    },
+  ],
+  "total": 2,
+}
+`;
+
+exports[`Non standard Primary keys should fetch many items 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "__typename": "FavoriteBook",
+      "id": "3221123",
+      "isSuperFavorite": false,
+      "isbn": "3221123",
+      "nodeId": "WyJmYXZvcml0ZV9ib29rcyIsIjMyMjExMjMiXQ==",
+    },
+    Object {
+      "__typename": "FavoriteBook",
+      "id": "51231",
+      "isSuperFavorite": false,
+      "isbn": "51231",
+      "nodeId": "WyJmYXZvcml0ZV9ib29rcyIsIjUxMjMxIl0=",
+    },
+  ],
+}
+`;
+
+exports[`Non standard Primary keys should list them 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "__typename": "FavoriteBook",
+      "id": "3221123",
+      "isSuperFavorite": false,
+      "isbn": "3221123",
+      "nodeId": "WyJmYXZvcml0ZV9ib29rcyIsIjMyMjExMjMiXQ==",
+    },
+    Object {
+      "__typename": "FavoriteBook",
+      "id": "51231",
+      "isSuperFavorite": false,
       "isbn": "51231",
       "nodeId": "WyJmYXZvcml0ZV9ib29rcyIsIjUxMjMxIl0=",
     },

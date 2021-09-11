@@ -16,6 +16,10 @@ beforeAll(async () => {
   dataProvider = convertLegacyDataProvider(legacyProvider)
 })
 
+beforeEach(async () => {
+  await client.clearStore()
+})
+
 afterAll(() => {
   cleanup()
 })
@@ -26,8 +30,8 @@ describe('dataProvider', () => {
   })
 })
 
-describe('Primary keys', () => {
-  it('should handle non-id field primary keys with `nodeId`', async () => {
+describe('Non standard Primary keys', () => {
+  it('should list them', async () => {
     const favoritesList = await dataProvider.getList('favoriteBook', {
       sort: { field: 'isbn', order: 'ASC' },
       filter: {},
@@ -36,45 +40,104 @@ describe('Primary keys', () => {
     expect(favoritesList).toMatchSnapshot()
   })
 
-  it('should fetch a single item by nodeId', async () => {
-    const favoritesList = await dataProvider.getList('favoriteBook', {
-      sort: { field: 'isbn', order: 'ASC' },
-      filter: {},
-      pagination: { perPage: 10, page: 1 },
-    })
-
+  it('should fetch a single item', async () => {
     const singleBook = await dataProvider.getOne('favoriteBook', {
-      id: favoritesList?.data[0]?.id,
+      id: '3221123',
     })
     expect(singleBook?.data?.isbn).toEqual('3221123')
   })
 
-  it('should fetch many items by nodeId', async () => {
+  it('should fetch many items', async () => {
+    const manyBooks = await dataProvider.getMany('favoriteBook', {
+      ids: ['51231', '3221123'],
+    })
+    expect(manyBooks).toMatchSnapshot()
+  })
+
+  it('should be able to delete`', async () => {
+    const result = await dataProvider.delete('favoriteBook', {
+      id: '3221123',
+      previousData: { id: '3221123' },
+    })
+    expect(result).toMatchSnapshot()
+    const singleBook = await dataProvider.getOne('favoriteBook', {
+      id: '3221123',
+    })
+    expect(singleBook.data).toBeNull()
+    await dataProvider.create('favoriteBook', {
+      data: {
+        isbn: '3221123',
+      },
+    })
+  })
+
+  it('should be able to delete many', async () => {
+    await dataProvider.deleteMany('favoriteBook', {
+      ids: ['3221123', '51231'],
+    })
     const favoritesList = await dataProvider.getList('favoriteBook', {
       sort: { field: 'isbn', order: 'ASC' },
       filter: {},
       pagination: { perPage: 10, page: 1 },
     })
-
-    const manyBooks = await dataProvider.getMany('favoriteBook', {
-      ids: favoritesList?.data.map((data) => data.isbn),
-    })
-    console.log(manyBooks)
-  })
-
-  it('should be able to delete for non-id field primary keys with `deleteByNodeId`', async () => {
-    const data = await dataProvider.getList('favoriteBook', {
-      pagination: { perPage: 10, page: 1 },
-      filter: {
+    expect(favoritesList.total).toEqual(0)
+    await dataProvider.create('favoriteBook', {
+      data: {
         isbn: '3221123',
       },
+    })
+    await dataProvider.create('favoriteBook', {
+      data: {
+        isbn: '51231',
+      },
+    })
+  })
+  it('should able to update', async () => {
+    await dataProvider.update('favoriteBook', {
+      id: '3221123',
+      data: {
+        isbn: 'XYZ',
+      },
+      previousData: {
+        id: '3221123',
+        isbn: '3221123',
+      },
+    })
+    const singleBook = await dataProvider.getOne('favoriteBook', {
+      id: 'XYZ',
+    })
+    expect(singleBook.data?.isbn).toEqual('XYZ')
+    await dataProvider.update('favoriteBook', {
+      id: 'XYZ',
+      data: {
+        isbn: '3221123',
+      },
+      previousData: {
+        id: 'XYZ',
+        isbn: 'XYZ',
+      },
+    })
+  })
+  it('should be able to update many', async () => {
+    const result = await dataProvider.updateMany('favoriteBook', {
+      ids: ['3221123', '51231'],
+      data: {
+        isSuperFavorite: true,
+      },
+    })
+    expect(result).toMatchSnapshot()
+    const favoritesList = await dataProvider.getList('favoriteBook', {
       sort: { field: 'isbn', order: 'ASC' },
+      filter: {},
+      pagination: { perPage: 10, page: 1 },
     })
-    const deletedBook = await dataProvider.delete('favoriteBook', {
-      id: data?.data[0].id,
-      previousData: data?.data[0],
+    expect(favoritesList).toMatchSnapshot()
+    await dataProvider.updateMany('favoriteBook', {
+      ids: ['3221123', '51231'],
+      data: {
+        isSuperFavorite: false,
+      },
     })
-    console.log(deletedBook)
   })
 })
 

@@ -278,7 +278,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
       return {
         variables: deletions.reduce(
           (next, input) => ({
-            [`arg${escapeIdType(input.id)}`]: input,
+            [`arg${escapeIdType(input[primaryKey.idKeyName])}`]: input,
             ...next,
           }),
           {}
@@ -309,7 +309,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
       const updateParams = params as UpdateParams
       const updateVariables = {
         input: {
-          id: mapType(primaryKeyType, updateParams.id),
+          [primaryKey.idKeyName]: mapType(primaryKeyType, updateParams.id),
           patch: mapInputToVariables(
             updateParams.data,
             typeMap[`${resourceTypename}Patch`],
@@ -343,7 +343,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
     case UPDATE_MANY: {
       const { ids, data } = params as UpdateManyParams
       const inputs = ids.map((id) => ({
-        id: mapType(primaryKeyType, id),
+        [primaryKey.idKeyName]: mapType(primaryKeyType, id),
         clientMutationId: id.toString(),
         patch: mapInputToVariables(
           data,
@@ -355,7 +355,7 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
       return {
         variables: inputs.reduce(
           (next, input) => ({
-            [`arg${escapeIdType(input.id)}`]: input,
+            [`arg${escapeIdType(input[primaryKey.idKeyName])}`]: input,
             ...next,
           }),
           {}
@@ -364,9 +364,9 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
         ${ids.map((id) => `$arg${escapeIdType(id)}: Update${resourceTypename}Input!`).join(',')}) {
           ${inputs.map((input) => {
             return `
-             update${escapeIdType(input.id)}:${updateResourceName}(input: $arg${escapeIdType(
-              input.id
-            )}) {
+             update${escapeIdType(
+               input[primaryKey.idKeyName]
+             )}:${updateResourceName}(input: $arg${escapeIdType(input[primaryKey.idKeyName])}) {
                clientMutationId
              }
             `

@@ -31,7 +31,6 @@ const ARGUMENT_FILTER = 'filter'
 const ARGUMENT_CONDITION = 'condition'
 const ARGUMENT_ORDER_BY = 'orderBy'
 const DEFAULT_ID_FIELD_NAME = 'id'
-const NODE_ID_FIELD_NAME = 'nodeId'
 
 export const capitalize = (str: string) => str[0].toUpperCase() + str.slice(1)
 export const lowercase = (str: string) => str[0].toLowerCase() + str.slice(1)
@@ -64,7 +63,7 @@ export const createSortingKey = (field: string, sort: SortDirection) => {
   return `${snake(field).toUpperCase()}_${sort.toUpperCase()}`
 }
 
-export const escapeIdType = (id: any) => String(id).replace(/-/gi, '_')
+export const escapeIdType = (id: any) => String(id).replace(/[-\s]/gi, '_')
 
 export const formatArgumentsAsQuery = (obj: any, level = 0) => {
   if (typeof obj === 'number') {
@@ -405,12 +404,12 @@ export const preparePrimaryKey = (
   if (primaryKeyName !== DEFAULT_ID_FIELD_NAME) {
     return {
       field: field as IntrospectionField,
-      idKeyName: NODE_ID_FIELD_NAME,
+      idKeyName: primaryKeyName,
       primaryKeyName,
       primaryKeyType: primaryKeyType as IntrospectionNamedTypeRef<IntrospectionOutputType>,
-      getResourceName: `${resourceName}ByNodeId`,
-      deleteResourceName: `delete${resourceTypename}ByNodeId`,
-      updateResourceName: `update${resourceTypename}ByNodeId`,
+      getResourceName: resourceName,
+      deleteResourceName: `delete${resourceTypename}`,
+      updateResourceName: `update${resourceTypename}`,
       shouldRewrite: true,
     }
   }
@@ -420,7 +419,7 @@ export const preparePrimaryKey = (
     idKeyName: DEFAULT_ID_FIELD_NAME,
     primaryKeyName,
     primaryKeyType: primaryKeyType as IntrospectionNamedTypeRef<IntrospectionOutputType>,
-    getResourceName: `${resourceName}`,
+    getResourceName: resourceName,
     deleteResourceName: `delete${resourceTypename}`,
     updateResourceName: `update${resourceTypename}`,
     shouldRewrite: false,
