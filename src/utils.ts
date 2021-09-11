@@ -401,27 +401,17 @@ export const preparePrimaryKey = (
     >)?.ofType
   }
 
-  if (primaryKeyName !== DEFAULT_ID_FIELD_NAME) {
-    return {
-      field: field as IntrospectionField,
-      idKeyName: primaryKeyName,
-      primaryKeyName,
-      primaryKeyType: primaryKeyType as IntrospectionNamedTypeRef<IntrospectionOutputType>,
-      getResourceName: resourceName,
-      deleteResourceName: `delete${resourceTypename}`,
-      updateResourceName: `update${resourceTypename}`,
-      shouldRewrite: true,
-    }
-  }
+  const shouldRewrite = primaryKeyName !== DEFAULT_ID_FIELD_NAME
+  const idKeyName = shouldRewrite ? primaryKeyName : DEFAULT_ID_FIELD_NAME
 
   return {
     field: field as IntrospectionField,
-    idKeyName: DEFAULT_ID_FIELD_NAME,
+    idKeyName,
     primaryKeyName,
     primaryKeyType: primaryKeyType as IntrospectionNamedTypeRef<IntrospectionOutputType>,
     getResourceName: resourceName,
     deleteResourceName: `delete${resourceTypename}`,
     updateResourceName: `update${resourceTypename}`,
-    shouldRewrite: false,
+    shouldRewrite,
   }
 }
