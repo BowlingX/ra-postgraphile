@@ -100,8 +100,8 @@ The following can be configured
 | Option                     | Signature                                                                                            | Description                                                                                                                                           |
 | -------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `queryValueToInputValue`   | `(value: any ) => any`                                                                               | Allows you to map the value if used as an input type for mutations. Some values might not convert 1:1 if returned from the query and used as an input |
-| `excludeFields`            | `string[] or ((fieldName: string, queryFetchType: FetchQueryType) => boolean)`                                                      | Allows you to exclude certain fields, either by passing an array (e.g. `['field1', 'field2']`) or a function                                          |
-| `includeFields`            | `string[] or ((fieldName: string, queryFetchType: FetchQueryType) => boolean)`                                                      | Same as exclude fields, but if provided will let you dynamically decide if a field is queried.                                                        |
+| `excludeFields`            | `string[] or ((fieldName: string, queryFetchType: FetchQueryType) => boolean)`                       | Allows you to exclude certain fields, either by passing an array (e.g. `['field1', 'field2']`) or a function                                          |
+| `includeFields`            | `string[] or ((fieldName: string, queryFetchType: FetchQueryType) => boolean)`                       | Same as exclude fields, but if provided will let you dynamically decide if a field is queried.                                                        |
 | `computeArgumentsForField` | `(fieldName: string, args: ReadonlyArray<IntrospectionInputValue> ) => Record< string, any> or null` | Allows you to dynamically provide arguments for a given field                                                                                         |
 | `expand`                   | `boolean`                                                                                            | If true, will expand this type and query subfields                                                                                                    |
 
@@ -138,7 +138,7 @@ Please see [here](migrations/committed/000001.sql) for an example schema.
 ### Primary Keys
 
 `react-admin` requires each resource to be identified by a unique `id`. If your resource does not have an `id` field,
-we will use the generated `nodeId` from your `primaryKey`. All types processed by `ra-postgraphile` require a primary key.
+we alias the id field to your `primaryKey`. All types processed by `ra-postgraphile` require a primary key.
 
 ## Contribution
 

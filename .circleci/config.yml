@@ -76,7 +76,7 @@ jobs:
       - run: git config user.name "ci-build"
       - add_ssh_keys:
           fingerprints:
-            - "5d:16:ea:3a:5c:18:b9:b7:04:80:99:35:81:09:d9:e4"
+            - '5d:16:ea:3a:5c:18:b9:b7:04:80:99:35:81:09:d9:e4'
       - run: yarn doc:publish
 
 workflows:
@@ -91,6 +91,7 @@ workflows:
               only:
                 - master
                 - beta
+                - next
           requires:
             - 'node-12'
             - 'node-latest'
