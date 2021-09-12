@@ -1,3 +1,15 @@
+# [5.0.0](https://github.com/BowlingX/ra-postgraphile/compare/v4.5.0...v5.0.0) (2021-09-12)
+
+
+### Bug Fixes
+
+* non-id primary key handling. ([70c5bbc](https://github.com/BowlingX/ra-postgraphile/commit/70c5bbc5264bf69229abd8549e2c9b3f3b254ef2)), closes [#71](https://github.com/BowlingX/ra-postgraphile/issues/71)
+
+
+### BREAKING CHANGES
+
+* This might be a breaking change for some people who relied on `nodeId` semantics.
+
 # [4.5.0](https://github.com/BowlingX/ra-postgraphile/compare/v4.4.3...v4.5.0) (2021-08-04)
 
 
