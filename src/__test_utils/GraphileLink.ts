@@ -1,12 +1,5 @@
-import {
-  ApolloLink,
-  Operation,
-  NextLink,
-  FetchResult,
-  Observable,
-  ExecutionResult,
-} from 'apollo-link'
-import { execute, getOperationAST, GraphQLSchema } from 'graphql'
+import { ApolloLink, Operation, NextLink, FetchResult, Observable } from '@apollo/client'
+import { execute, ExecutionResult, getOperationAST, GraphQLSchema } from 'graphql'
 import { Pool } from 'pg'
 import { withPostGraphileContext } from 'postgraphile'
 

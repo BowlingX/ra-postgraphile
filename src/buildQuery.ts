@@ -25,6 +25,7 @@ import type {
   UpdateParams,
   Identifier,
 } from 'ra-core'
+import type { BuildQueryResult } from 'ra-data-graphql'
 import { createFilter } from './filters'
 import { getManyReference } from './getManyReference'
 import {
@@ -41,7 +42,14 @@ import {
   stripUndefined,
 } from './utils'
 
-import { Factory, NATURAL_SORTING, QueryMap, Response, TypeMap, SortDirection } from './types'
+import {
+  NATURAL_SORTING,
+  QueryMap,
+  Response,
+  TypeMap,
+  SortDirection,
+  ProviderOptions,
+} from './types'
 
 // cache for all types
 let typeMap: TypeMap
@@ -69,21 +77,18 @@ type AllParams =
   | ListParams
   | UpdateParams
 
-export const buildQuery = (introspectionResults: IntrospectionResult, factory: Factory) => (
-  raFetchType: string,
-  resName: string,
-  params: AllParams
-) => {
+export const buildQuery = (options: ProviderOptions) => (
+  introspectionResults: IntrospectionResult
+) => (raFetchType: string, resName: string, params: AllParams): BuildQueryResult => {
   if (!raFetchType || !resName) {
-    return { data: null }
+    throw new Error(`${raFetchType} / ${resName} is not yet implemented.`)
   }
+
+  // By default we don't query for any complex types on the object, just scalars and scalars[]
+  const typeMapConfiguration = options.typeMap
 
   // We do this here because react-admin is sometimes not consistent with the case (EditGuesser, etc)
   const resourceName = singular(resName)
-
-  const options = factory.options
-  // By default we don't query for any complex types on the object, just scalars and scalars[]
-  const typeMapConfiguration = options.typeMap
 
   const resourceTypename = capitalize(resourceName)
   const { types, queries } = introspectionResults
@@ -100,7 +105,9 @@ export const buildQuery = (introspectionResults: IntrospectionResult, factory: F
     throw new Error(`Type "${resourceTypename}" did not exist in the introspection result.`)
   }
 
-  const pluralizedResourceTypeName = pluralize(resourceTypename)
+  const thisPluralize = typeMapConfiguration[resourceTypename]?.pluralize ?? pluralize
+
+  const pluralizedResourceTypeName = thisPluralize(resourceTypename)
   const manyLowerResourceName = lowercase(pluralizedResourceTypeName)
   const singleLowerResourceName = lowercase(resourceTypename)
   const primaryKey = preparePrimaryKey(

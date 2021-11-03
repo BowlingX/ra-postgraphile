@@ -1,15 +1,15 @@
-import buildGraphQLProvider from 'ra-data-graphql'
-import type { ApolloClient } from 'apollo-client'
-import type { LegacyDataProvider } from 'ra-core'
+import buildGraphQLProvider, { Options } from 'ra-data-graphql'
+import type { ApolloClient } from '@apollo/client'
+import { DataProvider } from 'ra-core'
 import { buildQuery } from './buildQuery'
 import { buildInTypeConfig } from './defaultTypeConfig'
-import { ProviderOptions, GraphqlProviderOptions } from './types'
+import { ProviderOptions } from './types'
 
 export const factory = <T = any>(
   client: ApolloClient<T>,
   options?: ProviderOptions,
-  graphqlProviderOptions: GraphqlProviderOptions = {}
-): LegacyDataProvider => {
+  graphqlProviderOptions?: Omit<Options, 'client' | 'buildQuery'>
+): Promise<DataProvider> => {
   const defaultAppliedOptions = {
     typeMap: {
       ...buildInTypeConfig,
@@ -20,7 +20,6 @@ export const factory = <T = any>(
   return buildGraphQLProvider({
     ...graphqlProviderOptions,
     client,
-    buildQuery,
-    options: defaultAppliedOptions,
+    buildQuery: buildQuery(defaultAppliedOptions),
   })
 }

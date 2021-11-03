@@ -75,10 +75,10 @@
     "graphile-utils": "^4.7.0",
     "husky": "^3.1.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^24.9.0",
-    "jest-environment-enzyme": "^7.1.1",
-    "jest-enzyme": "^7.1.1",
-    "jest-junit": "^8.0.0",
+    "jest": "^26.6.3",
+    "jest-environment-enzyme": "^7.1.2",
+    "jest-enzyme": "^7.1.2",
+    "jest-junit": "^13.0.0",
     "npm-run-all": "^4.1.5",
     "open-cli": "^5.0.0",
     "pg": "^8.3.0",
@@ -87,18 +87,19 @@
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "query-string": "^6.13.1",
-    "ra-core": "^3.16.3",
-    "ra-data-graphql": "^3.11.4",
+    "ra-core": "^3.19.0",
+    "ra-data-graphql": "^3.19.0",
+    "@apollo/client": "^3.4.16",
     "react": "^16.9.0",
     "react-admin": "^3.16.4",
     "react-dom": "^16.9.0",
     "renamer": "^1.1.2",
-    "semantic-release": "^17.4.4",
+    "semantic-release": "^18.0.0",
     "trash-cli": "^3.0.0",
-    "ts-jest": "^24.2.0",
+    "ts-jest": "^26.5.6",
     "ts-loader": "^6.2.1",
     "typedoc": "^0.17.8",
-    "typescript": "^3.9.6"
+    "typescript": "^4.4.4"
   },
   "release": {
     "plugins": [
@@ -169,7 +170,7 @@
     }
   },
   "peerDependencies": {
-    "ra-data-graphql": ">=2",
+    "ra-data-graphql": ">=3.19.0",
     "react-admin": ">=2"
   }
 }

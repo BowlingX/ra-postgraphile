@@ -5,9 +5,5 @@
     "outDir": "build/module",
     "module": "es6"
   },
-  "exclude": [
-    "src/examples/**",
-    "**/__tests__/**",
-    "src/__test_utils/**"
-  ]
+  "exclude": ["./src/examples/**", "**/__tests__/**", "./src/__test_utils/**"]
 }

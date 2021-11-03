@@ -1,6 +1,6 @@
 import expect from 'expect'
-import { ApolloClient } from 'apollo-client'
-import { convertLegacyDataProvider, DataProvider, GET_LIST } from 'ra-core'
+import { ApolloClient } from '@apollo/client'
+import { DataProvider, GET_LIST } from 'ra-core'
 import { makeQueryRunner } from '../../__test_utils/QueryRunner'
 import { factory } from '../../factory'
 import { FetchQueryType, ProviderOptions } from '../../types'
@@ -38,8 +38,9 @@ beforeAll(async () => {
   const { release, apolloClient, schema } = await makeQueryRunner()
   cleanup = release
   client = apolloClient
-  const legacyProvider = await factory(client, extendedConfiguration, { introspection: { schema } })
-  dataProvider = convertLegacyDataProvider(legacyProvider)
+  dataProvider = await factory(client, extendedConfiguration, {
+    introspection: { schema, operationNames: {} },
+  })
 })
 
 afterAll(() => {

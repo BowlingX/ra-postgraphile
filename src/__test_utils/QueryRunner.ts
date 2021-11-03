@@ -1,7 +1,6 @@
-require('dotenv').config()
+import 'dotenv/config'
 import { introspectionFromSchema } from 'graphql'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import { ApolloClient } from 'apollo-client'
+import { ApolloClient, InMemoryCache } from '@apollo/client'
 import { Pool } from 'pg'
 import { createPostGraphileSchema } from 'postgraphile'
 

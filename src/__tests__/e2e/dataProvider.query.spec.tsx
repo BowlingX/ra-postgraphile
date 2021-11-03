@@ -1,6 +1,6 @@
 import expect from 'expect'
-import { ApolloClient } from 'apollo-client'
-import { convertLegacyDataProvider, DataProvider } from 'ra-core'
+import { ApolloClient } from '@apollo/client'
+import { DataProvider } from 'ra-core'
 import { makeQueryRunner } from '../../__test_utils/QueryRunner'
 import { factory } from '../../factory'
 
@@ -12,8 +12,7 @@ beforeAll(async () => {
   const { release, apolloClient, schema } = await makeQueryRunner()
   cleanup = release
   client = apolloClient
-  const legacyProvider = await factory(client, undefined, { introspection: { schema } })
-  dataProvider = convertLegacyDataProvider(legacyProvider)
+  dataProvider = await factory(client, undefined, { introspection: { schema, operationNames: {} } })
 })
 
 beforeEach(async () => {

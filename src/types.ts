@@ -1,4 +1,4 @@
-import type { IntrospectionInputValue, IntrospectionSchema, IntrospectionType } from 'graphql'
+import type { IntrospectionInputValue, IntrospectionType } from 'graphql'
 import { CREATE, DELETE, GET_LIST, GET_MANY, GET_MANY_REFERENCE, GET_ONE, UPDATE } from 'ra-core'
 
 export type FetchQueryType =
@@ -44,6 +44,11 @@ export interface TypeConfig {
    * Make sure you expand subtypes as well if required.
    */
   expand?: boolean
+
+  /**
+   * Optional choose your own plural form
+   */
+  pluralize?: (name: string) => string
 }
 
 export interface TypeConfigMap {
@@ -52,15 +57,6 @@ export interface TypeConfigMap {
 
 export interface ProviderOptions {
   typeMap: TypeConfigMap
-}
-
-export interface GraphqlProviderOptions {
-  introspection?: { schema: IntrospectionSchema }
-}
-
-export interface Factory {
-  options: ProviderOptions
-  graphqlOptions: GraphqlProviderOptions
 }
 
 export type SortDirection = 'ASC' | 'DESC'
