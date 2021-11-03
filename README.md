@@ -104,6 +104,7 @@ The following can be configured
 | `includeFields`            | `string[] or ((fieldName: string, queryFetchType: FetchQueryType) => boolean)`                       | Same as exclude fields, but if provided will let you dynamically decide if a field is queried.                                                        |
 | `computeArgumentsForField` | `(fieldName: string, args: ReadonlyArray<IntrospectionInputValue> ) => Record< string, any> or null` | Allows you to dynamically provide arguments for a given field                                                                                         |
 | `expand`                   | `boolean`                                                                                            | If true, will expand this type and query subfields                                                                                                    |
+| `pluralize`                | `(value: string ) => string`                                                                         | Optional pluralization of resource name (uses `pluralize` by default)                                                                                 |
 
 Please see ([src/types.ts](src/types.ts)) for detailed types of `TypeConfig`.
 
