@@ -188,18 +188,12 @@
 						</tr>
 				</tbody></table>
 				<p>Please see (<a href="src/types.ts">src/types.ts</a>) for detailed types of <code>TypeConfig</code>.</p>
-				<a href="#apollo-client" id="apollo-client" style="color: inherit; text-decoration: none;">
-					<h3>Apollo client</h3>
+				<a href="#supported-apollo-client-versions" id="supported-apollo-client-versions" style="color: inherit; text-decoration: none;">
+					<h3>Supported Apollo client versions</h3>
 				</a>
-				<p>Both version <code>2.x</code> and <code>3.x</code> of apollo client are supported (because you provide the instance).
-					The current <code>4.x</code> version of this library depends on <code>apollo-client</code> <code>2.x</code>, so
-				you will get typescript errors. To resolve that you have to cast to <code>any</code>:</p>
-				<p><strong>Example</strong>:</p>
-				<pre><code class="language-ts"><span class="hljs-comment">// ..</span>
-<span class="hljs-comment">// fix for apollo-client v3</span>
-<span class="hljs-keyword">const</span> dataProvider = <span class="hljs-keyword">await</span> createDataProvider(client <span class="hljs-keyword">as</span> <span class="hljs-built_in">any</span> <span class="hljs-comment">/** other options **/</span>)
-<span class="hljs-comment">// ..</span></code></pre>
-				<p>Version 5 will depend on <code>@apollo/client</code> <code>3.x</code>.</p>
+				<p>If you require support for <code>apollo-client</code> v2 please use version <code>&lt;6</code>, otherwise use <code>&gt;=6</code>.</p>
+				<p><strong>I recommend to upgrade to <code>@apollo/client</code> v3 packages because the core graphql data provider
+				requires version 3 in it&#39;s latest versions.</strong></p>
 				<a href="#supported-concepts" id="supported-concepts" style="color: inherit; text-decoration: none;">
 					<h2>Supported concepts</h2>
 				</a>
