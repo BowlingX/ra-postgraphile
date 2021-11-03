@@ -1,3 +1,16 @@
+# [6.0.0](https://github.com/BowlingX/ra-postgraphile/compare/v5.0.0...v6.0.0) (2021-11-03)
+
+
+### Bug Fixes
+
+* bumped required `ra-data-graphql` dependency, use `@apollo/client` v3 adjusted types, refactored usage; Provide a way to override pluralize behaviour (fixes [#78](https://github.com/BowlingX/ra-postgraphile/issues/78)). ([c3ae389](https://github.com/BowlingX/ra-postgraphile/commit/c3ae389f78929bb68a33b62c4f9dc76cb632bda1))
+* use latest lts nodes for builds; fixed deprecations in `ra-data-graphql` fixes [#77](https://github.com/BowlingX/ra-postgraphile/issues/77) ([f51cc69](https://github.com/BowlingX/ra-postgraphile/commit/f51cc69dd7b80b20d5da7168af16013e87d105c6))
+
+
+### BREAKING CHANGES
+
+* This version requires `ra-data-graphql` version >= `3.19.0` and `@apollo/client` v3.
+
 # [5.0.0](https://github.com/BowlingX/ra-postgraphile/compare/v4.5.0...v5.0.0) (2021-09-12)
 
 
