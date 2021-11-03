@@ -108,22 +108,12 @@ The following can be configured
 
 Please see ([src/types.ts](src/types.ts)) for detailed types of `TypeConfig`.
 
-### Apollo client
+### Supported Apollo client versions
 
-Both version `2.x` and `3.x` of apollo client are supported (because you provide the instance).
-The current `4.x` version of this library depends on `apollo-client` `2.x`, so
-you will get typescript errors. To resolve that you have to cast to `any`:
+If you require support for `apollo-client` v2 please use version `<6`, otherwise use `>=6`.
 
-**Example**:
-
-```ts
-// ..
-// fix for apollo-client v3
-const dataProvider = await createDataProvider(client as any /** other options **/)
-// ..
-```
-
-Version 5 will depend on `@apollo/client` `3.x`.
+**I recommend to upgrade to `@apollo/client` v3 packages because the core graphql data provider
+requires version 3 in it's latest versions.**
 
 ## Supported concepts
 
