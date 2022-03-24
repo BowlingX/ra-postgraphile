@@ -108,7 +108,26 @@ export const buildQuery = (options: ProviderOptions) => (
   const thisPluralize = typeMapConfiguration[resourceTypename]?.pluralize ?? pluralize
 
   const pluralizedResourceTypeName = thisPluralize(resourceTypename)
-  const manyLowerResourceName = lowercase(pluralizedResourceTypeName)
+  const distinctPluralize = (str: string) => {
+    const plural = thisPluralize(str)
+    if (str !== plural) {
+      return plural
+    }
+    if (
+      plural.endsWith('ch') ||
+      plural.endsWith('s') ||
+      plural.endsWith('sh') ||
+      plural.endsWith('x') ||
+      plural.endsWith('z')
+    ) {
+      return plural + 'es'
+    } else if (plural.endsWith('y')) {
+      return plural.slice(0, -1) + 'ies'
+    } else {
+      return plural + 's'
+    }
+  }
+  const manyLowerResourceName = lowercase(distinctPluralize(resourceTypename))
   const singleLowerResourceName = lowercase(resourceTypename)
   const primaryKey = preparePrimaryKey(
     queryMap[singleLowerResourceName],
