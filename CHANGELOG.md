@@ -1,3 +1,10 @@
+## [6.0.1](https://github.com/BowlingX/ra-postgraphile/compare/v6.0.0...v6.0.1) (2022-03-31)
+
+
+### Bug Fixes
+
+* match with graphile-simple-inflector generated type by distinctPluralize ([#89](https://github.com/BowlingX/ra-postgraphile/issues/89)) ([ea8770c](https://github.com/BowlingX/ra-postgraphile/commit/ea8770c606aa4a53f5470cc8700390b83dc43b85))
+
 # [6.0.0](https://github.com/BowlingX/ra-postgraphile/compare/v5.0.0...v6.0.0) (2021-11-03)
 
 
