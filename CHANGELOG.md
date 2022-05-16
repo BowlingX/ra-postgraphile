@@ -1,3 +1,10 @@
+# [6.1.0](https://github.com/BowlingX/ra-postgraphile/compare/v6.0.1...v6.1.0) (2022-05-16)
+
+
+### Features
+
+* More robust custom typed id column handling ([#95](https://github.com/BowlingX/ra-postgraphile/issues/95)) ([b7a336c](https://github.com/BowlingX/ra-postgraphile/commit/b7a336c0ff3e25a6d682210bd06ab949ea61e2df))
+
 ## [6.0.1](https://github.com/BowlingX/ra-postgraphile/compare/v6.0.0...v6.0.1) (2022-03-31)
 
 
