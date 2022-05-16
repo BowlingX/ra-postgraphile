@@ -1214,7 +1214,7 @@
 			]
 		},
 		{
-			"id": 303,
+			"id": 304,
 			"name": "GeoJSON",
 			"kind": 256,
 			"kindString": "Interface",
@@ -1223,7 +1223,7 @@
 			},
 			"children": [
 				{
-					"id": 304,
+					"id": 305,
 					"name": "coordinates",
 					"kind": 1024,
 					"kindString": "Property",
@@ -1251,7 +1251,7 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						304
+						305
 					]
 				}
 			],
@@ -2332,7 +2332,7 @@
 			]
 		},
 		{
-			"id": 299,
+			"id": 300,
 			"name": "AllParams",
 			"kind": 4194304,
 			"kindString": "Type alias",
@@ -2342,7 +2342,7 @@
 			"sources": [
 				{
 					"fileName": "src/buildQuery.ts",
-					"line": 68,
+					"line": 87,
 					"character": 14
 				}
 			],
@@ -2708,7 +2708,7 @@
 			}
 		},
 		{
-			"id": 293,
+			"id": 294,
 			"name": "IntrospectionResult",
 			"kind": 4194304,
 			"kindString": "Type alias",
@@ -2718,14 +2718,14 @@
 			"sources": [
 				{
 					"fileName": "src/buildQuery.ts",
-					"line": 61,
+					"line": 80,
 					"character": 24
 				}
 			],
 			"type": {
 				"type": "reflection",
 				"declaration": {
-					"id": 294,
+					"id": 295,
 					"name": "__type",
 					"kind": 65536,
 					"kindString": "Type literal",
@@ -2734,7 +2734,7 @@
 					},
 					"children": [
 						{
-							"id": 297,
+							"id": 298,
 							"name": "queries",
 							"kind": 32,
 							"kindString": "Variable",
@@ -2744,7 +2744,7 @@
 							"sources": [
 								{
 									"fileName": "src/buildQuery.ts",
-									"line": 64,
+									"line": 83,
 									"character": 9
 								}
 							],
@@ -2760,7 +2760,7 @@
 							}
 						},
 						{
-							"id": 298,
+							"id": 299,
 							"name": "resources",
 							"kind": 32,
 							"kindString": "Variable",
@@ -2770,7 +2770,7 @@
 							"sources": [
 								{
 									"fileName": "src/buildQuery.ts",
-									"line": 65,
+									"line": 84,
 									"character": 11
 								}
 							],
@@ -2786,7 +2786,7 @@
 							}
 						},
 						{
-							"id": 295,
+							"id": 296,
 							"name": "schema",
 							"kind": 32,
 							"kindString": "Variable",
@@ -2796,7 +2796,7 @@
 							"sources": [
 								{
 									"fileName": "src/buildQuery.ts",
-									"line": 62,
+									"line": 81,
 									"character": 8
 								}
 							],
@@ -2806,7 +2806,7 @@
 							}
 						},
 						{
-							"id": 296,
+							"id": 297,
 							"name": "types",
 							"kind": 32,
 							"kindString": "Variable",
@@ -2816,7 +2816,7 @@
 							"sources": [
 								{
 									"fileName": "src/buildQuery.ts",
-									"line": 63,
+									"line": 82,
 									"character": 7
 								}
 							],
@@ -2837,17 +2837,17 @@
 							"title": "Variables",
 							"kind": 32,
 							"children": [
-								297,
 								298,
-								295,
-								296
+								299,
+								296,
+								297
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "src/buildQuery.ts",
-							"line": 61,
+							"line": 80,
 							"character": 26
 						}
 					]
@@ -3219,7 +3219,7 @@
 			"sources": [
 				{
 					"fileName": "src/buildQuery.ts",
-					"line": 56,
+					"line": 57,
 					"character": 12
 				}
 			],
@@ -3241,7 +3241,7 @@
 			"sources": [
 				{
 					"fileName": "src/buildQuery.ts",
-					"line": 55,
+					"line": 56,
 					"character": 11
 				}
 			],
@@ -3332,7 +3332,7 @@
 			]
 		},
 		{
-			"id": 300,
+			"id": 301,
 			"name": "buildQuery",
 			"kind": 64,
 			"kindString": "Function",
@@ -3342,7 +3342,7 @@
 			},
 			"signatures": [
 				{
-					"id": 301,
+					"id": 302,
 					"name": "buildQuery",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -3351,7 +3351,7 @@
 					},
 					"parameters": [
 						{
-							"id": 302,
+							"id": 303,
 							"name": "options",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -3374,7 +3374,7 @@
 			"sources": [
 				{
 					"fileName": "src/buildQuery.ts",
-					"line": 80,
+					"line": 99,
 					"character": 23
 				}
 			]
@@ -4367,7 +4367,7 @@
 			]
 		},
 		{
-			"id": 330,
+			"id": 331,
 			"name": "factory",
 			"kind": 64,
 			"kindString": "Function",
@@ -4377,7 +4377,7 @@
 			},
 			"signatures": [
 				{
-					"id": 331,
+					"id": 332,
 					"name": "factory",
 					"kind": 4096,
 					"kindString": "Call signature",
@@ -4386,7 +4386,7 @@
 					},
 					"typeParameter": [
 						{
-							"id": 332,
+							"id": 333,
 							"name": "T",
 							"kind": 131072,
 							"kindString": "Type parameter",
@@ -4397,7 +4397,7 @@
 					],
 					"parameters": [
 						{
-							"id": 333,
+							"id": 334,
 							"name": "client",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -4416,7 +4416,7 @@
 							}
 						},
 						{
-							"id": 334,
+							"id": 335,
 							"name": "options",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -4431,7 +4431,7 @@
 							}
 						},
 						{
-							"id": 335,
+							"id": 336,
 							"name": "graphqlProviderOptions",
 							"kind": 32768,
 							"kindString": "Parameter",
@@ -5736,27 +5736,33 @@
 									}
 								]
 							}
+						},
+						{
+							"id": 293,
+							"name": "typeConfigMap",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {
+								"isExported": true,
+								"isOptional": true
+							},
+							"type": {
+								"type": "reference",
+								"id": 92,
+								"name": "TypeConfigMap"
+							}
 						}
 					],
 					"type": {
-						"type": "union",
-						"types": [
-							{
-								"type": "intrinsic",
-								"name": "string"
-							},
-							{
-								"type": "intrinsic",
-								"name": "number"
-							}
-						]
+						"type": "intrinsic",
+						"name": "any"
 					}
 				}
 			],
 			"sources": [
 				{
 					"fileName": "src/buildQuery.ts",
-					"line": 58,
+					"line": 59,
 					"character": 20
 				}
 			]
@@ -6158,7 +6164,7 @@
 			]
 		},
 		{
-			"id": 305,
+			"id": 306,
 			"name": "buildInTypeConfig",
 			"kind": 2097152,
 			"kindString": "Object literal",
@@ -6168,7 +6174,7 @@
 			},
 			"children": [
 				{
-					"id": 322,
+					"id": 323,
 					"name": "GeographyPoint",
 					"kind": 2097152,
 					"kindString": "Object literal",
@@ -6177,7 +6183,7 @@
 					},
 					"children": [
 						{
-							"id": 323,
+							"id": 324,
 							"name": "expand",
 							"kind": 32,
 							"kindString": "Variable",
@@ -6198,7 +6204,7 @@
 							"defaultValue": "true"
 						},
 						{
-							"id": 324,
+							"id": 325,
 							"name": "queryValueToInputValue",
 							"kind": 64,
 							"kindString": "Function",
@@ -6207,7 +6213,7 @@
 							},
 							"signatures": [
 								{
-									"id": 325,
+									"id": 326,
 									"name": "queryValueToInputValue",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -6216,7 +6222,7 @@
 									},
 									"parameters": [
 										{
-											"id": 326,
+											"id": 327,
 											"name": "value",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -6226,7 +6232,7 @@
 											"type": {
 												"type": "reflection",
 												"declaration": {
-													"id": 327,
+													"id": 328,
 													"name": "__type",
 													"kind": 65536,
 													"kindString": "Type literal",
@@ -6235,7 +6241,7 @@
 													},
 													"children": [
 														{
-															"id": 328,
+															"id": 329,
 															"name": "geojson",
 															"kind": 32,
 															"kindString": "Variable",
@@ -6251,12 +6257,12 @@
 															],
 															"type": {
 																"type": "reference",
-																"id": 303,
+																"id": 304,
 																"name": "GeoJSON"
 															}
 														},
 														{
-															"id": 329,
+															"id": 330,
 															"name": "type",
 															"kind": 32,
 															"kindString": "Variable",
@@ -6281,8 +6287,8 @@
 															"title": "Variables",
 															"kind": 32,
 															"children": [
-																328,
-																329
+																329,
+																330
 															]
 														}
 													],
@@ -6299,7 +6305,7 @@
 									],
 									"type": {
 										"type": "reference",
-										"id": 303,
+										"id": 304,
 										"name": "GeoJSON"
 									}
 								}
@@ -6318,14 +6324,14 @@
 							"title": "Variables",
 							"kind": 32,
 							"children": [
-								323
+								324
 							]
 						},
 						{
 							"title": "Functions",
 							"kind": 64,
 							"children": [
-								324
+								325
 							]
 						}
 					],
@@ -6342,7 +6348,7 @@
 					}
 				},
 				{
-					"id": 314,
+					"id": 315,
 					"name": "GeometryGeometry",
 					"kind": 2097152,
 					"kindString": "Object literal",
@@ -6351,7 +6357,7 @@
 					},
 					"children": [
 						{
-							"id": 315,
+							"id": 316,
 							"name": "expand",
 							"kind": 32,
 							"kindString": "Variable",
@@ -6372,7 +6378,7 @@
 							"defaultValue": "true"
 						},
 						{
-							"id": 316,
+							"id": 317,
 							"name": "queryValueToInputValue",
 							"kind": 64,
 							"kindString": "Function",
@@ -6381,7 +6387,7 @@
 							},
 							"signatures": [
 								{
-									"id": 317,
+									"id": 318,
 									"name": "queryValueToInputValue",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -6390,7 +6396,7 @@
 									},
 									"parameters": [
 										{
-											"id": 318,
+											"id": 319,
 											"name": "value",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -6400,7 +6406,7 @@
 											"type": {
 												"type": "reflection",
 												"declaration": {
-													"id": 319,
+													"id": 320,
 													"name": "__type",
 													"kind": 65536,
 													"kindString": "Type literal",
@@ -6409,7 +6415,7 @@
 													},
 													"children": [
 														{
-															"id": 320,
+															"id": 321,
 															"name": "geojson",
 															"kind": 32,
 															"kindString": "Variable",
@@ -6425,12 +6431,12 @@
 															],
 															"type": {
 																"type": "reference",
-																"id": 303,
+																"id": 304,
 																"name": "GeoJSON"
 															}
 														},
 														{
-															"id": 321,
+															"id": 322,
 															"name": "type",
 															"kind": 32,
 															"kindString": "Variable",
@@ -6455,8 +6461,8 @@
 															"title": "Variables",
 															"kind": 32,
 															"children": [
-																320,
-																321
+																321,
+																322
 															]
 														}
 													],
@@ -6473,7 +6479,7 @@
 									],
 									"type": {
 										"type": "reference",
-										"id": 303,
+										"id": 304,
 										"name": "GeoJSON"
 									}
 								}
@@ -6492,14 +6498,14 @@
 							"title": "Variables",
 							"kind": 32,
 							"children": [
-								315
+								316
 							]
 						},
 						{
 							"title": "Functions",
 							"kind": 64,
 							"children": [
-								316
+								317
 							]
 						}
 					],
@@ -6516,7 +6522,7 @@
 					}
 				},
 				{
-					"id": 306,
+					"id": 307,
 					"name": "GeometryPoint",
 					"kind": 2097152,
 					"kindString": "Object literal",
@@ -6525,7 +6531,7 @@
 					},
 					"children": [
 						{
-							"id": 307,
+							"id": 308,
 							"name": "expand",
 							"kind": 32,
 							"kindString": "Variable",
@@ -6546,7 +6552,7 @@
 							"defaultValue": "true"
 						},
 						{
-							"id": 308,
+							"id": 309,
 							"name": "queryValueToInputValue",
 							"kind": 64,
 							"kindString": "Function",
@@ -6555,7 +6561,7 @@
 							},
 							"signatures": [
 								{
-									"id": 309,
+									"id": 310,
 									"name": "queryValueToInputValue",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -6564,7 +6570,7 @@
 									},
 									"parameters": [
 										{
-											"id": 310,
+											"id": 311,
 											"name": "value",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -6574,7 +6580,7 @@
 											"type": {
 												"type": "reflection",
 												"declaration": {
-													"id": 311,
+													"id": 312,
 													"name": "__type",
 													"kind": 65536,
 													"kindString": "Type literal",
@@ -6583,7 +6589,7 @@
 													},
 													"children": [
 														{
-															"id": 312,
+															"id": 313,
 															"name": "geojson",
 															"kind": 32,
 															"kindString": "Variable",
@@ -6599,12 +6605,12 @@
 															],
 															"type": {
 																"type": "reference",
-																"id": 303,
+																"id": 304,
 																"name": "GeoJSON"
 															}
 														},
 														{
-															"id": 313,
+															"id": 314,
 															"name": "type",
 															"kind": 32,
 															"kindString": "Variable",
@@ -6629,8 +6635,8 @@
 															"title": "Variables",
 															"kind": 32,
 															"children": [
-																312,
-																313
+																313,
+																314
 															]
 														}
 													],
@@ -6647,7 +6653,7 @@
 									],
 									"type": {
 										"type": "reference",
-										"id": 303,
+										"id": 304,
 										"name": "GeoJSON"
 									}
 								}
@@ -6666,14 +6672,14 @@
 							"title": "Variables",
 							"kind": 32,
 							"children": [
-								307
+								308
 							]
 						},
 						{
 							"title": "Functions",
 							"kind": 64,
 							"children": [
-								308
+								309
 							]
 						}
 					],
@@ -6695,9 +6701,9 @@
 					"title": "Object literals",
 					"kind": 2097152,
 					"children": [
-						322,
-						314,
-						306
+						323,
+						315,
+						307
 					]
 				}
 			],
@@ -6728,7 +6734,7 @@
 			"children": [
 				107,
 				113,
-				303,
+				304,
 				1,
 				141,
 				95,
@@ -6744,10 +6750,10 @@
 			"title": "Type aliases",
 			"kind": 4194304,
 			"children": [
-				299,
+				300,
 				115,
 				118,
-				293,
+				294,
 				117,
 				255,
 				116
@@ -6772,7 +6778,7 @@
 			"kind": 64,
 			"children": [
 				205,
-				300,
+				301,
 				154,
 				134,
 				231,
@@ -6784,7 +6790,7 @@
 				171,
 				167,
 				163,
-				330,
+				331,
 				175,
 				251,
 				185,
@@ -6806,7 +6812,7 @@
 			"title": "Object literals",
 			"kind": 2097152,
 			"children": [
-				305
+				306
 			]
 		}
 	]
