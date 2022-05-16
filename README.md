@@ -67,7 +67,8 @@ const PgSimplifyInflectorPlugin = require('@graphile-contrib/pg-simplify-inflect
 const PgConnectionFilterPlugin = require('postgraphile-plugin-connection-filter')
 ```
 
-Please see [src/\_\_test_utils/QueryRunner.ts](src/__test_utils/QueryRunner.ts) for a minimal example setup.
+Please see [src/\_\_test_utils/QueryRunner.ts](src/__test_utils/QueryRunner.ts) for a minimal
+example setup.
 
 For full-text search capabilities, the following plugin is also required:
 
@@ -128,13 +129,135 @@ Please see [here](migrations/committed/000001.sql) for an example schema.
 
 ### Primary Keys
 
-`react-admin` requires each resource to be identified by a unique `id`. If your resource does not have an `id` field,
-we alias the id field to your `primaryKey`. All types processed by `ra-postgraphile` require a primary key.
+`react-admin` requires each resource to be identified by a unique `id`. If your resource does not
+have an `id` field,
+we alias the id field to your `primaryKey`. All types processed by `ra-postgraphile` require a
+primary key.
+
+### Custom filters
+
+The library will use the `postgraphile-plugin-connection-filter` filter property by default to apply
+filters specified (e.g. for `<List filters={...} />`).
+
+#### Default Behaviour
+
+| Type        | example filter         |
+| ----------- | ---------------------- |
+| `string`    | `{ includes: 'value'}` |
+| `array`     | `{ in: [1,2,3] }`      |
+| `numeric`   | `{ equalTo: 100 }`     |
+| `boolean`   | `{ equalTo: true }`    |
+| `...others` | `{ equalTo: 'ENUM' }`  |
+
+Multiple fields will then be merged with `and` and send to `postgraphile` e.g.:
+
+```json
+{
+  "and": [
+    {
+      "field": {
+        "includes": "value"
+      }
+    }
+  ]
+}
+```
+
+To customize a filter, you have to provide a `parse` and `format` function to the actual input
+Component. You can then customize the filter operation:
+
+##### Text Example
+
+```tsx
+import type { FilterSpec } from 'ra-postgraphile'
+
+const startsWithInsensitive = {
+  parse: (value: string): FilterSpec => {
+    return {
+      operator: 'startsWithInsensitive',
+      value,
+    }
+  },
+  format: (v: FilterSpec) => v?.value || '',
+}
+
+const Filters = (props: Record<string, unknown>) => (
+  <Filter {...props}>
+    <TextInput label="Search" source="name" alwaysOn {...startsWithInsensitive} />
+  </Filter>
+)
+```
+
+This will then be transformed to
+
+```json
+{
+  "and": [
+    {
+      "field": {
+        "startsWithInsensitive": "value"
+      }
+    }
+  ]
+}
+```
+
+##### Nested Filters example
+
+It's also possible to define multiple filters per field to create nested filters
+
+```ts
+const filterThatFiltersMultipleFields = {
+  parse: (value: string) => ({
+    value: value
+      ? [
+          {
+            firstKey: { every: { someReferenceId: { equalTo: value } } },
+            secondKey: { every: { someReferenceId: { equalTo: value } } },
+          },
+        ]
+      : {},
+    key: 'or' /* can be or, and etc... */,
+  }),
+  format: (value: any) => value?.value?.[0]?.firstKey?.every?.someReferenceId?.equalTo,
+}
+```
+
+This will be transformed to a filter like
+
+```json
+{
+  "and": [
+    {
+      "or": [
+        {
+          "firstKey": {
+            "every": {
+              "someReferenceId": {
+                "equalTo": "value"
+              }
+            }
+          },
+          "secondKey": {
+            "every": {
+              "someReferenceId": {
+                "equalTo": "value"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+```
 
 ## Contribution
 
 - Contribution is very welcome :).
-- Please create your commit messages based on [semantic-release syntax](https://github.com/semantic-release/semantic-release#how-does-it-work) and semantics (e.g. properly mark Breaking changes etc.).
+- Please create your commit messages based
+  on [semantic-release syntax](https://github.com/semantic-release/semantic-release#how-does-it-work)
+  and semantics (e.g. properly mark Breaking changes etc.).
   This let's us automatically create release notes and releases to NPM.
 
 ## Development
