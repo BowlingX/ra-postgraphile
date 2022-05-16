@@ -49,14 +49,33 @@ import {
   TypeMap,
   SortDirection,
   ProviderOptions,
+  TypeConfigMap,
 } from './types'
 
 // cache for all types
 let typeMap: TypeMap
 let queryMap: QueryMap
 
-export const mapType = (idType: IntrospectionNamedTypeRef<any>, value: string | number) =>
-  ['uuid', 'string'].includes(idType.name.toLowerCase()) ? value : parseInt(value as string, 10)
+export const mapType = (
+  idType: IntrospectionNamedTypeRef<any>,
+  value: string | number,
+  typeConfigMap?: TypeConfigMap
+) => {
+  const mapped = typeConfigMap?.[idType.name]?.queryValueToInputValue?.(value)
+  const intIfParseable = (): string | number => {
+    const parsedInt = parseInt(value as string)
+    return isNaN(parsedInt) ? String(value) : parsedInt
+  }
+
+  // return the custom value if we have it
+  return mapped !== undefined
+    ? mapped
+    : // preserve defaulted string behavior for these datatypes
+    ['uuid', 'string'].includes(idType.name.toLowerCase())
+    ? value
+    : // default behavior is to cast to int if parseable, otherwise string
+      intIfParseable()
+}
 
 type IntrospectionResult = {
   schema: IntrospectionSchema
@@ -158,7 +177,7 @@ export const buildQuery = (options: ProviderOptions) => (
         }
         }`,
         variables: {
-          id: mapType(primaryKeyType, (params as GetOneParams).id),
+          id: mapType(primaryKeyType, (params as GetOneParams).id, typeMapConfiguration),
         },
         parseResponse: (response: Response) => {
           return { data: response.data[getResourceName] }
@@ -179,7 +198,7 @@ export const buildQuery = (options: ProviderOptions) => (
         variables: {
           ids: (params as GetManyParams).ids
             .filter((v?: Identifier) => typeof v !== 'undefined')
-            .map((id: string | number) => mapType(primaryKeyType, id)),
+            .map((id: string | number) => mapType(primaryKeyType, id, typeMapConfiguration)),
         },
         parseResponse: (response: Response) => {
           const { nodes } = response.data[manyLowerResourceName]
@@ -270,7 +289,11 @@ export const buildQuery = (options: ProviderOptions) => (
       return {
         variables: {
           input: {
-            [primaryKey.idKeyName]: mapType(primaryKeyType, (params as DeleteParams).id),
+            [primaryKey.idKeyName]: mapType(
+              primaryKeyType,
+              (params as DeleteParams).id,
+              typeMapConfiguration
+            ),
           },
         },
         query: gql`
@@ -298,7 +321,7 @@ export const buildQuery = (options: ProviderOptions) => (
     case DELETE_MANY: {
       const thisIds = (params as UpdateManyParams).ids
       const deletions = thisIds.map((id) => ({
-        [primaryKey.idKeyName]: mapType(primaryKeyType, id),
+        [primaryKey.idKeyName]: mapType(primaryKeyType, id, typeMapConfiguration),
         clientMutationId: id.toString(),
       }))
       return {
@@ -326,7 +349,11 @@ export const buildQuery = (options: ProviderOptions) => (
         `,
         parseResponse: (response: Response) => ({
           data: thisIds.map((id: Identifier) =>
-            mapType(primaryKeyType, response.data[`k${escapeIdType(id)}`].clientMutationId)
+            mapType(
+              primaryKeyType,
+              response.data[`k${escapeIdType(id)}`].clientMutationId,
+              typeMapConfiguration
+            )
           ),
         }),
       }
@@ -335,7 +362,7 @@ export const buildQuery = (options: ProviderOptions) => (
       const updateParams = params as UpdateParams
       const updateVariables = {
         input: {
-          [primaryKey.idKeyName]: mapType(primaryKeyType, updateParams.id),
+          [primaryKey.idKeyName]: mapType(primaryKeyType, updateParams.id, typeMapConfiguration),
           patch: mapInputToVariables(
             updateParams.data,
             typeMap[`${resourceTypename}Patch`],
@@ -369,7 +396,7 @@ export const buildQuery = (options: ProviderOptions) => (
     case UPDATE_MANY: {
       const { ids, data } = params as UpdateManyParams
       const inputs = ids.map((id) => ({
-        [primaryKey.idKeyName]: mapType(primaryKeyType, id),
+        [primaryKey.idKeyName]: mapType(primaryKeyType, id, typeMapConfiguration),
         clientMutationId: id.toString(),
         patch: mapInputToVariables(
           data,
@@ -400,7 +427,11 @@ export const buildQuery = (options: ProviderOptions) => (
         }`,
         parseResponse: (response: Response) => ({
           data: ids.map((id) =>
-            mapType(primaryKeyType, response.data[`update${escapeIdType(id)}`].clientMutationId)
+            mapType(
+              primaryKeyType,
+              response.data[`update${escapeIdType(id)}`].clientMutationId,
+              typeMapConfiguration
+            )
           ),
         }),
       }
