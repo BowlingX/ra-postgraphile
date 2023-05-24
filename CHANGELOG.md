@@ -1,3 +1,10 @@
+## [6.1.1](https://github.com/BowlingX/ra-postgraphile/compare/v6.1.0...v6.1.1) (2023-05-24)
+
+
+### Bug Fixes
+
+* make sure to apply arguments for expanded types if set ([1688e73](https://github.com/BowlingX/ra-postgraphile/commit/1688e7385d1951731c01f9668c9bd04e2cb3a695))
+
 # [6.1.0](https://github.com/BowlingX/ra-postgraphile/compare/v6.0.1...v6.1.0) (2022-05-16)
 
 
