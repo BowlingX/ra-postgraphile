@@ -209,7 +209,7 @@ export const createQueryFromType = (
           typeName && typeConfiguration[typeName] && typeConfiguration[typeName].expand
         if (typeName && shouldExpand) {
           return `
-        ${current} ${field.name} {${createQueryFromType(
+        ${current} ${fieldName} {${createQueryFromType(
             typeName,
             typeMap,
             typeConfiguration,
