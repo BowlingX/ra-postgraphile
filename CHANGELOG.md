@@ -1,3 +1,10 @@
+## [6.1.2](https://github.com/BowlingX/ra-postgraphile/compare/v6.1.1...v6.1.2) (2023-10-06)
+
+
+### Bug Fixes
+
+* make `graphql` a peer dependency. Use graphql ^15 by default. Fixes [#115](https://github.com/BowlingX/ra-postgraphile/issues/115) ([87f5464](https://github.com/BowlingX/ra-postgraphile/commit/87f546436fa6078fefac3b7afb86103c407e6c31))
+
 ## [6.1.1](https://github.com/BowlingX/ra-postgraphile/compare/v6.1.0...v6.1.1) (2023-05-24)
 
 
