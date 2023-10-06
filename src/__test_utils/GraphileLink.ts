@@ -35,14 +35,13 @@ export default class GraphileLink extends ApolloLink {
           const data = await withPostGraphileContext(
             { pgPool },
             (context) =>
-              execute(
+              execute({
                 schema,
-                operation.query,
-                {},
-                context,
-                operation.variables,
-                operation.operationName
-              ) as Promise<ExecutionResult>
+                document: operation.query,
+                contextValue: context,
+                variableValues: operation.variables,
+                operationName: operation.operationName,
+              }) as Promise<ExecutionResult>
           )
           if (!observer.closed) {
             observer.next(data)

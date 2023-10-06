@@ -47,6 +47,7 @@
   ],
   "homepage": "https://github.com/BowlingX/ra-postgraphile#readme",
   "devDependencies": {
+    "graphql": "^15.8.0",
     "@graphile-contrib/pg-simplify-inflector": "^6.0.0",
     "@graphql-codegen/core": "^1.17.0",
     "@semantic-release/changelog": "^5.0.1",
@@ -117,8 +118,7 @@
     "dot-prop": "5.2.0"
   },
   "dependencies": {
-    "graphql": "^14.7.0",
-    "graphql-tag": "^2.10.4",
+    "graphql-tag": "^2.12.6",
     "pluralize": "^8.0.0"
   },
   "jest": {
@@ -172,6 +172,16 @@
   },
   "peerDependencies": {
     "ra-data-graphql": ">=3.19.0",
-    "react-admin": ">=2"
-  }
+    "react-admin": ">=2",
+    "graphql": "^15.6.0 || ^16"
+  },
+  "peerDependenciesMeta": {
+    "ra-data-graphql": {
+      "optional": true
+    },
+    "react-admin": {
+      "optional": true
+    }
+  },
+  "packageManager": "yarn@1.22.19"
 }

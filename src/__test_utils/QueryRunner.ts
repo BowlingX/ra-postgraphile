@@ -22,12 +22,12 @@ export async function makeQueryRunner(
 
   // Create the PostGraphile schema
   const schema = await createPostGraphileSchema(connectionString, schemaName, options)
-  const introspection = introspectionFromSchema(schema, { descriptions: true })
+  const introspection = introspectionFromSchema(schema as any, { descriptions: true })
 
   const apolloClient = new ApolloClient({
     ssrMode: true,
     cache: new InMemoryCache(),
-    link: new GraphileLink({ pgPool, schema }),
+    link: new GraphileLink({ pgPool, schema: schema as any }),
   })
 
   const release = () => {

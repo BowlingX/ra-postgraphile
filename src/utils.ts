@@ -15,7 +15,7 @@ import type {
 import {
   IntrospectionNamedTypeRef,
   IntrospectionOutputType,
-} from 'graphql/utilities/introspectionQuery'
+} from 'graphql/utilities/getIntrospectionQuery'
 import {
   CAMEL_REGEX,
   Query,
@@ -204,7 +204,8 @@ export const createQueryFromType = (
 
       if (fieldIsObjectOrListOfObject(field)) {
         const thisType = extractBaseType(field.type)
-        const typeName = thisType?.name || (field.type as IntrospectionObjectType).name
+        const typeName =
+          'name' in thisType ? thisType?.name : (field.type as IntrospectionObjectType).name
         const shouldExpand =
           typeName && typeConfiguration[typeName] && typeConfiguration[typeName].expand
         if (typeName && shouldExpand) {
@@ -321,9 +322,9 @@ export const createGetListQuery = (
   ${allQueryArgs.join(',\n')}
   ) {
     ${manyLowerResourceName}(
-      first: $first,
-      offset: $offset
-      ${allArgs.join(',\n')}
+    first: $first,
+    offset: $offset
+    ${allArgs.join(',\n')}
     ) {
     nodes {
       ${createQueryFromType(
