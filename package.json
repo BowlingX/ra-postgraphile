@@ -171,8 +171,8 @@
     }
   },
   "peerDependencies": {
-    "ra-data-graphql": ">=3.19.0",
-    "react-admin": ">=2",
+    "ra-data-graphql": ">=5",
+    "react-admin": ">=5",
     "graphql": "^15.6.0 || ^16"
   },
   "peerDependenciesMeta": {

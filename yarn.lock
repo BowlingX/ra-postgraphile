@@ -9401,9 +9401,9 @@ ra-core@^3.19.0, ra-core@^3.19.12:
     reselect "~3.0.0"
 
 ra-data-graphql@^3.19.0:
-  version "3.19.0"
-  resolved "https://registry.yarnpkg.com/ra-data-graphql/-/ra-data-graphql-3.19.0.tgz#6b5675023515e3b58c337199c5db0923a0099290"
-  integrity sha512-QtGFpcqtbI3lGi7SHwT9hqSKxKa9UcWA5zMO+zexpkYPite961LWesTz+TAZYiIz636wu/3zFFRM18oFv3Bz6Q==
+  version "3.19.11"
+  resolved "https://registry.yarnpkg.com/ra-data-graphql/-/ra-data-graphql-3.19.11.tgz#ed7d16ea892ec60525d45068ee57d320e6881215"
+  integrity sha512-CwPGhUjN3Q6xtwhJgIKkXWJl2ZpL1G0lgF8G8Mobc/EWaq3HtzsY8Gd8ErIVB0XuVn867iZ23dRKquOWEil4sw==
   dependencies:
     "@apollo/client" "^3.3.19"
     lodash "~4.17.5"
