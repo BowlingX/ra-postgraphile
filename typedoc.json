@@ -4468,18 +4468,21 @@
 						"type": "reference",
 						"typeArguments": [
 							{
-								"type": "reference",
-								"name": "DataProvider"
+								"type": "query",
+								"queryType": {
+									"type": "reference",
+									"name": "buildGraphQLProvider"
+								}
 							}
 						],
-						"name": "Promise"
+						"name": "ReturnType"
 					}
 				}
 			],
 			"sources": [
 				{
 					"fileName": "src/factory.ts",
-					"line": 8,
+					"line": 7,
 					"character": 20
 				}
 			]
