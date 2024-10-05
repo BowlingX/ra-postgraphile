@@ -1,3 +1,10 @@
+## [6.1.3](https://github.com/BowlingX/ra-postgraphile/compare/v6.1.2...v6.1.3) (2024-10-05)
+
+
+### Bug Fixes
+
+* infer return type of factory method to better support more recent `ra-data-graphql` versions ([75815f7](https://github.com/BowlingX/ra-postgraphile/commit/75815f772f702d92c660f258483533a6240da896))
+
 ## [6.1.2](https://github.com/BowlingX/ra-postgraphile/compare/v6.1.1...v6.1.2) (2023-10-06)
 
 
