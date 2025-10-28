@@ -1,5 +1,35 @@
 import type { IntrospectionInputValue, IntrospectionType } from 'graphql'
-import { CREATE, DELETE, GET_LIST, GET_MANY, GET_MANY_REFERENCE, GET_ONE, UPDATE } from 'ra-core'
+import {
+  CREATE,
+  DELETE,
+  GET_LIST,
+  GET_MANY,
+  GET_MANY_REFERENCE,
+  GET_ONE,
+  UPDATE,
+  GetManyReferenceParams,
+  UpdateManyParams,
+  CreateParams,
+  DeleteManyParams,
+  GetListParams,
+  GetManyParams,
+  GetOneParams,
+  DeleteParams,
+  ListParams,
+  UpdateParams,
+} from 'ra-core'
+
+export type AllParams =
+  | GetOneParams
+  | GetManyReferenceParams
+  | UpdateManyParams
+  | CreateParams
+  | DeleteManyParams
+  | GetListParams
+  | GetManyParams
+  | DeleteParams
+  | ListParams
+  | UpdateParams
 
 export type FetchQueryType =
   | typeof GET_MANY
@@ -23,14 +53,24 @@ export interface TypeConfig {
    * By default all `Scalar`s, `Enum`s and `List<Scalar|Enum>.` are queried.
    * If you have expansive computations that you don't want to expose to `react-admin`, this is the
    * perfect place to do so :).
+   *
+   * The params parameter contains the original request parameters (filter, pagination, sort, etc.)
+   * and can be used to make dynamic field inclusion/exclusion decisions.
    */
-  excludeFields?: string[] | ((fieldName: string, fetchType: FetchQueryType) => boolean)
+  excludeFields?:
+    | string[]
+    | ((fieldName: string, fetchType: FetchQueryType, params: AllParams) => boolean)
   /**
    * Same as exclude fields, but if provided will let you dynamically decide if a field is queried.
    * Will only pass fields of type `Scalar`, `Enum` and `List<Scalar|Enum>.`
    * You can only provide either `includeFields` or `excludeFields`.
+   *
+   * The params parameter contains the original request parameters (filter, pagination, sort, etc.)
+   * and can be used to make dynamic field inclusion/exclusion decisions.
    */
-  includeFields?: string[] | ((fieldName: string, fetchType: FetchQueryType) => boolean)
+  includeFields?:
+    | string[]
+    | ((fieldName: string, fetchType: FetchQueryType, params: AllParams) => boolean)
 
   /**
    * Allows you to dynamically provide arguments for a given field

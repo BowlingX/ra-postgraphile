@@ -25,6 +25,7 @@ import {
   TypeConfigMap,
   TypeMap,
   FetchQueryType,
+  AllParams,
 } from './types'
 
 const ARGUMENT_FILTER = 'filter'
@@ -131,17 +132,18 @@ export const queryHasArgument = (
 const shouldQueryField = (
   fieldName: string,
   typeConfig: TypeConfig,
-  fetchQueryType: FetchQueryType
+  fetchQueryType: FetchQueryType,
+  params: AllParams
 ) => {
   if (typeConfig.includeFields) {
     if (typeof typeConfig.includeFields === 'function') {
-      return typeConfig.includeFields(fieldName, fetchQueryType)
+      return typeConfig.includeFields(fieldName, fetchQueryType, params)
     }
     return typeConfig.includeFields.indexOf(fieldName) > -1
   }
   if (typeConfig.excludeFields) {
     if (typeof typeConfig.excludeFields === 'function') {
-      return !typeConfig.excludeFields(fieldName, fetchQueryType)
+      return !typeConfig.excludeFields(fieldName, fetchQueryType, params)
     }
     return typeConfig.excludeFields.indexOf(fieldName) === -1
   }
@@ -168,7 +170,8 @@ export const createQueryFromType = (
   typeMap: TypeMap,
   typeConfiguration: TypeConfigMap,
   primaryKey: PrimaryKey,
-  fetchQueryType: FetchQueryType
+  fetchQueryType: FetchQueryType,
+  params: AllParams
 ): string => {
   return (typeMap[type] as IntrospectionObjectType).fields.reduce(
     (current: any, field: IntrospectionField) => {
@@ -190,7 +193,7 @@ export const createQueryFromType = (
           : field.name
 
       if (thisTypeConfig) {
-        if (!shouldQueryField(fieldName, thisTypeConfig, fetchQueryType)) {
+        if (!shouldQueryField(fieldName, thisTypeConfig, fetchQueryType, params)) {
           return current
         }
         if (hasArguments) {
@@ -215,7 +218,8 @@ export const createQueryFromType = (
             typeMap,
             typeConfiguration,
             primaryKey,
-            fetchQueryType
+            fetchQueryType,
+            params
           )} }
         `
         }
@@ -237,7 +241,8 @@ export const createGetManyQuery = (
   queryMap: QueryMap,
   typeConfiguration: TypeConfigMap,
   primaryKey: PrimaryKey,
-  fetchQueryType: FetchQueryType
+  fetchQueryType: FetchQueryType,
+  params: AllParams
 ) => {
   if (!queryHasArgument(manyLowerResourceName, ARGUMENT_FILTER, queryMap)) {
     return gql`query ${manyLowerResourceName}{
@@ -248,7 +253,8 @@ export const createGetManyQuery = (
           typeMap,
           typeConfiguration,
           primaryKey,
-          fetchQueryType
+          fetchQueryType,
+          params
         )}
       }
     }
@@ -263,7 +269,8 @@ export const createGetManyQuery = (
           typeMap,
           typeConfiguration,
           primaryKey,
-          fetchQueryType
+          fetchQueryType,
+          params
         )}
       }
     }
@@ -289,7 +296,8 @@ export const createGetListQuery = (
   queryMap: QueryMap,
   typeConfiguration: TypeConfigMap,
   primaryKey: PrimaryKey,
-  fetchQueryType: FetchQueryType
+  fetchQueryType: FetchQueryType,
+  params: AllParams
 ) => {
   const hasFilters = queryHasArgument(manyLowerResourceName, ARGUMENT_FILTER, queryMap)
   const hasCondition = queryHasArgument(manyLowerResourceName, ARGUMENT_CONDITION, queryMap)
@@ -332,7 +340,8 @@ export const createGetListQuery = (
         typeMap,
         typeConfiguration,
         primaryKey,
-        fetchQueryType
+        fetchQueryType,
+        params
       )}
     }
     totalCount
