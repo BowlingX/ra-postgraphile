@@ -1,3 +1,10 @@
+# [6.2.0](https://github.com/BowlingX/ra-postgraphile/compare/v6.1.3...v6.2.0) (2025-10-28)
+
+
+### Features
+
+* Make query params available in `{in,ex}cludeFields` ([#121](https://github.com/BowlingX/ra-postgraphile/issues/121)) ([3e849fb](https://github.com/BowlingX/ra-postgraphile/commit/3e849fb2db01bf513469436d5fe5eca76c28c383))
+
 ## [6.1.3](https://github.com/BowlingX/ra-postgraphile/compare/v6.1.2...v6.1.3) (2024-10-05)
 
 
