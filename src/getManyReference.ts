@@ -39,7 +39,8 @@ export const getManyReference = (
       queryMap,
       typeConfiguration,
       primaryKey,
-      fetchQueryType
+      fetchQueryType,
+      params
     ),
     variables: {
       offset: (pagination.page - 1) * pagination.perPage,

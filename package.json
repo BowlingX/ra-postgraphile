@@ -21,7 +21,7 @@
     "doc:html": "typedoc src/ --exclude \"**/+(__tests__|examples)/*\" --target ES6 --mode file --out build/docs",
     "doc:json": "typedoc src/ --exclude \"**/+(__tests__|examples)/*\" --target ES6 --mode file --json build/docs/typedoc.json",
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
-    "clean": "trash build test",
+    "clean": "rm -rf build test",
     "prepublishOnly": "run-s build",
     "prepare": "run-s build",
     "migrate": "node -r dotenv/config ./node_modules/graphile-migrate/dist/cli.js"
@@ -97,7 +97,6 @@
     "react-dom": "^16.9.0",
     "renamer": "^1.1.2",
     "semantic-release": "^19.0.3",
-    "trash-cli": "^3.0.0",
     "ts-jest": "^26.5.6",
     "ts-loader": "^6.2.1",
     "typedoc": "^0.17.8",

@@ -16,12 +16,9 @@ import type {
   GetManyReferenceParams,
   UpdateManyParams,
   CreateParams,
-  DeleteManyParams,
-  GetListParams,
   GetManyParams,
   GetOneParams,
   DeleteParams,
-  ListParams,
   UpdateParams,
   Identifier,
 } from 'ra-core'
@@ -50,6 +47,7 @@ import {
   SortDirection,
   ProviderOptions,
   TypeConfigMap,
+  AllParams,
 } from './types'
 
 // cache for all types
@@ -83,18 +81,6 @@ type IntrospectionResult = {
   queries: Array<any>
   resources: Array<any>
 }
-
-type AllParams =
-  | GetOneParams
-  | GetManyReferenceParams
-  | UpdateManyParams
-  | CreateParams
-  | DeleteManyParams
-  | GetListParams
-  | GetManyParams
-  | DeleteParams
-  | ListParams
-  | UpdateParams
 
 export const buildQuery = (options: ProviderOptions) => (
   introspectionResults: IntrospectionResult
@@ -172,7 +158,8 @@ export const buildQuery = (options: ProviderOptions) => (
             typeMap,
             typeMapConfiguration,
             primaryKey,
-            GET_ONE
+            GET_ONE,
+            params
           )}
         }
         }`,
@@ -193,7 +180,8 @@ export const buildQuery = (options: ProviderOptions) => (
           queryMap,
           typeMapConfiguration,
           primaryKey,
-          GET_MANY
+          GET_MANY,
+          params
         ),
         variables: {
           ids: (params as GetManyParams).ids
@@ -237,7 +225,8 @@ export const buildQuery = (options: ProviderOptions) => (
           queryMap,
           typeMapConfiguration,
           primaryKey,
-          GET_LIST
+          GET_LIST,
+          params
         ),
         variables: stripUndefined({
           offset: (pagination.page - 1) * pagination.perPage,
@@ -275,7 +264,8 @@ export const buildQuery = (options: ProviderOptions) => (
             typeMap,
             typeMapConfiguration,
             primaryKey,
-            CREATE
+            CREATE,
+            params
           )}
         }
         }
@@ -305,7 +295,8 @@ export const buildQuery = (options: ProviderOptions) => (
                   typeMap,
                   typeMapConfiguration,
                   primaryKey,
-                  DELETE
+                  DELETE,
+                  params
                 )}
               }
             }
@@ -382,7 +373,8 @@ export const buildQuery = (options: ProviderOptions) => (
               typeMap,
               typeMapConfiguration,
               primaryKey,
-              UPDATE
+              UPDATE,
+              params
             )}
           }
           }
